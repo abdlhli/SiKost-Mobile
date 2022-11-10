@@ -1,0 +1,64 @@
+ return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size(MediaQuery.of(context).size.width, 170),
+        child: Column(
+          children: [
+            AppBar(
+              toolbarHeight: 140,
+              backgroundColor: Colors.white,
+              elevation: 0,
+              centerTitle: false,
+              title: const Center(
+                child: Text(
+                  "Histori Pembayaran",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 30,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
+      ),
+      body: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+                gradient: const LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                const Color.fromARGB(255, 20, 136, 204),
+                const Color.fromARGB(255, 43, 50, 178),
+              ],
+            )),
+          ),
+          Transform.rotate(
+            angle: -math.pi / 3.3,
+            alignment: Alignment.topLeft,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                    color: Colors.grey.shade600,
+                    spreadRadius: 0,
+                    blurRadius: 8,
+                    offset: const Offset(4, 4))
+              ]),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
