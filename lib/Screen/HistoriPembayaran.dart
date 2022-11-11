@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-import 'package:sikost/Navigasi.dart';
+import 'package:sikost/Widget/Navigasi.dart';
 
 void main() {
   runApp(const MyApp());
