@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math' as math;
-
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sikost/Screen/login.dart';
 
 class home extends StatefulWidget {
@@ -43,12 +43,6 @@ class _homeState extends State<home> {
                         SizedBox(
                           height: 10,
                         ),
-                        CircleAvatar(
-                          radius: 38,
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                        ),
                         Column(
                           children: [
                             Text(
@@ -64,12 +58,12 @@ class _homeState extends State<home> {
                                   color: Colors.grey.shade700, fontSize: 16),
                             ),
                             SizedBox(
-                              height: 30,
+                              height: 20,
                             ),
                           ],
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -140,7 +134,17 @@ class _homeState extends State<home> {
                       Container(
                         height: 200,
                         width: 317,
-                        color: Colors.black,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade600,
+                                spreadRadius: 0,
+                                blurRadius: 2,
+                                offset: Offset(0, 2),
+                              ),
+                            ]),
                       ),
                       SizedBox(
                         height: 10,
@@ -148,7 +152,17 @@ class _homeState extends State<home> {
                       Container(
                         height: 200,
                         width: 317,
-                        color: Colors.black,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade600,
+                                spreadRadius: 0,
+                                blurRadius: 2,
+                                offset: Offset(0, 2),
+                              ),
+                            ]),
                       ),
                       SizedBox(
                         height: 10,
@@ -156,11 +170,31 @@ class _homeState extends State<home> {
                       Container(
                         height: 200,
                         width: 317,
-                        color: Colors.black,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade600,
+                                spreadRadius: 0,
+                                blurRadius: 2,
+                                offset: Offset(0, 2),
+                              ),
+                            ]),
+                      ),
+                      SizedBox(
+                        height: 100,
                       ),
                     ],
                   ),
                 )),
+              ),
+              SlidingUpPanel(
+                renderPanelSheet: false,
+                panel: _floatingPanel(),
+                collapsed: _floatingCollapsed(),
+                minHeight: 50,
+                maxHeight: 300,
               ),
             ],
           ),
@@ -193,6 +227,41 @@ class _homeState extends State<home> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _floatingCollapsed() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
+      ),
+      child: Center(
+        child: Text(
+          "Geser ke Atas, Untuk Melihat Tagihan Anda",
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+    );
+  }
+
+  Widget _floatingPanel() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25.0), topRight: Radius.circular(25.0)),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 5.0,
+            color: Colors.grey.shade600,
+          ),
+        ],
+      ),
+      child: Center(
+        child: Text("Sebesar 500.000"),
       ),
     );
   }
