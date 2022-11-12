@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sikost/Screen/bottom_bar.dart';
 import 'package:sikost/Screen/home.dart';
 import 'package:sikost/Screen/register.dart';
 
@@ -29,7 +30,7 @@ class loginPage extends StatelessWidget {
       } else {
         if (Stringvalue == 'admin') {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => home()));
+              .push(MaterialPageRoute(builder: (context) => BottomBar()));
         }
       }
       print(Stringvalue);
