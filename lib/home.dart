@@ -139,7 +139,17 @@ class _homeState extends State<home> {
                       Container(
                         height: 200,
                         width: 317,
-                        color: Colors.black,
+                        color: Colors.white,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                spreadRadius: 0,
+                                blurRadius: 4,
+                                offset: Offset(0, 4),
+                              ),
+                            ]),
                       ),
                       SizedBox(
                         height: 10,
@@ -147,7 +157,17 @@ class _homeState extends State<home> {
                       Container(
                         height: 200,
                         width: 317,
-                        color: Colors.black,
+                        color: Colors.white,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                spreadRadius: 0,
+                                blurRadius: 4,
+                                offset: Offset(0, 4),
+                              ),
+                            ]),
                       ),
                       SizedBox(
                         height: 10,
@@ -155,7 +175,17 @@ class _homeState extends State<home> {
                       Container(
                         height: 200,
                         width: 317,
-                        color: Colors.black,
+                        color: Colors.white,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                spreadRadius: 0,
+                                blurRadius: 4,
+                                offset: Offset(0, 4),
+                              ),
+                            ]),
                       ),
                     ],
                   ),
