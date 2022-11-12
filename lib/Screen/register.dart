@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sikost/login.dart';
+import 'package:sikost/Screen/login.dart';
 
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);
