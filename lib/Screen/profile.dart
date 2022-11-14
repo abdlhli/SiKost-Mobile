@@ -12,6 +12,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final _formKey = GlobalKey<FormState>();
+  bool isObsecureField = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,8 +61,8 @@ class _ProfileState extends State<Profile> {
                   Padding(
                     padding: const EdgeInsets.all(40),
                     child: Container(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
+                      // height: MediaQuery.of(context).size.height,
+                      // width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.all(30),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -77,47 +79,14 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
                       child: Form(
+                          key: _formKey,
                           child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Nama"),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          TextFormField(
-                            initialValue: "halo",
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20))),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text("Nama"),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          TextFormField(
-                            initialValue: "halo",
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20))),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text("Nama"),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          TextFormField(
-                            initialValue: "halo",
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20))),
-                          ),
-                        ],
-                      )),
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              buildTextForm("Email", "fagilnuril18@gmail.com",
+                                  false, "email")
+                            ],
+                          )),
                     ),
                   ),
                   Container(
@@ -137,6 +106,51 @@ class _ProfileState extends State<Profile> {
           )
         ],
       ),
+    );
+  }
+
+  Widget buildTextForm(
+    String label,
+    String placeholder,
+    bool isPassTextField,
+    String field,
+  ) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 30),
+      child: TextFormField(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Field $field tidak boleh kosong";
+            } else if (field == "email" || field == "Email") {
+              return (value.contains("@")) ? null : "Masukkan email yang valid";
+            }
+            return null;
+          },
+          enabled: isPassTextField ? false : true,
+          obscureText: isPassTextField ? isObsecureField : false,
+          // autovalidateMode: AutovalidateMode.onUserInteraction,
+          decoration: InputDecoration(
+              labelText: label,
+              suffixIcon: isPassTextField
+                  ?
+                  // true
+                  IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isObsecureField = !isObsecureField;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.remove_red_eye,
+                        color: Colors.grey,
+                      ))
+                  :
+                  // false
+                  null,
+              contentPadding: EdgeInsets.only(bottom: 5),
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              hintText: placeholder,
+              hintStyle: TextStyle(fontSize: 16, color: Colors.grey))),
     );
   }
 }

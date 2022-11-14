@@ -16,8 +16,8 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   TextStyle style = TextStyle(
     fontSize: 12,
-    
   );
+
   int selectedPage = 2;
   @override
   Widget build(BuildContext context) {
@@ -33,13 +33,16 @@ class _BottomBarState extends State<BottomBar> {
           items: [
             TabItem(icon: Icons.people, title: 'Penghuni'),
             TabItem(icon: Icons.book_rounded, title: 'Riwayat'),
-            TabItem(icon: Icons.home, title: 'Home',),
+            TabItem(
+              icon: Icons.home,
+              title: 'Home',
+            ),
             TabItem(icon: Icons.message, title: 'Pesan'),
             TabItem(icon: Icons.people, title: 'Profil'),
           ],
           backgroundColor: Colors.white,
-          color: Colors.blue,
-          activeColor: Colors.blue,
+          color: Color.fromARGB(255, 128, 128, 128),
+          activeColor: Color.fromARGB(255, 20, 136, 204),
           initialActiveIndex: 2,
           onTap: (int i) {
             setState(() {
