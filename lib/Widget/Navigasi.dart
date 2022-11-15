@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sikost/Screen/DetailPembayaran.dart';
+import '/screen/detailPembayaran.dart';
+
 
 class Navigasi extends StatefulWidget {
   const Navigasi({Key? key}) : super(key: key);
