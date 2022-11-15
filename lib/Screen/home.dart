@@ -32,59 +32,65 @@ class _homeState extends State<home> {
           preferredSize: Size(MediaQuery.of(context).size.width, 170),
           child: Column(
             children: [
-              AppBar(
-                toolbarHeight: 140,
-                backgroundColor: Colors.white,
-                elevation: 0,
-                title: Column(
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              "Nama User",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Welcome Back, User!",
-                              style: TextStyle(
-                                  color: Colors.grey.shade700, fontSize: 16),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        ),
-                      ],
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 180,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Row(
+                  children: [
+                    Padding(padding: EdgeInsets.fromLTRB(15, 80, 0, 0)),
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundImage: AssetImage('assets/img/46r.jpg'),
+                      backgroundColor: Colors.transparent,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 70, 0, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Taufiq Rahmadi',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'Welcome, Taufiq !',
+                            style: TextStyle(
+                                color: Colors.grey.shade700, fontSize: 16.0),
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 30,
+                height: 20,
                 decoration: BoxDecoration(
                   color: Colors.white,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 35),
-                  child: Text(
-                    "Pengingat Untukmu",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 35),
+                      child: Text(
+                        'Pengingat Untukmu!',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              )
+              ),
             ],
           ),
         ),
