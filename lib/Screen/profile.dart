@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:sikost/Screen/login.dart';
 
 // void main() {
 //   runApp(Profile());
@@ -52,8 +55,53 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 30,
                   ),
-                  CircleAvatar(
-                    radius: 40,
+                  Stack(
+                    children: [
+                      Container(
+                        height: 130,
+                        width: 130,
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 10,
+                                  spreadRadius: 2,
+                                  color: Colors.black.withOpacity(0.1))
+                            ],
+                            border: Border.all(width: 4, color: Colors.white),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: AssetImage(
+                                  'img/foto.jpg',
+                                ),
+                                fit: BoxFit.cover)),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(width: 4, color: Colors.white),
+                              color: Colors.white),
+                          child: Center(
+                            child: IconButton(
+                              iconSize: 20,
+                              onPressed: () {
+                                setState(() {
+                                  SnackBar(content: Text("hai"));
+                                });
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 30,
@@ -83,8 +131,15 @@ class _ProfileState extends State<Profile> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              buildTextForm("Email", "fagilnuril18@gmail.com",
-                                  false, "email")
+                              buildTextForm("Nama", "Fagil Nuril Akbar", false),
+                              buildTextForm(
+                                  "Email", "fagilnuril18@gmail.com", false),
+                              buildTextForm("No WA", "087855913391", false),
+                              buildTextForm("Alamat", "Jember", false),
+                              buildTextForm(
+                                  "Kampus", "Politeknik Negeri Jember", false),
+                              buildTextForm("Password", "********", true),
+                              buildTextForm("New Password", "", true)
                             ],
                           )),
                     ),
@@ -92,11 +147,25 @@ class _ProfileState extends State<Profile> {
                   Container(
                     child: Column(
                       children: [
-                        ElevatedButton(onPressed: () {}, child: Text("Save")),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text("Berhasil Menyimpan")));
+                            }
+                          },
+                          child: Text("Save"),
+                        ),
                         SizedBox(
                           height: 10,
                         ),
-                        ElevatedButton(onPressed: () {}, child: Text("Keluar")),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => loginPage()));
+                            },
+                            child: Text("Keluar")),
                       ],
                     ),
                   )
@@ -113,22 +182,23 @@ class _ProfileState extends State<Profile> {
     String label,
     String placeholder,
     bool isPassTextField,
-    String field,
   ) {
     return Padding(
       padding: EdgeInsets.only(bottom: 30),
       child: TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Field $field tidak boleh kosong";
-            } else if (field == "email" || field == "Email") {
+              return "Field $label tidak boleh kosong";
+            } else if (label == "email" || label == "Email") {
               return (value.contains("@")) ? null : "Masukkan email yang valid";
             }
             return null;
           },
-          enabled: isPassTextField ? false : true,
+          
+          initialValue: placeholder,
+          enabled: (label == "email" || label == "Email") ? false : true,
           obscureText: isPassTextField ? isObsecureField : false,
-          // autovalidateMode: AutovalidateMode.onUserInteraction,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
               labelText: label,
               suffixIcon: isPassTextField
@@ -149,7 +219,8 @@ class _ProfileState extends State<Profile> {
                   null,
               contentPadding: EdgeInsets.only(bottom: 5),
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              hintText: placeholder,
+              // hintText: placeholder,
+
               hintStyle: TextStyle(fontSize: 16, color: Colors.grey))),
     );
   }
