@@ -29,7 +29,7 @@ class _homeState extends State<home> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(MediaQuery.of(context).size.width, 170),
+          preferredSize: Size(MediaQuery.of(context).size.width, 180),
           child: Column(
             children: [
               Container(
@@ -43,8 +43,7 @@ class _homeState extends State<home> {
                     Padding(padding: EdgeInsets.fromLTRB(15, 80, 0, 0)),
                     CircleAvatar(
                       radius: 40,
-                      backgroundImage: AssetImage('assets/img/46r.jpg'),
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: Colors.teal,
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15, 70, 0, 0),

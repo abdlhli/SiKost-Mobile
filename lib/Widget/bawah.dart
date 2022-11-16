@@ -23,30 +23,32 @@ class _NavBawahState extends State<NavBawah> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       bottomNavigationBar: BottomBarBubble(
+        color: Colors.blue.shade600,
         items: [
           BottomBarItem(
             iconData: Icons.home,
           ),
           BottomBarItem(
-            iconData: Icons.chat,
+            iconData: Icons.receipt_long_rounded,
           ),
           BottomBarItem(
-            iconData: Icons.notifications,
+            iconData: Icons.people_rounded,
           ),
           BottomBarItem(
-            iconData: Icons.calendar_month,
+            iconData: Icons.report_problem_rounded,
           ),
           BottomBarItem(
-            iconData: Icons.settings,
+            iconData: Icons.person_rounded,
           ),
         ],
+        selectedIndex: 0,
         onSelect: (index) {
           controller.jumpToPage(index);
         },
       ),
       body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: controller,
         children: const <Widget>[
           home(),
