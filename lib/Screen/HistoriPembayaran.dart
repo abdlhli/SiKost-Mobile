@@ -116,7 +116,7 @@ class _HistoriPembayaranState extends State<HistoriPembayaran> {
       //   elevation: 2.0,
       //   child: const Icon(Icons.home),
       // ),
-      bottomNavigationBar: const Navigasi(),
+      // bottomNavigationBar: const Navigasi(),
     );
   }
 }

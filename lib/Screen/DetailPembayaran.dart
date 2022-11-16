@@ -79,7 +79,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
           ),
         ],
       ),
-      bottomNavigationBar: const Navigasi(),
+      // bottomNavigationBar: const Navigasi(),
     );
   }
 }

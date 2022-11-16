@@ -205,34 +205,34 @@ class _homeState extends State<home> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: new Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.home),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.insert_chart),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.group),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.warning_amber_rounded),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.person),
-              ),
-            ],
-          ),
-        ),
+        // bottomNavigationBar: BottomAppBar(
+        //   child: new Row(
+        //     mainAxisSize: MainAxisSize.max,
+        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //     children: <Widget>[
+        //       IconButton(
+        //         onPressed: () {},
+        //         icon: Icon(Icons.home),
+        //       ),
+        //       IconButton(
+        //         onPressed: () {},
+        //         icon: Icon(Icons.insert_chart),
+        //       ),
+        //       IconButton(
+        //         onPressed: () {},
+        //         icon: Icon(Icons.group),
+        //       ),
+        //       IconButton(
+        //         onPressed: () {},
+        //         icon: Icon(Icons.warning_amber_rounded),
+        //       ),
+        //       IconButton(
+        //         onPressed: () {},
+        //         icon: Icon(Icons.person),
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }
