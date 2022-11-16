@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '/screen/detailPembayaran.dart';
 
-
 class Navigasi extends StatefulWidget {
   const Navigasi({Key? key}) : super(key: key);
 
@@ -15,8 +14,6 @@ class _NavigasiState extends State<Navigasi> {
   void onTabTapped(int index) {
     setState(() {
       _selectedIndex = index;
-
-      //tempat ganti page
     });
   }
 
