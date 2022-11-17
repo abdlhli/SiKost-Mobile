@@ -30,7 +30,6 @@ class _ProfileState extends State<Profile> {
                   Color.fromARGB(255, 20, 136, 204),
                   Colors.white,
                   Colors.white,
-                  Colors.white,
                 ],
               ),
             ),
@@ -53,54 +52,7 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 30,
                   ),
-                  Stack(
-                    children: [
-                      Container(
-                        height: 130,
-                        width: 130,
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 10,
-                                  spreadRadius: 2,
-                                  color: Colors.black.withOpacity(0.1))
-                            ],
-                            border: Border.all(width: 4, color: Colors.white),
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: AssetImage(
-                                  'img/foto.jpg',
-                                ),
-                                fit: BoxFit.cover)),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(width: 4, color: Colors.white),
-                              color: Colors.white),
-                          child: Center(
-                            child: IconButton(
-                              iconSize: 20,
-                              onPressed: () {
-                                setState(() {
-                                  SnackBar(content: Text("hai"));
-                                });
-                              },
-                              icon: Icon(
-                                Icons.edit,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  profileimg(),
                   SizedBox(
                     height: 30,
                   ),
@@ -173,6 +125,98 @@ class _ProfileState extends State<Profile> {
           )
         ],
       ),
+    );
+  }
+
+  Widget bottomsheet() {
+    return Container(
+      padding: EdgeInsets.all(10),
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+          color: Colors.black),
+      child: Column(
+        children: [
+          Center(
+            child: Text(
+              "Pilih foto profil kamu",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              TextButton.icon(
+                  icon: Icon(Icons.camera_alt_rounded),
+                  onPressed: () {},
+                  label: Text("Kamera")),
+              TextButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.image),
+                  label: Text("File"))
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget profileimg() {
+    return Stack(
+      children: [
+        Container(
+          height: 130,
+          width: 130,
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: 10,
+                    spreadRadius: 2,
+                    color: Colors.black.withOpacity(0.1))
+              ],
+              border: Border.all(width: 4, color: Colors.white),
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                  image: AssetImage(
+                    'img/foto.jpg',
+                  ),
+                  fit: BoxFit.cover)),
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: InkWell(
+            onTap: () {
+              showBottomSheet(
+                  context: context, builder: (builder) => bottomsheet());
+            },
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(width: 4, color: Colors.white),
+                  color: Colors.blue),
+              child: Center(
+                child: Icon(
+                  Icons.edit,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
