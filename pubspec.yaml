@@ -27,17 +27,16 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  bottom_bar_matu: ^1.2.1
   convex_bottom_bar: ^3.1.0+1
+  cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  google_fonts: ^3.0.1
+  image_picker: ^0.8.6
+  material_color_generator: ^1.1.0
   shared_preferences: ^2.0.15
   sliding_up_panel: ^2.0.0+1
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  bottom_bar_matu: ^1.2.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
