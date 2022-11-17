@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:sikost/Screen/login.dart';
 
@@ -194,7 +192,6 @@ class _ProfileState extends State<Profile> {
             }
             return null;
           },
-          
           initialValue: placeholder,
           enabled: (label == "email" || label == "Email") ? false : true,
           obscureText: isPassTextField ? isObsecureField : false,
