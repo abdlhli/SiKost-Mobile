@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sikost/Screen/bottom_bar.dart';
+import 'package:sikost/Widget/bottom_bar.dart';
 import 'package:sikost/Screen/home.dart';
 import 'package:sikost/Screen/register.dart';
 
