@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sikost/Screen/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Widget/bawah.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: loginPage(),
+      home: NavBawah(),
     );
   }
 }
