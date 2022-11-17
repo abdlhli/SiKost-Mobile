@@ -14,8 +14,6 @@ class _NavigasiState extends State<Navigasi> {
   void onTabTapped(int index) {
     setState(() {
       _selectedIndex = index;
-
-      //tempat ganti page
     });
   }
 
