@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sikost/Screen/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:material_color_generator/material_color_generator.dart';
+import 'Screen/OnBoarding.dart';
 import 'Widget/BottomBar.dart';
 
 void main() {
@@ -16,9 +17,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: generateMaterialColor(
+          color: Color.fromARGB(255, 20, 136, 204),
+        ),
       ),
-      home: NavBawah(),
+      home: OnBoarding(),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sikost/Screen/login.dart';
 
+import '../Widget/boxShadow.dart';
+
 // void main() {
 //   runApp(Profile());
 // }
@@ -63,19 +65,11 @@ class _ProfileState extends State<Profile> {
                       // width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.all(30),
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.all(
-                          const Radius.circular(10),
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromARGB(123, 0, 0, 0),
-                            spreadRadius: 0,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          )
-                        ],
-                      ),
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10),
+                          ),
+                          boxShadow: [boxShadow()]),
                       child: Form(
                           key: _formKey,
                           child: Column(
@@ -88,16 +82,22 @@ class _ProfileState extends State<Profile> {
                               buildTextForm("Alamat", "Jember", false),
                               buildTextForm(
                                   "Kampus", "Politeknik Negeri Jember", false),
-                              buildTextForm("Password", "********", true),
+                              buildTextForm("Password", "", true),
                               buildTextForm("New Password", "", true)
                             ],
                           )),
                     ),
                   ),
                   Container(
+                    padding: EdgeInsets.only(left: 40, right: 40, bottom: 50),
                     child: Column(
                       children: [
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: StadiumBorder(),
+                            minimumSize:
+                                Size(MediaQuery.of(context).size.width, 50),
+                          ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -111,6 +111,13 @@ class _ProfileState extends State<Profile> {
                           height: 10,
                         ),
                         ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shadowColor: Colors.black.withOpacity(0.2),
+                              primary: Colors.red,
+                              shape: StadiumBorder(),
+                              minimumSize:
+                                  Size(MediaQuery.of(context).size.width, 50),
+                            ),
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => loginPage()));
