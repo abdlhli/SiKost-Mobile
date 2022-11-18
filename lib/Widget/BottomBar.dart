@@ -5,6 +5,7 @@ import 'package:sikost/Screen/Pembayaran/HistoriPembayaran.dart';
 import 'package:sikost/Screen/home.dart';
 import 'package:sikost/Screen/profile.dart';
 import 'package:sikost/Screen/register.dart';
+import 'package:sikost/Screen/penghuni.dart';
 
 class NavBawah extends StatefulWidget {
   @override
@@ -52,7 +53,7 @@ class _NavBawahState extends State<NavBawah> {
         children: const <Widget>[
           home(),
           DetailPembayaran(),
-          HistoriPembayaran(),
+          penghuni(),
           Profile(),
           Register()
         ],
