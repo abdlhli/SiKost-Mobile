@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sikost/Screen/Booking/JenisKamar.dart';
 import 'package:sikost/Screen/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:material_color_generator/material_color_generator.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
           color: Color.fromARGB(255, 20, 136, 204),
         ),
       ),
-      home: OnBoarding(),
+      home: JenisKamar(),
     );
   }
 }
