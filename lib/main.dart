@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sikost/Screen/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:material_color_generator/material_color_generator.dart';
 import 'Screen/OnBoarding.dart';
-import 'Widget/BottomBar.dart';
 
 void main() {
   runApp(const MyApp());

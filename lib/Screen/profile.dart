@@ -194,7 +194,7 @@ class _ProfileState extends State<Profile> {
               shape: BoxShape.circle,
               image: DecorationImage(
                   image: AssetImage(
-                    'img/foto.jpg',
+                    'assets/img/foto.jpg',
                   ),
                   fit: BoxFit.cover)),
         ),

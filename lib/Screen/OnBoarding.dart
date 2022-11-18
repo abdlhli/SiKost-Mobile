@@ -92,7 +92,7 @@ class OnBoarding extends StatelessWidget {
                   ],
                 ),
               ),
-              child: FlatButton(
+              child: TextButton(
                 child: Text(
                   'Booking Kamar',
                   style: TextStyle(
@@ -121,7 +121,7 @@ class OnBoarding extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 color: Colors.white,
               ),
-              child: FlatButton(
+              child: TextButton(
                 child: Text(
                   'Login Akun',
                   style: TextStyle(
