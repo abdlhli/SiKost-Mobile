@@ -3,10 +3,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:sikost/Screen/Booking/KamarMandiDalam.dart';
+import 'package:sikost/Screen/Booking/KamarMandiLuar.dart';
+import 'package:sikost/Screen/OnBoarding.dart';
 
-class JenisKamar extends StatelessWidget {
+class JenisKamar extends StatefulWidget {
   const JenisKamar({super.key});
 
+  @override
+  State<JenisKamar> createState() => _JenisKamarState();
+}
+
+class _JenisKamarState extends State<JenisKamar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,8 +100,8 @@ class JenisKamar extends StatelessWidget {
                           ]),
                       child: TextButton(
                         onPressed: () {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => this));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => KamarMandiLuar()));
                         },
                         child: Column(
                           children: [
@@ -114,9 +122,9 @@ class JenisKamar extends StatelessWidget {
                       width: 317,
                       decoration: BoxDecoration(
                           color: Colors.blue,
-                          // image: DecorationImage(
-                          //     image: AssetImage('assets/img/kamarluar.png'),
-                          //     fit: BoxFit.fitWidth),
+                          image: DecorationImage(
+                              image: AssetImage('assets/img/kamarluar.png'),
+                              fit: BoxFit.cover),
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(10),
                               topRight: Radius.circular(10))),
@@ -144,8 +152,8 @@ class JenisKamar extends StatelessWidget {
                           ]),
                       child: TextButton(
                         onPressed: () {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => this));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => KamarMandiDalam()));
                         },
                         child: Column(
                           children: [
@@ -166,9 +174,9 @@ class JenisKamar extends StatelessWidget {
                       width: 317,
                       decoration: BoxDecoration(
                         color: Colors.blue,
-                        // image: DecorationImage(
-                        //     image: AssetImage('assets/img/kamarluar.png'),
-                        //     fit: BoxFit.fitWidth),
+                        image: DecorationImage(
+                            image: AssetImage('assets/img/kamardalam.png'),
+                            fit: BoxFit.cover),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10),
@@ -177,6 +185,83 @@ class JenisKamar extends StatelessWidget {
                     ),
                   ],
                 ),
+                Padding(
+                    padding:
+                        const EdgeInsets.only(left: 50, right: 50, top: 20),
+                    child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromARGB(231, 125, 125, 125),
+                              spreadRadius: 0,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            )
+                          ],
+                          border: Border.all(
+                            color: const Color.fromARGB(88, 73, 74, 77),
+                          ),
+                        ),
+                        child: Center(
+                          child: TextButton(
+                            child: Text(
+                              'Detail Fasilitas Kamar',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            onPressed: () {},
+                          ),
+                        ))),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 50, right: 50, top: 70),
+                      child: Container(
+                          width: 140,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromARGB(231, 125, 125, 125),
+                                spreadRadius: 0,
+                                blurRadius: 4,
+                                offset: Offset(0, 2),
+                              )
+                            ],
+                            border: Border.all(
+                              color: const Color.fromARGB(88, 73, 74, 77),
+                            ),
+                          ),
+                          child: Center(
+                            child: TextButton(
+                              child: Text(
+                                'Kembali',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => OnBoarding()));
+                              },
+                            ),
+                          ))),
+                )
               ],
             ),
           ],

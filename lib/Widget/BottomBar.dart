@@ -52,10 +52,10 @@ class _NavBawahState extends State<NavBawah> {
         controller: controller,
         children: const <Widget>[
           home(),
-          DetailPembayaran(),
+          HistoriPembayaran(),
           penghuni(),
-          Profile(),
-          Register()
+          DetailPembayaran(),
+          Profile()
         ],
       ),
     );

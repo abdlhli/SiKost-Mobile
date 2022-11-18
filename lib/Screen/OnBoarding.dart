@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sikost/Screen/Booking/JenisKamar.dart';
+import 'package:sikost/Screen/login.dart';
 import 'package:sikost/Widget/BottomBar.dart';
 
 class OnBoarding extends StatelessWidget {
@@ -102,7 +104,7 @@ class OnBoarding extends StatelessWidget {
                 ),
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => NavBawah()));
+                      MaterialPageRoute(builder: (context) => JenisKamar()));
                 },
               ),
             ),
@@ -131,7 +133,7 @@ class OnBoarding extends StatelessWidget {
                 ),
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => NavBawah()));
+                      MaterialPageRoute(builder: (context) => loginPage()));
                 },
               ),
             ),
