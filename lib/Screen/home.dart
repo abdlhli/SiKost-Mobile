@@ -29,7 +29,7 @@ class _homeState extends State<home> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(MediaQuery.of(context).size.width, 170),
+          preferredSize: Size(MediaQuery.of(context).size.width, 160),
           child: Column(
             children: [
               Container(
