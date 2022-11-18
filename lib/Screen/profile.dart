@@ -1,7 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:sikost/Screen/login.dart';
+
+import '../Widget/boxShadow.dart';
 
 // void main() {
 //   runApp(Profile());
@@ -32,7 +32,6 @@ class _ProfileState extends State<Profile> {
                   Color.fromARGB(255, 20, 136, 204),
                   Colors.white,
                   Colors.white,
-                  Colors.white,
                 ],
               ),
             ),
@@ -55,54 +54,7 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 30,
                   ),
-                  Stack(
-                    children: [
-                      Container(
-                        height: 130,
-                        width: 130,
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 10,
-                                  spreadRadius: 2,
-                                  color: Colors.black.withOpacity(0.1))
-                            ],
-                            border: Border.all(width: 4, color: Colors.white),
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: AssetImage(
-                                  'img/foto.jpg',
-                                ),
-                                fit: BoxFit.cover)),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(width: 4, color: Colors.white),
-                              color: Colors.white),
-                          child: Center(
-                            child: IconButton(
-                              iconSize: 20,
-                              onPressed: () {
-                                setState(() {
-                                  SnackBar(content: Text("hai"));
-                                });
-                              },
-                              icon: Icon(
-                                Icons.edit,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  profileimg(),
                   SizedBox(
                     height: 30,
                   ),
@@ -113,19 +65,11 @@ class _ProfileState extends State<Profile> {
                       // width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.all(30),
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.all(
-                          const Radius.circular(10),
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromARGB(123, 0, 0, 0),
-                            spreadRadius: 0,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          )
-                        ],
-                      ),
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10),
+                          ),
+                          boxShadow: [boxShadow()]),
                       child: Form(
                           key: _formKey,
                           child: Column(
@@ -138,16 +82,22 @@ class _ProfileState extends State<Profile> {
                               buildTextForm("Alamat", "Jember", false),
                               buildTextForm(
                                   "Kampus", "Politeknik Negeri Jember", false),
-                              buildTextForm("Password", "********", true),
+                              buildTextForm("Password", "", true),
                               buildTextForm("New Password", "", true)
                             ],
                           )),
                     ),
                   ),
                   Container(
+                    padding: EdgeInsets.only(left: 40, right: 40, bottom: 50),
                     child: Column(
                       children: [
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: StadiumBorder(),
+                            minimumSize:
+                                Size(MediaQuery.of(context).size.width, 50),
+                          ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -161,6 +111,13 @@ class _ProfileState extends State<Profile> {
                           height: 10,
                         ),
                         ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shadowColor: Colors.black.withOpacity(0.2),
+                              primary: Colors.red,
+                              shape: StadiumBorder(),
+                              minimumSize:
+                                  Size(MediaQuery.of(context).size.width, 50),
+                            ),
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => loginPage()));
@@ -175,6 +132,98 @@ class _ProfileState extends State<Profile> {
           )
         ],
       ),
+    );
+  }
+
+  Widget bottomsheet() {
+    return Container(
+      padding: EdgeInsets.all(10),
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+          color: Colors.black),
+      child: Column(
+        children: [
+          Center(
+            child: Text(
+              "Pilih foto profil kamu",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              TextButton.icon(
+                  icon: Icon(Icons.camera_alt_rounded),
+                  onPressed: () {},
+                  label: Text("Kamera")),
+              TextButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.image),
+                  label: Text("File"))
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget profileimg() {
+    return Stack(
+      children: [
+        Container(
+          height: 130,
+          width: 130,
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: 10,
+                    spreadRadius: 2,
+                    color: Colors.black.withOpacity(0.1))
+              ],
+              border: Border.all(width: 4, color: Colors.white),
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                  image: AssetImage(
+                    'img/foto.jpg',
+                  ),
+                  fit: BoxFit.cover)),
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: InkWell(
+            onTap: () {
+              showBottomSheet(
+                  context: context, builder: (builder) => bottomsheet());
+            },
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(width: 4, color: Colors.white),
+                  color: Colors.blue),
+              child: Center(
+                child: Icon(
+                  Icons.edit,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -194,7 +243,6 @@ class _ProfileState extends State<Profile> {
             }
             return null;
           },
-          
           initialValue: placeholder,
           enabled: (label == "email" || label == "Email") ? false : true,
           obscureText: isPassTextField ? isObsecureField : false,
