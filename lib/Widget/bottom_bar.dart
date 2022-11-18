@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:sikost/Screen/DetailPembayaran.dart';
-import 'package:sikost/Screen/HistoriPembayaran.dart';
+import 'package:sikost/Screen/Pembayaran/DetailPembayaran.dart';
+import 'package:sikost/Screen/Pembayaran/HistoriPembayaran.dart';
 import 'package:sikost/Screen/home.dart';
 import 'package:sikost/Screen/profile.dart';
 import 'package:sikost/Screen/register.dart';
