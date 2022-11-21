@@ -4,7 +4,7 @@ import 'package:sikost/Screen/Home/rules.dart';
 import 'dart:math' as math;
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sikost/Screen/login.dart';
-import 'package:sikost/Widget/bawah.dart';
+import 'package:sikost/Widget/BottomBar.dart';
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);

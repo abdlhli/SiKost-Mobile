@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, unnecessary_const
 
 import 'package:flutter/material.dart';
-import 'package:sikost/Screen/DetailPembayaran.dart';
+import 'package:sikost/Screen/Pembayaran/DetailPembayaran.dart';
 import 'dart:math' as math;
 
 import 'package:sikost/Widget/Navigasi.dart';

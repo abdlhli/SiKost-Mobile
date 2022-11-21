@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 import 'package:sikost/Widget/Navigasi.dart';
-import 'package:sikost/Widget/bawah.dart';
+import 'package:sikost/Widget/BottomBar.dart';
 
 class DetailPembayaran extends StatefulWidget {
   const DetailPembayaran({Key? key}) : super(key: key);
