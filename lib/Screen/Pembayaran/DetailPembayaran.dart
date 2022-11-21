@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 import 'package:sikost/Widget/Navigasi.dart';
+import 'package:sikost/Widget/bawah.dart';
 
 class DetailPembayaran extends StatefulWidget {
   const DetailPembayaran({Key? key}) : super(key: key);
@@ -26,7 +27,10 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
               elevation: 0,
               centerTitle: true,
               leading: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context,
+                      MaterialPageRoute(builder: (context) => NavBawah()));
+                },
                 icon: const Icon(Icons.arrow_back_ios_new),
                 color: Colors.blue.shade900,
               ),

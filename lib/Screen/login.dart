@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sikost/Widget/BottomBar.dart';
-import 'package:sikost/Widget/bottom_bar.dart';
-import 'package:sikost/Screen/home.dart';
+import 'package:sikost/Screen/Home/home.dart';
 import 'package:sikost/Screen/register.dart';
+import 'package:sikost/Widget/bawah.dart';
 
 class loginPage extends StatelessWidget {
   List data = ['admin', 'admin'];

@@ -55,6 +55,54 @@ class _ProfileState extends State<Profile> {
                     height: 30,
                   ),
                   profileimg(),
+                  Stack(
+                    children: [
+                      Container(
+                        height: 130,
+                        width: 130,
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 10,
+                                  spreadRadius: 2,
+                                  color: Colors.black.withOpacity(0.1))
+                            ],
+                            border: Border.all(width: 4, color: Colors.white),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: AssetImage(
+                                  'assets/img/foto.jpg',
+                                ),
+                                fit: BoxFit.cover)),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(width: 4, color: Colors.white),
+                              color: Colors.white),
+                          child: Center(
+                            child: IconButton(
+                              iconSize: 20,
+                              onPressed: () {
+                                setState(() {
+                                  SnackBar(content: Text("hai"));
+                                });
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   SizedBox(
                     height: 30,
                   ),
