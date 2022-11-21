@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, unnecessary_const
 
 import 'package:flutter/material.dart';
+import 'package:sikost/Screen/DetailPembayaran.dart';
 import 'dart:math' as math;
 
 import 'package:sikost/Widget/Navigasi.dart';
@@ -43,15 +44,13 @@ class _HistoriPembayaranState extends State<HistoriPembayaran> {
               toolbarHeight: 100,
               backgroundColor: Colors.white,
               elevation: 0,
-              centerTitle: false,
-              title: const Center(
-                child: Text(
-                  "Pembayaran Terakhir",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                  ),
+              centerTitle: true,
+              title: const Text(
+                "Pembayaran Terakhir",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
                 ),
               ),
             ),
@@ -131,26 +130,122 @@ class KotakHistori extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: Container(
-        height: 150,
-        width: 317,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.all(
-            const Radius.circular(10),
+          height: 150,
+          width: 317,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(10),
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromARGB(231, 125, 125, 125),
+                spreadRadius: 0,
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              )
+            ],
+            border: Border.all(
+              color: const Color.fromARGB(88, 73, 74, 77),
+            ),
           ),
-          boxShadow: const [
-            BoxShadow(
-              color: Color.fromARGB(231, 125, 125, 125),
-              spreadRadius: 0,
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            )
-          ],
-          border: Border.all(
-            color: const Color.fromARGB(88, 73, 74, 77),
-          ),
-        ),
-      ),
+          child: Card(
+            elevation: 0,
+            child: Column(
+              children: [
+                Padding(padding: EdgeInsets.only(top: 10.0)),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 10.0),
+                    ),
+                    Icon(
+                      Icons.receipt_long_sharp,
+                      color: Colors.black,
+                      size: 14,
+                    ),
+                    Text(
+                      'Pembayaran Bulan Maret',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 88.0),
+                    ),
+                    Text(
+                      '#200',
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 40.0),
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(padding: EdgeInsets.only(left: 10.0)),
+                        Icon(
+                          Icons.access_time_outlined,
+                          color: Colors.black,
+                          size: 14,
+                        ),
+                        Text(
+                          'Pembayaran Pada : 08 Maret 2023',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.black,
+                      thickness: 2,
+                      indent: 10,
+                      endIndent: 10,
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(padding: EdgeInsets.only(left: 10.0)),
+                        Text(
+                          'Sebesar : 500.000',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        Padding(padding: EdgeInsets.only(left: 50.0)),
+                        SizedBox(
+                            height: 30,
+                            width: 150,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailPembayaran()),
+                                );
+                              },
+                              child: Text(
+                                'Dengan detail sebagai berikut',
+                                style: TextStyle(
+                                  color: Colors.grey.shade400,
+                                  fontSize: 10,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ))
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )),
     );
   }
 }

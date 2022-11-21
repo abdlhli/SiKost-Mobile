@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bottom_bar_matu/bottom_bar_matu.dart';
 import 'package:sikost/Screen/DetailPembayaran.dart';
 import 'package:sikost/Screen/HistoriPembayaran.dart';
-import 'package:sikost/Screen/home.dart';
+import 'package:sikost/Screen/Home/home.dart';
 import 'package:sikost/Screen/profile.dart';
 import 'package:sikost/Screen/register.dart';
 
@@ -51,8 +51,8 @@ class _NavBawahState extends State<NavBawah> {
         controller: controller,
         children: const <Widget>[
           home(),
-          DetailPembayaran(),
           HistoriPembayaran(),
+          DetailPembayaran(),
           Profile(),
           Register()
         ],
