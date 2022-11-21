@@ -24,120 +24,125 @@ class OnBoarding extends StatelessWidget {
                 Color.fromRGBO(20, 136, 204, 1),
               ]),
         ),
-        child: Column(
-          children: [
-            Padding(
-                padding: EdgeInsets.only(top: 80),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(top: 80),
+                  child: Text(
+                    'Welcome',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Color.fromRGBO(255, 255, 255, 1),
+                        fontSize: 32,
+                        fontWeight: FontWeight.w600,
+                        height: 1),
+                  )),
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Container(
+                  width: 271,
+                  height: 271,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/img/avatarhi.png'),
+                        fit: BoxFit.fitWidth),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 60),
                 child: Text(
-                  'Welcome',
+                  "Kost Putri Jawa - 48",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 20, bottom: 40),
+                child: Text(
+                  "Dapatkan tempat untuk beristirahat yang nyaman dan booking dimanapun dan kapanpun saat tersedia",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      fontSize: 32,
-                      fontWeight: FontWeight.w600,
-                      height: 1),
-                )),
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: Container(
-                width: 271,
-                height: 271,
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                width: 230,
+                height: 50,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/img/avatarhi.png'),
-                      fit: BoxFit.fitWidth),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 60),
-              child: Text(
-                "Kost Putri Jawa - 48",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 20, bottom: 40),
-              child: Text(
-                "Dapatkan tempat untuk beristirahat yang nyaman dan booking dimanapun dan kapanpun saat tersedia",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.all(20),
-              width: 230,
-              height: 50,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromARGB(80, 0, 0, 0),
-                    spreadRadius: 0,
-                    blurRadius: 4,
-                    offset: Offset(0, 5),
-                  )
-                ],
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    Color.fromARGB(255, 20, 141, 233),
-                    Color.fromARGB(255, 96, 84, 227),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(80, 0, 0, 0),
+                      spreadRadius: 0,
+                      blurRadius: 4,
+                      offset: Offset(0, 5),
+                    )
                   ],
-                ),
-              ),
-              child: TextButton(
-                child: Text(
-                  'Booking Kamar',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      Color.fromARGB(255, 20, 141, 233),
+                      Color.fromARGB(255, 96, 84, 227),
+                    ],
                   ),
                 ),
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => JenisKamar()));
-                },
-              ),
-            ),
-            Container(
-              width: 230,
-              height: 50,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromARGB(80, 0, 0, 0),
-                    spreadRadius: 0,
-                    blurRadius: 4,
-                    offset: Offset(0, 5),
-                  )
-                ],
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Colors.white,
-              ),
-              child: TextButton(
-                child: Text(
-                  'Login Akun',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
+                child: TextButton(
+                  child: Text(
+                    'Booking Kamar',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => JenisKamar()));
+                  },
                 ),
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => loginPage()));
-                },
               ),
-            ),
-          ],
+              Container(
+                width: 230,
+                height: 50,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(80, 0, 0, 0),
+                      spreadRadius: 0,
+                      blurRadius: 4,
+                      offset: Offset(0, 5),
+                    )
+                  ],
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
+                child: TextButton(
+                  child: Text(
+                    'Login Akun',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => loginPage()));
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 50,
+              )
+            ],
+          ),
         ),
       ),
     );
