@@ -34,7 +34,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                 icon: const Icon(Icons.arrow_back_ios_new),
                 color: Colors.blue.shade900,
               ),
-              title: const Text("Pembayaran Terakhir",
+              title: const Text("Detail Pembayaran",
                   style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
