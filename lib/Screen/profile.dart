@@ -15,6 +15,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final snackBar = SnackBar(content: Text("Ini snackbar"));
   final _formKey = GlobalKey<FormState>();
   bool isObsecureField = true;
   @override
@@ -55,7 +56,6 @@ class _ProfileState extends State<Profile> {
                     height: 30,
                   ),
                   profileimg(),
-                 
                   SizedBox(
                     height: 30,
                   ),
@@ -93,20 +93,43 @@ class _ProfileState extends State<Profile> {
                     padding: EdgeInsets.only(left: 40, right: 40, bottom: 50),
                     child: Column(
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: StadiumBorder(),
-                            minimumSize:
-                                Size(MediaQuery.of(context).size.width, 50),
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text("Berhasil Menyimpan")));
-                            }
+                        InkWell(
+                          onTap: () {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
                           },
-                          child: Text("Save"),
+                          child: Container(
+                            // margin: EdgeInsets.all(20),
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(80, 0, 0, 0),
+                                  spreadRadius: 0,
+                                  blurRadius: 4,
+                                  offset: Offset(0, 5),
+                                )
+                              ],
+                              // shape: StadiumBorder(),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50)),
+                              gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  Color.fromARGB(255, 20, 141, 233),
+                                  Color.fromARGB(255, 96, 84, 227),
+                                ],
+                              ),
+                            ),
+
+                            child: Center(
+                                child: Text(
+                              "Save",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          ),
                         ),
                         SizedBox(
                           height: 10,
@@ -262,8 +285,7 @@ class _ProfileState extends State<Profile> {
                       icon: Icon(
                         Icons.remove_red_eye,
                         color: Colors.grey,
-                      )
-                      )
+                      ))
                   :
                   // false
                   null,
