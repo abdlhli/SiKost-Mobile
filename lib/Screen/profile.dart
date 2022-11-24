@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:sikost/Screen/login.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sikost/Widget/presistent_navbar.dart';
 import '../Widget/boxShadow.dart';
+import 'package:sikost/Widget/presistent_navbar.dart';
 
 // void main() {
 //   runApp(Profile());
@@ -15,9 +18,27 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final snackBar = SnackBar(content: Text("Ini snackbar"));
+  logout() async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Berhasil logout!')),
+    );
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.remove('username');
+    preferences.remove('password');
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => loginPage()));
+  }
+
+  final snackBar = SnackBar(
+    content: Text(
+      "Data berhasil diperbarui",
+      style: TextStyle(color: Colors.blue),
+    ),
+    backgroundColor: Colors.white,
+  );
   final _formKey = GlobalKey<FormState>();
-  bool isObsecureField = true;
+  bool isObsecureText = true;
+  bool _isSelected = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +97,8 @@ class _ProfileState extends State<Profile> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              buildTextForm("Nama", "Fagil Nuril Akbar", false),
+                              buildTextForm("Nama Depan", "Fagil Nuril", false),
+                              buildTextForm("Nama Belakang", "Akbar", false),
                               buildTextForm(
                                   "Email", "fagilnuril18@gmail.com", false),
                               buildTextForm("No WA", "087855913391", false),
@@ -84,7 +106,21 @@ class _ProfileState extends State<Profile> {
                               buildTextForm(
                                   "Kampus", "Politeknik Negeri Jember", false),
                               buildTextForm("Password", "", true),
-                              buildTextForm("New Password", "", true)
+                              buildTextForm("New Password", "", true),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    value: _isSelected,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        isObsecureText = !isObsecureText;
+                                        _isSelected = !_isSelected;
+                                      });
+                                    },
+                                  ),
+                                  Text("Tampilkan Password")
+                                ],
+                              )
                             ],
                           )),
                     ),
@@ -143,8 +179,7 @@ class _ProfileState extends State<Profile> {
                                   Size(MediaQuery.of(context).size.width, 50),
                             ),
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => loginPage()));
+                              logout();
                             },
                             child: Text("Keluar")),
                       ],
@@ -159,46 +194,49 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget bottomsheet() {
-    return Container(
-      padding: EdgeInsets.all(10),
-      height: 100,
-      width: MediaQuery.of(context).size.width,
-      // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-          color: Colors.black),
-      child: Column(
-        children: [
-          Center(
-            child: Text(
-              "Pilih foto profil kamu",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              TextButton.icon(
-                  icon: Icon(Icons.camera_alt_rounded),
-                  onPressed: () {},
-                  label: Text("Kamera")),
-              TextButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.image),
-                  label: Text("File"))
-            ],
-          ),
-        ],
-      ),
-    );
+  bottomsheet() {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) => Container(
+              padding: EdgeInsets.all(10),
+              height: 300,
+              width: MediaQuery.of(context).size.width,
+              // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  color: Colors.black),
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(
+                      "Pilih foto profil kamu",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      TextButton.icon(
+                          icon: Icon(Icons.camera_alt_rounded),
+                          onPressed: () {},
+                          label: Text("Kamera")),
+                      TextButton.icon(
+                          onPressed: () {},
+                          icon: Icon(Icons.image),
+                          label: Text("File"))
+                    ],
+                  ),
+                ],
+              ),
+            ));
   }
 
   Widget profileimg() {
@@ -227,6 +265,7 @@ class _ProfileState extends State<Profile> {
           right: 0,
           child: InkWell(
             onTap: () {
+              print("test");
               showBottomSheet(
                   context: context, builder: (builder) => bottomsheet());
             },
@@ -269,26 +308,26 @@ class _ProfileState extends State<Profile> {
           },
           initialValue: placeholder,
           enabled: (label == "email" || label == "Email") ? false : true,
-          obscureText: isPassTextField ? isObsecureField : false,
+          obscureText: isPassTextField ? isObsecureText : false,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
               labelText: label,
-              suffixIcon: isPassTextField
-                  ?
-                  // true
-                  IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isObsecureField = !isObsecureField;
-                        });
-                      },
-                      icon: Icon(
-                        Icons.remove_red_eye,
-                        color: Colors.grey,
-                      ))
-                  :
-                  // false
-                  null,
+              // suffixIcon: isPassTextField
+              //     ?
+              //     // true
+              //     IconButton(
+              //         onPressed: () {
+              //           setState(() {
+              //             isObsecureText = !isObsecureText;
+              //           });
+              //         },
+              //         icon: Icon(
+              //           Icons.remove_red_eye,
+              //           color: Colors.grey,
+              //         ))
+              //     :
+              //     // false
+              //     null,
               contentPadding: EdgeInsets.only(bottom: 5),
               floatingLabelBehavior: FloatingLabelBehavior.always,
               // hintText: placeholder,
