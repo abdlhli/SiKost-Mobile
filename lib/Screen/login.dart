@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sikost/Screen/Home/home.dart';
 import 'package:sikost/Screen/register.dart';
 import 'package:sikost/Widget/BottomBar.dart';
+import 'package:sikost/Widget/presistent_navbar.dart';
 
 class loginPage extends StatelessWidget {
   List data = ['admin', 'admin'];
@@ -30,7 +31,7 @@ class loginPage extends StatelessWidget {
       } else {
         if (Stringvalue == 'admin') {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => NavBawah()));
+              .push(MaterialPageRoute(builder: (context) => Persistent()));
         }
       }
       print(Stringvalue);
