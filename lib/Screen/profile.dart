@@ -29,14 +29,16 @@ class _ProfileState extends State<Profile> {
         .push(MaterialPageRoute(builder: (context) => loginPage()));
   }
 
-  final snackBar = SnackBar(
-    content: Text(
-      "Data berhasil diperbarui",
-      style: TextStyle(color: Colors.blue),
-    ),
-    backgroundColor: Colors.white,
-  );
+  snekbar(String content) {
+    return SnackBar(
+      content:
+          Text(content, style: TextStyle(color: Colors.blue, fontSize: 12)),
+      backgroundColor: Colors.grey,
+    );
+  }
+
   final _formKey = GlobalKey<FormState>();
+  bool isEnabled = false;
   bool isObsecureText = true;
   bool _isSelected = false;
   @override
@@ -81,7 +83,8 @@ class _ProfileState extends State<Profile> {
                     height: 30,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(40),
+                    padding: const EdgeInsets.only(
+                        top: 40, right: 40, left: 40, bottom: 10),
                     child: Container(
                       // height: MediaQuery.of(context).size.height,
                       // width: MediaQuery.of(context).size.width,
@@ -125,14 +128,32 @@ class _ProfileState extends State<Profile> {
                           )),
                     ),
                   ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(right: 40, left: 40, bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text("Edit Mode"),
+                        Switch(
+                          value: isEnabled,
+                          onChanged: (value) {
+                            setState(() {
+                              isEnabled = !isEnabled;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                   Container(
                     padding: EdgeInsets.only(left: 40, right: 40, bottom: 50),
                     child: Column(
                       children: [
                         InkWell(
                           onTap: () {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                snekbar("Data Berhasil Diperbarui"));
                           },
                           child: Container(
                             // margin: EdgeInsets.all(20),
@@ -159,7 +180,6 @@ class _ProfileState extends State<Profile> {
                                 ],
                               ),
                             ),
-
                             child: Center(
                                 child: Text(
                               "Save",
@@ -170,18 +190,44 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           height: 10,
                         ),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shadowColor: Colors.black.withOpacity(0.2),
-                              primary: Colors.red,
-                              shape: StadiumBorder(),
-                              minimumSize:
-                                  Size(MediaQuery.of(context).size.width, 50),
+                        InkWell(
+                          onTap: () {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snekbar("Keluar"));
+                          },
+                          child: Container(
+                            // margin: EdgeInsets.all(20),
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(80, 0, 0, 0),
+                                  spreadRadius: 0,
+                                  blurRadius: 4,
+                                  offset: Offset(0, 5),
+                                )
+                              ],
+                              // shape: StadiumBorder(),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50)),
+                              gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  Color.fromARGB(255, 231, 51, 75),
+                                  Color.fromARGB(255, 194, 39, 39),
+                                ],
+                              ),
                             ),
-                            onPressed: () {
-                              logout();
-                            },
-                            child: Text("Keluar")),
+
+                            child: Center(
+                                child: Text(
+                              "Keluar",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          ),
+                        ),
                       ],
                     ),
                   )
@@ -196,17 +242,16 @@ class _ProfileState extends State<Profile> {
 
   bottomsheet() {
     return showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        ),
         context: context,
         builder: (context) => Container(
               padding: EdgeInsets.all(10),
-              height: 300,
+              height: 100,
               width: MediaQuery.of(context).size.width,
               // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20)),
-                  color: Colors.black),
               child: Column(
                 children: [
                   Center(
@@ -263,28 +308,36 @@ class _ProfileState extends State<Profile> {
         Positioned(
           bottom: 0,
           right: 0,
-          child: InkWell(
-            onTap: () {
-              print("test");
-              showBottomSheet(
-                  context: context, builder: (builder) => bottomsheet());
-            },
-            child: Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(width: 4, color: Colors.white),
-                  color: Colors.blue),
-              child: Center(
-                child: Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                  size: 20,
-                ),
-              ),
+          child: ActionChip(
+            label: Icon(
+              Icons.edit,
+              color: Colors.blue,
             ),
+            backgroundColor: Colors.white,
+            onPressed: bottomsheet,
           ),
+          // child: InkWell(
+          //   onTap: () {
+          //     print("test");
+          //     showBottomSheet(
+          //         context: context, builder: (builder) => bottomsheet());
+          //   },
+          //   child: Container(
+          //     height: 40,
+          //     width: 40,
+          //     decoration: BoxDecoration(
+          //         shape: BoxShape.circle,
+          //         border: Border.all(width: 4, color: Colors.white),
+          //         color: Colors.blue),
+          //     child: Center(
+          //       child: Icon(
+          //         Icons.edit,
+          //         color: Colors.white,
+          //         size: 20,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ),
       ],
     );
@@ -300,14 +353,14 @@ class _ProfileState extends State<Profile> {
       child: TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Field $label tidak boleh kosong";
+              return isPassTextField ? null : "Field $label tidak boleh kosong";
             } else if (label == "email" || label == "Email") {
               return (value.contains("@")) ? null : "Masukkan email yang valid";
             }
             return null;
           },
           initialValue: placeholder,
-          enabled: (label == "email" || label == "Email") ? false : true,
+          enabled: (label == "email" || label == "Email") ? false : isEnabled,
           obscureText: isPassTextField ? isObsecureText : false,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
