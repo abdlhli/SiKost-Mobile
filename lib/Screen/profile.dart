@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:sikost/Screen/login.dart';
@@ -5,10 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sikost/Widget/presistent_navbar.dart';
 import '../Widget/boxShadow.dart';
 import 'package:sikost/Widget/presistent_navbar.dart';
-
-// void main() {
-//   runApp(Profile());
-// }
+import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -18,6 +16,23 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  File? image;
+  final ImagePicker _picker = ImagePicker();
+
+  Future _getFormGallery() async {
+    final XFile? imagePicked =
+        await _picker.pickImage(source: ImageSource.gallery);
+    image = File(imagePicked!.path);
+    setState(() {});
+  }
+
+  Future _getFormCamera() async {
+    final XFile? imagePicked =
+        await _picker.pickImage(source: ImageSource.camera);
+    image = File(imagePicked!.path);
+    setState(() {});
+  }
+
   logout() async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Berhasil logout!')),
@@ -32,12 +47,13 @@ class _ProfileState extends State<Profile> {
   snekbar(String content) {
     return SnackBar(
       content:
-          Text(content, style: TextStyle(color: Colors.blue, fontSize: 12)),
+          Text(content, style: TextStyle(color: Colors.white, fontSize: 12)),
       backgroundColor: Colors.grey,
     );
   }
 
   final _formKey = GlobalKey<FormState>();
+  bool isImagePicked = true;
   bool isEnabled = false;
   bool isObsecureText = true;
   bool _isSelected = false;
@@ -242,6 +258,7 @@ class _ProfileState extends State<Profile> {
 
   bottomsheet() {
     return showModalBottomSheet(
+        backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20)),
@@ -249,7 +266,7 @@ class _ProfileState extends State<Profile> {
         context: context,
         builder: (context) => Container(
               padding: EdgeInsets.all(10),
-              height: 100,
+              height: 120,
               width: MediaQuery.of(context).size.width,
               // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Column(
@@ -271,12 +288,32 @@ class _ProfileState extends State<Profile> {
                     children: <Widget>[
                       TextButton.icon(
                           icon: Icon(Icons.camera_alt_rounded),
-                          onPressed: () {},
+                          onPressed: () async {
+                            await _getFormCamera();
+
+                            setState(() {
+                              isImagePicked = true;
+                            });
+                          },
                           label: Text("Kamera")),
                       TextButton.icon(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await _getFormGallery();
+
+                            setState(() {
+                              isImagePicked = true;
+                            });
+                          },
                           icon: Icon(Icons.image),
-                          label: Text("File"))
+                          label: Text("File")),
+                      TextButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              isImagePicked = false;
+                            });
+                          },
+                          icon: Icon(Icons.delete),
+                          label: Text("Hapus"))
                     ],
                   ),
                 ],
@@ -287,24 +324,32 @@ class _ProfileState extends State<Profile> {
   Widget profileimg() {
     return Stack(
       children: [
-        Container(
-          height: 130,
-          width: 130,
-          decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    blurRadius: 10,
-                    spreadRadius: 2,
-                    color: Colors.black.withOpacity(0.1))
-              ],
-              border: Border.all(width: 4, color: Colors.white),
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                  image: AssetImage(
-                    'assets/img/foto.jpg',
-                  ),
-                  fit: BoxFit.cover)),
-        ),
+        isImagePicked
+            ? image != null
+                ? Container(
+                    height: 130,
+                    width: 130,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                            color: Colors.black.withOpacity(0.1))
+                      ],
+                      border: Border.all(width: 4, color: Colors.white),
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipOval(
+                      child: Image.file(
+                        height: 130,
+                        width: 130,
+                        image!,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )
+                : defaultImage()
+            : defaultImage(),
         Positioned(
           bottom: 0,
           right: 0,
@@ -316,28 +361,6 @@ class _ProfileState extends State<Profile> {
             backgroundColor: Colors.white,
             onPressed: bottomsheet,
           ),
-          // child: InkWell(
-          //   onTap: () {
-          //     print("test");
-          //     showBottomSheet(
-          //         context: context, builder: (builder) => bottomsheet());
-          //   },
-          //   child: Container(
-          //     height: 40,
-          //     width: 40,
-          //     decoration: BoxDecoration(
-          //         shape: BoxShape.circle,
-          //         border: Border.all(width: 4, color: Colors.white),
-          //         color: Colors.blue),
-          //     child: Center(
-          //       child: Icon(
-          //         Icons.edit,
-          //         color: Colors.white,
-          //         size: 20,
-          //       ),
-          //     ),
-          //   ),
-          // ),
         ),
       ],
     );
@@ -386,6 +409,32 @@ class _ProfileState extends State<Profile> {
               // hintText: placeholder,
 
               hintStyle: TextStyle(fontSize: 16, color: Colors.grey))),
+    );
+  }
+
+  Widget defaultImage() {
+    return Container(
+      height: 130,
+      width: 130,
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 134, 134, 134),
+        boxShadow: [
+          BoxShadow(
+              blurRadius: 10,
+              spreadRadius: 2,
+              color: Colors.black.withOpacity(0.1))
+        ],
+        border: Border.all(width: 4, color: Colors.white),
+        shape: BoxShape.circle,
+        // image: DecorationImage(
+        //     image: AssetImage('assets/img/foto.jpg'),
+        //     fit: BoxFit.cover),
+      ),
+      child: Icon(
+        Icons.person,
+        size: 100,
+        color: Colors.white,
+      ),
     );
   }
 }

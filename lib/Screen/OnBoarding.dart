@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 import 'package:sikost/Screen/Booking/JenisKamar.dart';
 import 'package:sikost/Screen/login.dart';
 import 'package:sikost/Widget/BottomBar.dart';
+import 'package:sikost/Widget/bottom_bar.dart';
+import 'package:sikost/Widget/presistent_navbar.dart';
 
 class OnBoarding extends StatelessWidget {
   @override
@@ -134,7 +136,7 @@ class OnBoarding extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => loginPage()));
+                        MaterialPageRoute(builder: (context) => Persistent()));
                   },
                 ),
               ),
