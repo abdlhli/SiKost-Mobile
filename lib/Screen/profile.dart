@@ -24,8 +24,8 @@ class _ProfileState extends State<Profile> {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
+            decoration: const BoxDecoration(
+              gradient: const LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
@@ -42,17 +42,17 @@ class _ProfileState extends State<Profile> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text(
+                  const Text(
                     "Profil",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   profileimg(),
@@ -70,8 +70,8 @@ class _ProfileState extends State<Profile> {
                             ],
                             border: Border.all(width: 4, color: Colors.white),
                             shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: AssetImage(
+                            image: const DecorationImage(
+                                image: const AssetImage(
                                   'assets/img/foto.jpg',
                                 ),
                                 fit: BoxFit.cover)),
@@ -91,10 +91,10 @@ class _ProfileState extends State<Profile> {
                               iconSize: 20,
                               onPressed: () {
                                 setState(() {
-                                  SnackBar(content: Text("hai"));
+                                  const SnackBar(content: Text("hai"));
                                 });
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.edit,
                                 color: Colors.blue,
                               ),
@@ -104,7 +104,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Padding(
@@ -112,7 +112,7 @@ class _ProfileState extends State<Profile> {
                     child: Container(
                       // height: MediaQuery.of(context).size.height,
                       // width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(30),
+                      padding: const EdgeInsets.all(30),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: const BorderRadius.all(
@@ -138,32 +138,33 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 40, right: 40, bottom: 50),
+                    padding:
+                        const EdgeInsets.only(left: 40, right: 40, bottom: 50),
                     child: Column(
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            shape: StadiumBorder(),
+                            shape: const StadiumBorder(),
                             minimumSize:
                                 Size(MediaQuery.of(context).size.width, 50),
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                       content: Text("Berhasil Menyimpan")));
                             }
                           },
-                          child: Text("Save"),
+                          child: const Text("Save"),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shadowColor: Colors.black.withOpacity(0.2),
                               primary: Colors.red,
-                              shape: StadiumBorder(),
+                              shape: const StadiumBorder(),
                               minimumSize:
                                   Size(MediaQuery.of(context).size.width, 50),
                             ),
@@ -171,7 +172,7 @@ class _ProfileState extends State<Profile> {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => loginPage()));
                             },
-                            child: Text("Keluar")),
+                            child: const Text("Keluar")),
                       ],
                     ),
                   )
@@ -186,17 +187,18 @@ class _ProfileState extends State<Profile> {
 
   Widget bottomsheet() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       height: 100,
       width: MediaQuery.of(context).size.width,
       // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      decoration: const BoxDecoration(
+          borderRadius: const BorderRadius.only(
+              topLeft: const Radius.circular(20),
+              topRight: Radius.circular(20)),
           color: Colors.black),
       child: Column(
         children: [
-          Center(
+          const Center(
             child: Text(
               "Pilih foto profil kamu",
               style: TextStyle(
@@ -205,20 +207,20 @@ class _ProfileState extends State<Profile> {
                   color: Colors.blue),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               TextButton.icon(
-                  icon: Icon(Icons.camera_alt_rounded),
+                  icon: const Icon(Icons.camera_alt_rounded),
                   onPressed: () {},
-                  label: Text("Kamera")),
+                  label: const Text("Kamera")),
               TextButton.icon(
                   onPressed: () {},
-                  icon: Icon(Icons.image),
-                  label: Text("File"))
+                  icon: const Icon(Icons.image),
+                  label: const Text("File"))
             ],
           ),
         ],
@@ -241,7 +243,7 @@ class _ProfileState extends State<Profile> {
               ],
               border: Border.all(width: 4, color: Colors.white),
               shape: BoxShape.circle,
-              image: DecorationImage(
+              image: const DecorationImage(
                   image: AssetImage(
                     'assets/img/foto.jpg',
                   ),
@@ -262,7 +264,7 @@ class _ProfileState extends State<Profile> {
                   shape: BoxShape.circle,
                   border: Border.all(width: 4, color: Colors.white),
                   color: Colors.blue),
-              child: Center(
+              child: const Center(
                 child: Icon(
                   Icons.edit,
                   color: Colors.white,
@@ -282,7 +284,7 @@ class _ProfileState extends State<Profile> {
     bool isPassTextField,
   ) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 30),
+      padding: const EdgeInsets.only(bottom: 30),
       child: TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -307,18 +309,18 @@ class _ProfileState extends State<Profile> {
                           isObsecureField = !isObsecureField;
                         });
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.remove_red_eye,
                         color: Colors.grey,
                       ))
                   :
                   // false
                   null,
-              contentPadding: EdgeInsets.only(bottom: 5),
+              contentPadding: const EdgeInsets.only(bottom: 5),
               floatingLabelBehavior: FloatingLabelBehavior.always,
               // hintText: placeholder,
 
-              hintStyle: TextStyle(fontSize: 16, color: Colors.grey))),
+              hintStyle: const TextStyle(fontSize: 16, color: Colors.grey))),
     );
   }
 }
