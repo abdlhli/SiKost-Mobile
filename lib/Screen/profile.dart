@@ -1,12 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:sikost/Screen/login.dart';
-import 'package:sikost/Widget/Navigasi.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Widget/boxShadow.dart';
-
-// void main() {
-//   runApp(Profile());
-// }
+import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -16,8 +13,47 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  File? image;
+  final ImagePicker _picker = ImagePicker();
+
+  Future _getFormGallery() async {
+    final XFile? imagePicked =
+        await _picker.pickImage(source: ImageSource.gallery);
+    image = File(imagePicked!.path);
+    setState(() {});
+  }
+
+  Future _getFormCamera() async {
+    final XFile? imagePicked =
+        await _picker.pickImage(source: ImageSource.camera);
+    image = File(imagePicked!.path);
+    setState(() {});
+  }
+
+  logout() async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Berhasil logout!')),
+    );
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.remove('username');
+    preferences.remove('password');
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => loginPage()));
+  }
+
+  snekbar(String content) {
+    return SnackBar(
+      content: Text(content,
+          style: const TextStyle(color: Colors.white, fontSize: 12)),
+      backgroundColor: Colors.grey,
+    );
+  }
+
   final _formKey = GlobalKey<FormState>();
-  bool isObsecureField = true;
+  bool isImagePicked = true;
+  bool isEnabled = false;
+  bool isObsecureText = true;
+  bool _isSelected = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +61,7 @@ class _ProfileState extends State<Profile> {
         children: [
           Container(
             decoration: const BoxDecoration(
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
@@ -47,7 +83,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   const Text(
                     "Profil",
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
@@ -56,59 +92,12 @@ class _ProfileState extends State<Profile> {
                     height: 30,
                   ),
                   profileimg(),
-                  Stack(
-                    children: [
-                      Container(
-                        height: 130,
-                        width: 130,
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 10,
-                                  spreadRadius: 2,
-                                  color: Colors.black.withOpacity(0.1))
-                            ],
-                            border: Border.all(width: 4, color: Colors.white),
-                            shape: BoxShape.circle,
-                            image: const DecorationImage(
-                                image: const AssetImage(
-                                  'assets/img/foto.jpg',
-                                ),
-                                fit: BoxFit.cover)),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(width: 4, color: Colors.white),
-                              color: Colors.white),
-                          child: Center(
-                            child: IconButton(
-                              iconSize: 20,
-                              onPressed: () {
-                                setState(() {
-                                  const SnackBar(content: Text("hai"));
-                                });
-                              },
-                              icon: const Icon(
-                                Icons.edit,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   const SizedBox(
                     height: 30,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(40),
+                    padding: const EdgeInsets.only(
+                        top: 40, right: 40, left: 40, bottom: 10),
                     child: Container(
                       // height: MediaQuery.of(context).size.height,
                       // width: MediaQuery.of(context).size.width,
@@ -116,7 +105,7 @@ class _ProfileState extends State<Profile> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: const BorderRadius.all(
-                            const Radius.circular(10),
+                            Radius.circular(10),
                           ),
                           boxShadow: [boxShadow()]),
                       child: Form(
@@ -124,7 +113,8 @@ class _ProfileState extends State<Profile> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              buildTextForm("Nama", "Fagil Nuril Akbar", false),
+                              buildTextForm("Nama Depan", "Fagil Nuril", false),
+                              buildTextForm("Nama Belakang", "Akbar", false),
                               buildTextForm(
                                   "Email", "fagilnuril18@gmail.com", false),
                               buildTextForm("No WA", "087855913391", false),
@@ -132,9 +122,41 @@ class _ProfileState extends State<Profile> {
                               buildTextForm(
                                   "Kampus", "Politeknik Negeri Jember", false),
                               buildTextForm("Password", "", true),
-                              buildTextForm("New Password", "", true)
+                              buildTextForm("New Password", "", true),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    value: _isSelected,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        isObsecureText = !isObsecureText;
+                                        _isSelected = !_isSelected;
+                                      });
+                                    },
+                                  ),
+                                  const Text("Tampilkan Password")
+                                ],
+                              )
                             ],
                           )),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(right: 40, left: 40, bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Text("Edit Mode"),
+                        Switch(
+                          value: isEnabled,
+                          onChanged: (value) {
+                            setState(() {
+                              isEnabled = !isEnabled;
+                            });
+                          },
+                        ),
+                      ],
                     ),
                   ),
                   Container(
@@ -142,37 +164,84 @@ class _ProfileState extends State<Profile> {
                         const EdgeInsets.only(left: 40, right: 40, bottom: 50),
                     child: Column(
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: const StadiumBorder(),
-                            minimumSize:
-                                Size(MediaQuery.of(context).size.width, 50),
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text("Berhasil Menyimpan")));
-                            }
+                        InkWell(
+                          onTap: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                snekbar("Data Berhasil Diperbarui"));
                           },
-                          child: const Text("Save"),
+                          child: Container(
+                            // margin: EdgeInsets.all(20),
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                const BoxShadow(
+                                  color: Color.fromARGB(80, 0, 0, 0),
+                                  spreadRadius: 0,
+                                  blurRadius: 4,
+                                  offset: Offset(0, 5),
+                                )
+                              ],
+                              // shape: StadiumBorder(),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(50)),
+                              gradient: const LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  Color.fromARGB(255, 20, 141, 233),
+                                  Color.fromARGB(255, 96, 84, 227),
+                                ],
+                              ),
+                            ),
+                            child: const Center(
+                                child: const Text(
+                              "Save",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shadowColor: Colors.black.withOpacity(0.2),
-                              primary: Colors.red,
-                              shape: const StadiumBorder(),
-                              minimumSize:
-                                  Size(MediaQuery.of(context).size.width, 50),
+                        InkWell(
+                          onTap: () {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snekbar("Keluar"));
+                          },
+                          child: Container(
+                            // margin: EdgeInsets.all(20),
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                const BoxShadow(
+                                  color: Color.fromARGB(80, 0, 0, 0),
+                                  spreadRadius: 0,
+                                  blurRadius: 4,
+                                  offset: Offset(0, 5),
+                                )
+                              ],
+                              // shape: StadiumBorder(),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(50)),
+                              gradient: const LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  Color.fromARGB(255, 231, 51, 75),
+                                  Color.fromARGB(255, 194, 39, 39),
+                                ],
+                              ),
                             ),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => loginPage()));
-                            },
-                            child: const Text("Keluar")),
+
+                            child: const Center(
+                                child: const Text(
+                              "Keluar",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          ),
+                        ),
                       ],
                     ),
                   )
@@ -185,93 +254,110 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget bottomsheet() {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      height: 100,
-      width: MediaQuery.of(context).size.width,
-      // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      decoration: const BoxDecoration(
-          borderRadius: const BorderRadius.only(
-              topLeft: const Radius.circular(20),
-              topRight: Radius.circular(20)),
-          color: Colors.black),
-      child: Column(
-        children: [
-          const Center(
-            child: Text(
-              "Pilih foto profil kamu",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              TextButton.icon(
-                  icon: const Icon(Icons.camera_alt_rounded),
-                  onPressed: () {},
-                  label: const Text("Kamera")),
-              TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.image),
-                  label: const Text("File"))
-            ],
-          ),
-        ],
-      ),
-    );
+  bottomsheet() {
+    return showModalBottomSheet(
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        ),
+        context: context,
+        builder: (context) => Container(
+              padding: const EdgeInsets.all(10),
+              height: 120,
+              width: MediaQuery.of(context).size.width,
+              // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              child: Column(
+                children: [
+                  const Center(
+                    child: Text(
+                      "Pilih foto profil kamu",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      TextButton.icon(
+                          icon: const Icon(Icons.camera_alt_rounded),
+                          onPressed: () async {
+                            await _getFormCamera();
+
+                            setState(() {
+                              isImagePicked = true;
+                            });
+                          },
+                          label: const Text("Kamera")),
+                      TextButton.icon(
+                          onPressed: () async {
+                            await _getFormGallery();
+
+                            setState(() {
+                              isImagePicked = true;
+                            });
+                          },
+                          icon: const Icon(Icons.image),
+                          label: const Text("File")),
+                      TextButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              isImagePicked = false;
+                            });
+                          },
+                          icon: const Icon(Icons.delete),
+                          label: const Text("Hapus"))
+                    ],
+                  ),
+                ],
+              ),
+            ));
   }
 
   Widget profileimg() {
     return Stack(
       children: [
-        Container(
-          height: 130,
-          width: 130,
-          decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    blurRadius: 10,
-                    spreadRadius: 2,
-                    color: Colors.black.withOpacity(0.1))
-              ],
-              border: Border.all(width: 4, color: Colors.white),
-              shape: BoxShape.circle,
-              image: const DecorationImage(
-                  image: AssetImage(
-                    'assets/img/foto.jpg',
-                  ),
-                  fit: BoxFit.cover)),
-        ),
+        isImagePicked
+            ? image != null
+                ? Container(
+                    height: 130,
+                    width: 130,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                            color: Colors.black.withOpacity(0.1))
+                      ],
+                      border: Border.all(width: 4, color: Colors.white),
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipOval(
+                      child: Image.file(
+                        height: 130,
+                        width: 130,
+                        image!,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )
+                : defaultImage()
+            : defaultImage(),
         Positioned(
           bottom: 0,
           right: 0,
-          child: InkWell(
-            onTap: () {
-              showBottomSheet(
-                  context: context, builder: (builder) => bottomsheet());
-            },
-            child: Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(width: 4, color: Colors.white),
-                  color: Colors.blue),
-              child: const Center(
-                child: Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                  size: 20,
-                ),
-              ),
+          child: ActionChip(
+            label: const Icon(
+              Icons.edit,
+              color: Colors.blue,
             ),
+            backgroundColor: Colors.white,
+            onPressed: bottomsheet,
           ),
         ),
       ],
@@ -288,39 +374,65 @@ class _ProfileState extends State<Profile> {
       child: TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Field $label tidak boleh kosong";
+              return isPassTextField ? null : "Field $label tidak boleh kosong";
             } else if (label == "email" || label == "Email") {
               return (value.contains("@")) ? null : "Masukkan email yang valid";
             }
             return null;
           },
           initialValue: placeholder,
-          enabled: (label == "email" || label == "Email") ? false : true,
-          obscureText: isPassTextField ? isObsecureField : false,
+          enabled: (label == "email" || label == "Email") ? false : isEnabled,
+          obscureText: isPassTextField ? isObsecureText : false,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
               labelText: label,
-              suffixIcon: isPassTextField
-                  ?
-                  // true
-                  IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isObsecureField = !isObsecureField;
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.remove_red_eye,
-                        color: Colors.grey,
-                      ))
-                  :
-                  // false
-                  null,
+              // suffixIcon: isPassTextField
+              //     ?
+              //     // true
+              //     IconButton(
+              //         onPressed: () {
+              //           setState(() {
+              //             isObsecureText = !isObsecureText;
+              //           });
+              //         },
+              //         icon: Icon(
+              //           Icons.remove_red_eye,
+              //           color: Colors.grey,
+              //         ))
+              //     :
+              //     // false
+              //     null,
               contentPadding: const EdgeInsets.only(bottom: 5),
               floatingLabelBehavior: FloatingLabelBehavior.always,
               // hintText: placeholder,
 
               hintStyle: const TextStyle(fontSize: 16, color: Colors.grey))),
+    );
+  }
+
+  Widget defaultImage() {
+    return Container(
+      height: 130,
+      width: 130,
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 134, 134, 134),
+        boxShadow: [
+          BoxShadow(
+              blurRadius: 10,
+              spreadRadius: 2,
+              color: Colors.black.withOpacity(0.1))
+        ],
+        border: Border.all(width: 4, color: Colors.white),
+        shape: BoxShape.circle,
+        // image: DecorationImage(
+        //     image: AssetImage('assets/img/foto.jpg'),
+        //     fit: BoxFit.cover),
+      ),
+      child: const Icon(
+        Icons.person,
+        size: 100,
+        color: Colors.white,
+      ),
     );
   }
 }
