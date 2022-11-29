@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sikost/Widget/BottomBar.dart';
-import 'home.dart';
+import 'package:sikost/Widget/presistent_navbar.dart';
 import 'dart:math' as math;
 
 class Rules extends StatelessWidget {
@@ -21,8 +19,10 @@ class Rules extends StatelessWidget {
               centerTitle: true,
               leading: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => NavBawah()));
+                  Navigator.pop(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Persistent()));
                 },
                 icon: const Icon(Icons.arrow_back_ios_new),
                 color: Colors.blue.shade900,
@@ -70,7 +70,7 @@ class Rules extends StatelessWidget {
           ),
           Center(
             child: Container(
-              margin: EdgeInsets.only(bottom: 25),
+              margin: const EdgeInsets.only(bottom: 25),
               width: 320,
               height: 600,
               decoration: BoxDecoration(
