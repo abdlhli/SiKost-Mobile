@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
-// import 'package:persistent_bottom_nav_bar/persistent_tab_view.widget.dart';
 import 'package:sikost/Screen/Home/home.dart';
 import 'package:sikost/Screen/Pembayaran/DetailPembayaran.dart';
 import 'package:sikost/Screen/Pembayaran/HistoriPembayaran.dart';
@@ -10,13 +8,10 @@ import 'package:sikost/Screen/penghuni.dart';
 import 'package:sikost/Screen/profile.dart';
 
 class Persistent extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
-
-   PersistentTabController _controller = new PersistentTabController();
+    PersistentTabController _controller = new PersistentTabController();
     return PersistentTabView(
-      
       context,
       controller: _controller,
       screens: _buildScreens(),
@@ -64,13 +59,13 @@ List<Widget> _buildScreens() {
 
 List<PersistentBottomNavBarItem> _navBarsItems() {
   return [
-     PersistentBottomNavBarItem(
+    PersistentBottomNavBarItem(
       icon: Icon(CupertinoIcons.person_2),
       title: ("Penghuni"),
       activeColorPrimary: Color.fromRGBO(0, 122, 255, 1),
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
-     PersistentBottomNavBarItem(
+    PersistentBottomNavBarItem(
       icon: Icon(CupertinoIcons.paperclip),
       title: ("Histori Pembayaran"),
       activeColorPrimary: Color.fromRGBO(0, 122, 255, 1),
@@ -88,7 +83,7 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       activeColorPrimary: CupertinoColors.activeBlue,
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
-     PersistentBottomNavBarItem(
+    PersistentBottomNavBarItem(
       icon: Icon(CupertinoIcons.profile_circled),
       title: ("Profile"),
       activeColorPrimary: Color.fromRGBO(0, 122, 255, 1),
