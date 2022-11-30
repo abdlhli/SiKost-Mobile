@@ -1,12 +1,8 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sikost/Screen/Booking/JenisKamar.dart';
-import 'package:sikost/Screen/login.dart';
-import 'package:sikost/Widget/BottomBar.dart';
+import 'package:sikost/Widget/presistent_navbar.dart';
 
 class OnBoarding extends StatelessWidget {
   @override
@@ -19,7 +15,7 @@ class OnBoarding extends StatelessWidget {
           gradient: LinearGradient(
               begin: Alignment(-0.38202300667762756, 1.6289153099060059),
               end: Alignment(-1.6289153099060059, -1.6625103950500488),
-              colors: [
+              colors: const [
                 Color.fromRGBO(43, 50, 178, 1),
                 Color.fromRGBO(20, 136, 204, 1),
               ]),
@@ -77,7 +73,7 @@ class OnBoarding extends StatelessWidget {
                 width: 230,
                 height: 50,
                 decoration: BoxDecoration(
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Color.fromARGB(80, 0, 0, 0),
                       spreadRadius: 0,
@@ -89,7 +85,7 @@ class OnBoarding extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
-                    colors: [
+                    colors: const [
                       Color.fromARGB(255, 20, 141, 233),
                       Color.fromARGB(255, 96, 84, 227),
                     ],
@@ -113,7 +109,7 @@ class OnBoarding extends StatelessWidget {
                 width: 230,
                 height: 50,
                 decoration: BoxDecoration(
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Color.fromARGB(80, 0, 0, 0),
                       spreadRadius: 0,
@@ -134,7 +130,7 @@ class OnBoarding extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => loginPage()));
+                        MaterialPageRoute(builder: (context) => Persistent()));
                   },
                 ),
               ),

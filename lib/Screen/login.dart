@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sikost/Screen/Home/home.dart';
 import 'package:sikost/Screen/register.dart';
 import 'package:sikost/Widget/BottomBar.dart';
+import 'package:sikost/Widget/bottom_bar.dart';
 import 'package:sikost/Widget/presistent_navbar.dart';
 
 class loginPage extends StatelessWidget {
@@ -31,7 +32,7 @@ class loginPage extends StatelessWidget {
       } else {
         if (Stringvalue == 'admin') {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => Persistent()));
+              .push(MaterialPageRoute(builder: (context) => const BottomBar()));
         }
       }
       print(Stringvalue);
@@ -80,7 +81,7 @@ class loginPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "LOGIN",
                       style: TextStyle(
                         color: Colors.white,
@@ -120,7 +121,7 @@ class loginPage extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
                       Container(
@@ -128,7 +129,7 @@ class loginPage extends StatelessWidget {
                         width: 260,
                         child: TextField(
                           controller: usernameA,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: "Username/Email",
                             prefixIcon: Icon(Icons.mail_outline),
                             fillColor: Colors.black,
@@ -138,7 +139,7 @@ class loginPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Container(
@@ -147,7 +148,7 @@ class loginPage extends StatelessWidget {
                         child: TextField(
                           obscureText: true,
                           controller: passwordA,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: "Password",
                             fillColor: Colors.black,
                             prefixIcon: Icon(Icons.lock_outline),
@@ -181,12 +182,12 @@ class loginPage extends StatelessWidget {
                                 await SharedPreferences.getInstance();
                             if (login) {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => home()));
+                                  builder: (context) => const home()));
                               preferences.setString('username', usernameA.text);
                               preferences.setString('password', passwordA.text);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("Login Gagal")));
+                                  const SnackBar(content: Text("Login Gagal")));
                             }
                           },
                           child: Column(
@@ -198,7 +199,7 @@ class loginPage extends StatelessWidget {
                               Container(
                                 alignment: Alignment.center,
                                 width: 150,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(25)),
                                     gradient: LinearGradient(
@@ -208,7 +209,7 @@ class loginPage extends StatelessWidget {
                                           Color.fromARGB(255, 20, 136, 204),
                                           Color.fromARGB(255, 43, 50, 178),
                                         ])),
-                                child: Padding(
+                                child: const Padding(
                                   padding: EdgeInsets.all(12.0),
                                   child: Text(
                                     "Login",
@@ -224,7 +225,7 @@ class loginPage extends StatelessWidget {
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Don't Have an Account?",
                                         style: TextStyle(fontSize: 10),
                                       ),
@@ -234,7 +235,7 @@ class loginPage extends StatelessWidget {
                                                 .pushReplacement(
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            Register()));
+                                                            const Register()));
                                           },
                                           child: const Text(
                                             "Register",

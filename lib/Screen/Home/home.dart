@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sikost/Screen/Home/rules.dart';
 import 'dart:math' as math;
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sikost/Screen/login.dart';
-import 'package:sikost/Widget/BottomBar.dart';
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
@@ -16,7 +14,7 @@ class home extends StatefulWidget {
 class _homeState extends State<home> {
   logout() async {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Berhasil logout!')),
+      const SnackBar(content: Text('Berhasil logout!')),
     );
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove('username');
@@ -27,7 +25,7 @@ class _homeState extends State<home> {
 
   _floatingPanel() {
     return showModalBottomSheet(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         ),
@@ -38,7 +36,7 @@ class _homeState extends State<home> {
             child: Column(
               children: [
                 Row(
-                  children: [
+                  children: const [
                     Padding(
                       padding: EdgeInsets.fromLTRB(40, 120, 0, 0),
                     ),
@@ -57,7 +55,7 @@ class _homeState extends State<home> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(
-                        color: Color.fromARGB(255, 0, 248, 8),
+                        color: const Color.fromARGB(255, 0, 248, 8),
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(10),
@@ -66,14 +64,14 @@ class _homeState extends State<home> {
                           color: Colors.grey.shade600,
                           spreadRadius: 0,
                           blurRadius: 2,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         )
                       ]),
                   child: Column(
                     children: [
-                      Padding(padding: EdgeInsets.only(top: 10.0)),
+                      const Padding(padding: EdgeInsets.only(top: 10.0)),
                       Row(
-                        children: [
+                        children: const [
                           Padding(
                             padding: EdgeInsets.only(left: 10.0),
                           ),
@@ -99,13 +97,13 @@ class _homeState extends State<home> {
                           ),
                         ],
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(top: 40.0),
                       ),
                       Column(
                         children: [
                           Row(
-                            children: [
+                            children: const [
                               Padding(padding: EdgeInsets.only(left: 10.0)),
                               Icon(
                                 Icons.access_time_outlined,
@@ -120,7 +118,7 @@ class _homeState extends State<home> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.black,
                             thickness: 2,
                             indent: 10,
@@ -131,7 +129,7 @@ class _homeState extends State<home> {
                       Column(
                         children: [
                           Row(
-                            children: [
+                            children: const [
                               Padding(padding: EdgeInsets.only(left: 10.0)),
                               Text(
                                 'Sebesar : 500.000',
@@ -168,13 +166,13 @@ class _homeState extends State<home> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 160,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
                 child: Row(
                   children: [
-                    Padding(padding: EdgeInsets.fromLTRB(35, 80, 0, 0)),
-                    CircleAvatar(
+                    const Padding(padding: EdgeInsets.fromLTRB(35, 80, 0, 0)),
+                    const CircleAvatar(
                       radius: 30,
                       backgroundImage: AssetImage('assets/img/46r.jpg'),
                       backgroundColor: Colors.transparent,
@@ -184,7 +182,7 @@ class _homeState extends State<home> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Taufiq Rahmadi',
                             style: TextStyle(
                                 color: Colors.black,
@@ -199,10 +197,10 @@ class _homeState extends State<home> {
                         ],
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(left: 75)),
+                    const Padding(padding: EdgeInsets.only(left: 75)),
                     ActionChip(
                         backgroundColor: Colors.white,
-                        label: Icon(Icons.notifications, size: 32),
+                        label: const Icon(Icons.notifications, size: 32),
                         onPressed: () {
                           _floatingPanel();
                         })
@@ -212,11 +210,11 @@ class _homeState extends State<home> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 30,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
                 child: Row(
-                  children: [
+                  children: const [
                     Padding(
                       padding: EdgeInsets.only(left: 35),
                       child: Text(
@@ -239,7 +237,7 @@ class _homeState extends State<home> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
@@ -260,7 +258,7 @@ class _homeState extends State<home> {
                       color: Colors.grey.shade600,
                       spreadRadius: 0,
                       blurRadius: 8,
-                      offset: Offset(4, 4))
+                      offset: const Offset(4, 4))
                 ]),
               ),
             ),
@@ -268,12 +266,12 @@ class _homeState extends State<home> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               decoration:
-                  BoxDecoration(color: Color.fromARGB(0, 254, 254, 254)),
+                  const BoxDecoration(color: Color.fromARGB(0, 254, 254, 254)),
               child: SingleChildScrollView(
                   child: Center(
                 child: Column(
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(top: 20),
                     ),
                     Stack(children: [
@@ -282,18 +280,18 @@ class _homeState extends State<home> {
                         width: 317,
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.shade600,
                                 spreadRadius: 0,
                                 blurRadius: 2,
-                                offset: Offset(0, 2),
+                                offset: const Offset(0, 2),
                               ),
                             ]),
                         child: Column(
                           children: [
-                            Padding(padding: EdgeInsets.only(top: 150.0)),
+                            const Padding(padding: EdgeInsets.only(top: 150.0)),
                             SizedBox(
                               width: 300,
                               child: TextButton(
@@ -304,7 +302,7 @@ class _homeState extends State<home> {
                                         builder: (context) => const Rules()),
                                   );
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Peraturan KOS',
                                   style: TextStyle(
                                       color: Colors.black,
@@ -319,7 +317,7 @@ class _homeState extends State<home> {
                       Container(
                         height: 150,
                         width: 317,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.transparent,
                           image: DecorationImage(
                               image: AssetImage('assets/img/rules.jpg'),
@@ -330,7 +328,7 @@ class _homeState extends State<home> {
                         ),
                       ),
                     ]),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Stack(children: [
@@ -339,17 +337,17 @@ class _homeState extends State<home> {
                         width: 317,
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.shade600,
                                 spreadRadius: 0,
                                 blurRadius: 2,
-                                offset: Offset(0, 2),
+                                offset: const Offset(0, 2),
                               ),
                             ]),
                         child: Column(
-                          children: [
+                          children: const [
                             Padding(padding: EdgeInsets.only(top: 165.0)),
                             Text(
                               'Daftar Harga Barang Bawaan',
@@ -364,14 +362,14 @@ class _homeState extends State<home> {
                       Container(
                         height: 150,
                         width: 317,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.black,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 topRight: Radius.circular(10))),
                       ),
                     ]),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Stack(children: [
@@ -380,17 +378,17 @@ class _homeState extends State<home> {
                         width: 317,
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.shade600,
                                 spreadRadius: 0,
                                 blurRadius: 2,
-                                offset: Offset(0, 2),
+                                offset: const Offset(0, 2),
                               ),
                             ]),
                         child: Column(
-                          children: [
+                          children: const [
                             Padding(padding: EdgeInsets.only(top: 165.0)),
                             Text(
                               'Daftar Harga Barang Bawaan',
@@ -405,14 +403,14 @@ class _homeState extends State<home> {
                       Container(
                         height: 150,
                         width: 317,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.black,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 topRight: Radius.circular(10))),
                       ),
                     ]),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                   ],

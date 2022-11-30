@@ -27,7 +27,7 @@ class _penghuniState extends State<penghuni> {
                 color: Colors.blue.shade900,
               ),
               title: const Text("Info Penghuni Kost",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
                       fontSize: 20)),
@@ -41,12 +41,12 @@ class _penghuniState extends State<penghuni> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             decoration: const BoxDecoration(
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                const Color.fromARGB(255, 20, 136, 204),
-                const Color.fromARGB(255, 43, 50, 178),
+                Color.fromARGB(255, 20, 136, 204),
+                Color.fromARGB(255, 43, 50, 178),
               ],
             )),
           ),
@@ -73,7 +73,7 @@ class _penghuniState extends State<penghuni> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: const BorderRadius.all(
-                      const Radius.circular(10),
+                      Radius.circular(10),
                     ),
                     boxShadow: const [
                       BoxShadow(

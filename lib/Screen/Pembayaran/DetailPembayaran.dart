@@ -2,8 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-
-import 'package:sikost/Widget/Navigasi.dart';
+import 'package:sikost/Widget/presistent_navbar.dart';
 import 'package:sikost/Widget/BottomBar.dart';
 
 class DetailPembayaran extends StatefulWidget {
@@ -29,7 +28,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
               leading: IconButton(
                 onPressed: () {
                   Navigator.pop(context,
-                      MaterialPageRoute(builder: (context) => NavBawah()));
+                      MaterialPageRoute(builder: (context) => Persistent()));
                 },
                 icon: const Icon(Icons.arrow_back_ios_new),
                 color: Colors.blue.shade900,
