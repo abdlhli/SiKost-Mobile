@@ -97,6 +97,7 @@ class _penghuniState extends State<penghuni> {
                             // controller: usernameA,
                             decoration: InputDecoration(
                               labelText: "Cari Penghuni",
+                              prefixIcon: Icon(Icons.search),
                               fillColor: Colors.black,
                               border: OutlineInputBorder(
                                   borderRadius:
@@ -105,7 +106,7 @@ class _penghuniState extends State<penghuni> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 25,
                         ),
                       ])))
         ],
