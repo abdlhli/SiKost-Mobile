@@ -305,7 +305,7 @@ class _homeState extends State<home> {
                                   );
                                 },
                                 child: Text(
-                                  'Peraturan KOS',
+                                  'Peraturan KOST',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,

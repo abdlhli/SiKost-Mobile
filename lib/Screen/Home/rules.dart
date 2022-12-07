@@ -28,7 +28,7 @@ class Rules extends StatelessWidget {
                 color: Colors.blue.shade900,
               ),
               title: const Text(
-                "Peratuan KOS",
+                "Peratuan KOST",
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -88,7 +88,78 @@ class Rules extends StatelessWidget {
                   color: const Color.fromARGB(88, 73, 74, 77),
                 ),
               ),
-              child: Column(),
+              child: Column(
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(35.0),
+                        child: Text("Jawa Kost Putri - 48",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16)),
+                      ),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  Text('Rules Number 1'),
+                  Divider(
+                    color: Colors.black,
+                    thickness: 1,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  Text('Rules Number 2'),
+                  Divider(
+                    color: Colors.black,
+                    thickness: 1,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  Text('Rules Number 3'),
+                  Divider(
+                    color: Colors.black,
+                    thickness: 1,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  Text('Rules Number 4'),
+                  Divider(
+                    color: Colors.black,
+                    thickness: 1,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  Text('Rules Number 5'),
+                  Divider(
+                    color: Colors.black,
+                    thickness: 1,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  Text('Rules Number 6'),
+                  Divider(
+                    color: Colors.black,
+                    thickness: 1,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  Text('Rules Number 7'),
+                  Divider(
+                    color: Colors.black,
+                    thickness: 1,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
