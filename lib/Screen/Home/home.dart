@@ -302,8 +302,8 @@ class _homeState extends State<home> {
                                         builder: (context) => const Rules()),
                                   );
                                 },
-                                child: const Text(
-                                  'Peraturan KOS',
+                                child: Text(
+                                  'Peraturan KOST',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
