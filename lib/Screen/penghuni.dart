@@ -85,21 +85,30 @@ class _penghuniState extends State<penghuni> {
                     ],
                   ),
                   child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            child: TextField(
-                              decoration:
-                                  InputDecoration(hintText: 'Cari penghuni'),
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          height: 35,
+                          width: 260,
+                          child: TextField(
+                            // controller: usernameA,
+                            decoration: InputDecoration(
+                              labelText: "Cari Penghuni",
+                              prefixIcon: Icon(Icons.search),
+                              fillColor: Colors.black,
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
                             ),
-                            width: MediaQuery.of(context).size.width * 0.5,
                           ),
-                        ],
-                      ),
-                    ],
-                  )))
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                      ])))
         ],
       ),
     );

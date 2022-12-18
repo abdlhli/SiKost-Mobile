@@ -53,7 +53,7 @@ class _NavBawahState extends State<NavBawah> {
         children: const <Widget>[
           home(),
           HistoriPembayaran(),
-          DetailPembayaran(),
+          penghuni(),
           Profile(),
           Register()
         ],
