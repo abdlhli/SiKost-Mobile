@@ -222,7 +222,7 @@ class _PengaduanState extends State<Pengaduan> {
                                         fontSize: 12),
                                     children: <TextSpan>[
                                       TextSpan(
-                                          text: ".PNG, .JPG, JPEG",
+                                          text: ".PNG, .JPG, .JPEG",
                                           style: TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold))
