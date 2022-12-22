@@ -275,7 +275,7 @@ class _PengaduanState extends State<Pengaduan> {
                               ),
                               child: TextButton(
                                 child: Text(
-                                  'Login Akun',
+                                  'Kirim',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700,
