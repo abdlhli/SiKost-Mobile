@@ -4,6 +4,9 @@ import 'package:sikost/Screen/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Widget/boxShadow.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -15,31 +18,66 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   File? image;
   final ImagePicker _picker = ImagePicker();
+  String? imgPath;
 
   Future _getFormGallery() async {
     final XFile? imagePicked =
         await _picker.pickImage(source: ImageSource.gallery);
-    image = File(imagePicked!.path);
-    setState(() {});
+    if (imagePicked == null) return;
+    // image = File(imagePicked.path);
+
+    // getting a directory path for saving
+    final Directory exDir = await getApplicationDocumentsDirectory();
+    String dirPath = exDir.path;
+    final String fileName = basename(imagePicked.path);
+    final String fileExtension = extension(imagePicked.path);
+    final String filePath = '$dirPath/$fileName$fileExtension';
+
+    // copy the file to a new path
+    await imagePicked.saveTo(filePath);
+    // final File newImage = await imagePicked.path;
+    if (imagePicked.path != null) {
+      setState(() async {
+        image = File(filePath);
+        print("foto profil telah di ganti");
+      });
+    }
   }
 
-  Future _getFormCamera() async {
-    final XFile? imagePicked =
-        await _picker.pickImage(source: ImageSource.camera);
-    image = File(imagePicked!.path);
-    setState(() {});
+  void _ambilFoto() async {
+    var imagePicked = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+          image = File(imagePicked!.path);
+
+      isImagePicked = true;
+    });
   }
 
-  logout() async {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Berhasil logout!')),
-    );
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.remove('username');
-    preferences.remove('password');
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => loginPage()));
+  @override
+  void initState() {
+    super.initState();
+    LoadImage();
   }
+
+  // Future _getFormGallery() async {
+  //   final XFile? imagePicked =
+  //       await _picker.pickImage(source: ImageSource.gallery);
+  //   image = File(imagePicked!.path);
+  //   setState(() {
+  //     isImagePicked = true;
+  //   });
+  // }
+
+  // logout(context) async {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(content: Text('Berhasil logout!')),
+  //   );
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   preferences.remove('username');
+  //   preferences.remove('password');
+  //   Navigator.of(context)
+  //       .push(MaterialPageRoute(builder: (context) => loginPage()));
+  // }
 
   snekbar(String content) {
     return SnackBar(
@@ -165,7 +203,8 @@ class _ProfileState extends State<Profile> {
                     child: Column(
                       children: [
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            SaveImage(image.path);
                             ScaffoldMessenger.of(context).showSnackBar(
                                 snekbar("Data Berhasil Diperbarui"));
                           },
@@ -254,76 +293,68 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  bottomsheet() {
-    return showModalBottomSheet(
-        backgroundColor: Colors.white,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-        ),
-        context: context,
-        builder: (context) => Container(
-              padding: const EdgeInsets.all(10),
-              height: 120,
-              width: MediaQuery.of(context).size.width,
-              // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Column(
-                children: [
-                  const Center(
-                    child: Text(
-                      "Pilih foto profil kamu",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      TextButton.icon(
-                          icon: const Icon(Icons.camera_alt_rounded),
-                          onPressed: () async {
-                            await _getFormCamera();
-
-                            setState(() {
-                              isImagePicked = true;
-                            });
-                          },
-                          label: const Text("Kamera")),
-                      TextButton.icon(
-                          onPressed: () async {
-                            await _getFormGallery();
-
-                            setState(() {
-                              isImagePicked = true;
-                            });
-                          },
-                          icon: const Icon(Icons.image),
-                          label: const Text("File")),
-                      TextButton.icon(
-                          onPressed: () {
-                            setState(() {
-                              isImagePicked = false;
-                            });
-                          },
-                          icon: const Icon(Icons.delete),
-                          label: const Text("Hapus"))
-                    ],
-                  ),
-                ],
-              ),
-            ));
-  }
+  // bottomsheet(context) {
+  //   return showModalBottomSheet(
+  //       backgroundColor: Colors.white,
+  //       shape: const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.only(
+  //             topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+  //       ),
+  //       context: context,
+  //       builder: (context) => Container(
+  //             padding: const EdgeInsets.all(10),
+  //             height: 120,
+  //             width: MediaQuery.of(context).size.width,
+  //             // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+  //             child: Column(
+  //               children: [
+  //                 const Center(
+  //                   child: Text(
+  //                     "Pilih foto profil kamu",
+  //                     style: TextStyle(
+  //                         fontSize: 20,
+  //                         fontWeight: FontWeight.bold,
+  //                         color: Colors.blue),
+  //                   ),
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 20,
+  //                 ),
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //                   children: <Widget>[
+  //                     TextButton.icon(
+  //                         icon: const Icon(Icons.camera_alt_rounded),
+  //                         onPressed: () async {
+  //                           await _getFormCamera();
+  //                         },
+  //                         label: const Text("Kamera")),
+  //                     TextButton.icon(
+  //                         onPressed: () async {
+  //                           await _getFormGallery();
+  //                         },
+  //                         icon: const Icon(Icons.image),
+  //                         label: const Text("File")),
+  //                     TextButton.icon(
+  //                         onPressed: () {
+  //                           setState(() {
+  //                             isImagePicked = false;
+  //                           });
+  //                         },
+  //                         icon: const Icon(Icons.delete),
+  //                         label: const Text("Hapus"))
+  //                   ],
+  //                 ),
+  //               ],
+  //             ),
+  //           ));
+  // }
 
   Widget profileimg() {
     return Stack(
       children: [
         isImagePicked
-            ? image != null
+            ? imgPath != null
                 ? Container(
                     height: 130,
                     width: 130,
@@ -338,12 +369,18 @@ class _ProfileState extends State<Profile> {
                       shape: BoxShape.circle,
                     ),
                     child: ClipOval(
-                      child: Image.file(
+                      child: Image(
+                        image: FileImage(File(imgPath!)),
                         height: 130,
                         width: 130,
-                        image!,
                         fit: BoxFit.cover,
                       ),
+                      // child: Image.file(
+                      //   height: 130,
+                      //   width: 130,
+                      //   image!,
+                      //   fit: BoxFit.cover,
+                      // ),
                     ),
                   )
                 : defaultImage()
@@ -357,7 +394,12 @@ class _ProfileState extends State<Profile> {
               color: Colors.blue,
             ),
             backgroundColor: Colors.white,
-            onPressed: bottomsheet,
+            onPressed: () async {
+              _ambilFoto();
+              setState(() {
+                isImagePicked = true;
+              });
+            },
           ),
         ),
       ],
@@ -434,5 +476,17 @@ class _ProfileState extends State<Profile> {
         color: Colors.white,
       ),
     );
+  }
+
+  void SaveImage(path) async {
+    SharedPreferences saveImage = await SharedPreferences.getInstance();
+    saveImage.setString("imagepath", path);
+  }
+
+  void LoadImage() async {
+    SharedPreferences saveImage = await SharedPreferences.getInstance();
+    setState(() {
+      imgPath = saveImage.getString("imagepath");
+    });
   }
 }
