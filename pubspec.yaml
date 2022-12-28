@@ -34,6 +34,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^3.0.1
+  http: ^0.13.5
   image_picker: ^0.8.6
   material_color_generator: ^1.1.0
   persistent_bottom_nav_bar: ^5.0.2

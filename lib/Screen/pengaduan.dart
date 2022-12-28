@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:sikost/Widget/boxShadow.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:sikost/api/postPengaduan.dart';
 
 class Pengaduan extends StatefulWidget {
   const Pengaduan({super.key});
@@ -13,6 +14,11 @@ class Pengaduan extends StatefulWidget {
 }
 
 class _PengaduanState extends State<Pengaduan> {
+  TextEditingController _nama = new TextEditingController();
+  TextEditingController _noKmr = new TextEditingController();
+  TextEditingController _laporan = new TextEditingController();
+  TextEditingController _isiPsn = new TextEditingController();
+
   FilePickerResult? result;
   String? _fileName;
   PlatformFile? pickedFile;
@@ -96,36 +102,36 @@ class _PengaduanState extends State<Pengaduan> {
             child: ListView(children: [
               Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        radius: 50,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Abdullah Ali",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Aab",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w300),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     CircleAvatar(
+                  //       radius: 50,
+                  //     ),
+                  //     SizedBox(
+                  //       width: 30,
+                  //     ),
+                  //     Column(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Text(
+                  //           "Abdullah Ali",
+                  //           style: TextStyle(
+                  //               fontWeight: FontWeight.bold, fontSize: 20),
+                  //         ),
+                  //         SizedBox(
+                  //           height: 10,
+                  //         ),
+                  //         Text(
+                  //           "Aab",
+                  //           style: TextStyle(
+                  //               fontSize: 20, fontWeight: FontWeight.w300),
+                  //         )
+                  //       ],
+                  //     )
+                  //   ],
+                  // ),
                   SizedBox(
                     height: 30,
                   ),
@@ -153,6 +159,7 @@ class _PengaduanState extends State<Pengaduan> {
                                 height: 30,
                               ),
                               TextFormField(
+                                controller: _nama,
                                 decoration: InputDecoration(
                                   label: Text(
                                     "Identitas",
@@ -168,6 +175,23 @@ class _PengaduanState extends State<Pengaduan> {
                                 height: 30,
                               ),
                               TextFormField(
+                                controller: _noKmr,
+                                decoration: InputDecoration(
+                                  label: Text(
+                                    "No Kamar",
+                                    style: TextStyle(),
+                                  ),
+                                  contentPadding:
+                                      const EdgeInsets.only(bottom: 5),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              TextFormField(
+                                controller: _laporan,
                                 decoration: InputDecoration(
                                   label: Text("Laporan", style: TextStyle()),
                                   contentPadding:
@@ -180,6 +204,7 @@ class _PengaduanState extends State<Pengaduan> {
                                 height: 30,
                               ),
                               TextFormField(
+                                controller: _isiPsn,
                                 maxLines: 3,
                                 decoration: InputDecoration(
                                   label: Text("Isi Pesan", style: TextStyle()),
@@ -346,7 +371,17 @@ class _PengaduanState extends State<Pengaduan> {
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    PostPengduan.connectAPI(
+                                            _nama.text,
+                                            _noKmr.text,
+                                            _laporan.text,
+                                            _isiPsn.text,
+                                            "")
+                                        .then((value) {
+                                      print(value);
+                                    });
+                                  },
                                 ),
                               ),
                             ],
