@@ -102,36 +102,6 @@ class _PengaduanState extends State<Pengaduan> {
             child: ListView(children: [
               Column(
                 children: [
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     CircleAvatar(
-                  //       radius: 50,
-                  //     ),
-                  //     SizedBox(
-                  //       width: 30,
-                  //     ),
-                  //     Column(
-                  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Text(
-                  //           "Abdullah Ali",
-                  //           style: TextStyle(
-                  //               fontWeight: FontWeight.bold, fontSize: 20),
-                  //         ),
-                  //         SizedBox(
-                  //           height: 10,
-                  //         ),
-                  //         Text(
-                  //           "Aab",
-                  //           style: TextStyle(
-                  //               fontSize: 20, fontWeight: FontWeight.w300),
-                  //         )
-                  //       ],
-                  //     )
-                  //   ],
-                  // ),
                   SizedBox(
                     height: 30,
                   ),
@@ -372,15 +342,22 @@ class _PengaduanState extends State<Pengaduan> {
                                     ),
                                   ),
                                   onPressed: () {
+                                    // PostPengduan.connectAPI(
+                                    //         _nama.toString(),
+                                    //         _noKmr.toString(),
+                                    //         _laporan.toString(),
+                                    //         _isiPsn.toString(),
+                                    //         "")
+                                    //     .then((value) {
+                                    //   print(value.judul_pgd);
+                                    // });
                                     PostPengduan.connectAPI(
-                                            _nama.text,
-                                            _noKmr.text,
-                                            _laporan.text,
-                                            _isiPsn.text,
+                                            "fagil",
+                                            "3",
+                                            "kebelet pipis",
+                                            "kamar mandi nya ad aorang jadi nya gabisa pipis",
                                             "")
-                                        .then((value) {
-                                      print(value);
-                                    });
+                                        .then((value) => print(value.nama_pgd));
                                   },
                                 ),
                               ),
