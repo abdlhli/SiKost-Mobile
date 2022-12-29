@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -47,7 +46,7 @@ class _ProfileState extends State<Profile> {
   void _ambilFoto() async {
     var imagePicked = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
-          image = File(imagePicked!.path);
+      image = File(imagePicked!.path);
 
       isImagePicked = true;
     });
@@ -153,28 +152,14 @@ class _ProfileState extends State<Profile> {
                             children: [
                               buildTextForm("Nama Depan", "Fagil Nuril", false),
                               buildTextForm("Nama Belakang", "Akbar", false),
-                              buildTextForm(
-                                  "Email", "fagilnuril18@gmail.com", false),
+                              // buildTextForm(
+                              //     "Email", "fagilnuril18@gmail.com", false),
                               buildTextForm("No WA", "087855913391", false),
                               buildTextForm("Alamat", "Jember", false),
                               buildTextForm(
                                   "Kampus", "Politeknik Negeri Jember", false),
-                              buildTextForm("Password", "", true),
-                              buildTextForm("New Password", "", true),
-                              Row(
-                                children: [
-                                  Checkbox(
-                                    value: _isSelected,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        isObsecureText = !isObsecureText;
-                                        _isSelected = !_isSelected;
-                                      });
-                                    },
-                                  ),
-                                  const Text("Tampilkan Password")
-                                ],
-                              )
+                              // buildTextForm("Password", "", true),
+                              // buildTextForm("New Password", "", true),
                             ],
                           )),
                     ),
@@ -204,7 +189,7 @@ class _ProfileState extends State<Profile> {
                       children: [
                         InkWell(
                           onTap: () async {
-                            SaveImage(image.path);
+                            SaveImage(image!.path);
                             ScaffoldMessenger.of(context).showSnackBar(
                                 snekbar("Data Berhasil Diperbarui"));
                           },
@@ -415,15 +400,15 @@ class _ProfileState extends State<Profile> {
       padding: const EdgeInsets.only(bottom: 30),
       child: TextFormField(
           validator: (value) {
-            if (value == null || value.isEmpty) {
-              return isPassTextField ? null : "Field $label tidak boleh kosong";
-            } else if (label == "email" || label == "Email") {
-              return (value.contains("@")) ? null : "Masukkan email yang valid";
-            }
-            return null;
+            // if (value == null || value.isEmpty) {
+            //   return isPassTextField ? null : "Field $label tidak boleh kosong";
+            // } else if (label == "email" || label == "Email") {
+            //   return (value.contains("@")) ? null : "Masukkan email yang valid";
+            // }
+            // return null;
           },
           initialValue: placeholder,
-          enabled: (label == "email" || label == "Email") ? false : isEnabled,
+          enabled: isEnabled,
           obscureText: isPassTextField ? isObsecureText : false,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
