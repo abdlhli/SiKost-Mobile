@@ -15,13 +15,13 @@ class PostPengduan {
 
   static Future<PostPengduan> connectAPI(String nama_pgd, String no_kamar_pgd,
       String judul_pgd, String isi_pgd, String lampiran) async {
-    Uri url = Uri.parse("http://sikostan.my.id/api/Pengaduan");
+    Uri url = Uri.parse("http://192.168.100.7/sikost/api/pengaduan");
     var hasilRedponse = await http.post(url, body: {
       "nama_pgd": nama_pgd,
       "no_kamar_pgd": no_kamar_pgd,
       "judul_pgd": judul_pgd,
       "isi_pgd": isi_pgd,
-      "lampiran": lampiran,
+      "lampiran_pgd": lampiran,
     });
     var data = json.decode(hasilRedponse.body);
 
@@ -30,7 +30,7 @@ class PostPengduan {
         nama_pgd: data["nama_pgd"],
         no_kamar_pgd: data[""],
         judul_pgd: data["judul_pgd"],
-        lampiran: data["lampiran"],
+        lampiran: data["lampiran_pgd"],
         isi_pgd: data["isi_pgd"]);
   }
 }
