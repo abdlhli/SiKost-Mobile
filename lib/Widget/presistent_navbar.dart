@@ -6,6 +6,7 @@ import 'package:sikost/Screen/Pembayaran/DetailPembayaran.dart';
 import 'package:sikost/Screen/Pembayaran/HistoriPembayaran.dart';
 import 'package:sikost/Screen/penghuni.dart';
 import 'package:sikost/Screen/profile.dart';
+import 'package:sikost/Screen/pengaduan.dart';
 
 class Persistent extends StatelessWidget {
   const Persistent({Key? key}) : super(key: key);
@@ -52,7 +53,7 @@ List<Widget> _buildScreens() {
     const penghuni(),
     const HistoriPembayaran(),
     const home(),
-    const DetailPembayaran(),
+    const Pengaduan(),
     const Profile(),
   ];
 }
@@ -78,8 +79,8 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
     PersistentBottomNavBarItem(
-      icon: const Icon(CupertinoIcons.money_dollar_circle),
-      title: ("Detail Pembayaran"),
+      icon: const Icon(CupertinoIcons.chat_bubble_text),
+      title: ("Pusat Pengaduan"),
       activeColorPrimary: CupertinoColors.activeBlue,
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
