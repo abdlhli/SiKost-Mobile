@@ -16,7 +16,7 @@ class KamarMandiDalam extends StatefulWidget {
 
   Future<Getketkamar> fetchData() async {
     final response = await http
-        .get(Uri.parse('http://sikostan.my.id/api/kamar?id_jenis_kamar=1'));
+        .get(Uri.parse('http://sikostan.my.id/api/Kamar.php?id_jenis_kamar=1'));
     if (response.statusCode == 200) {
       // jika response sukses, parse data menggunakan method getketkamarFromJson
       return Getketkamar.fromJson(json.decode(response.body));

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sikost/Screen/Home/home.dart';
@@ -5,41 +7,57 @@ import 'package:sikost/Screen/register.dart';
 import 'package:sikost/Widget/BottomBar.dart';
 import 'package:sikost/Widget/bottom_bar.dart';
 import 'package:sikost/Widget/presistent_navbar.dart';
+import 'package:http/http.dart' as http;
+import 'package:sikost/api/postLogin.dart';
 
 class loginPage extends StatelessWidget {
-  List data = ['admin', 'admin'];
   TextEditingController usernameA = TextEditingController();
   var passwordA = TextEditingController();
+
   session(String value) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString("username", value);
   }
 
-  bool isLogin(username, password) {
-    if (username != data[0] && password != data[1]) {
-      return false;
+  Future<dynamic> isLogin(BuildContext context, usernameA, passwordA) async {
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('http://sikostan.my.id/api/Login.php'));
+    // 'POST', Uri.parse('http://IP/namafile/api/Login.php')); Kalau Pake Localhost
+    request.fields.addAll({'username': usernameA.text, 'pass': passwordA.text});
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var responseString = await response.stream.bytesToString();
+      var model = cekstatloginFromJson(responseString);
+      if (model.status == 1) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const Persistent()));
+      } else {
+        print("Gagal Login");
+      }
+    } else {
+      print(response.reasonPhrase);
     }
-    return true;
   }
 
   @override
   Widget build(BuildContext context) {
-    checklogin() async {
-      SharedPreferences pref = await SharedPreferences.getInstance();
-      var Stringvalue = pref.getString('username');
-      var password = pref.getString('password');
-      if (Stringvalue == null) {
-      } else {
-        if (Stringvalue == 'admin') {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => const BottomBar()));
-        }
-      }
-      print(Stringvalue);
-      print(password);
-    }
+    // checklogin() async {
+    //   SharedPreferences pref = await SharedPreferences.getInstance();
+    //   var Stringvalue = pref.getString('username');
+    //   var password = pref.getString('password');
+    //   if (Stringvalue == null) {
+    //   } else {
+    //     if (Stringvalue == 'admin') {
+    //       Navigator.of(context).push(
+    //           MaterialPageRoute(builder: (context) => const Persistent()));
+    //     }
+    //   }
+    //   print(Stringvalue);
+    //   print(password);
+    // }
 
-    checklogin();
     return Scaffold(
         body: SingleChildScrollView(
             child: Container(
@@ -177,18 +195,9 @@ class loginPage extends StatelessWidget {
                       InkWell(
                           splashColor: Colors.white,
                           onTap: () async {
-                            var login = isLogin(usernameA.text, passwordA.text);
+                            isLogin(context, usernameA, passwordA);
                             SharedPreferences preferences =
                                 await SharedPreferences.getInstance();
-                            if (login) {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const home()));
-                              preferences.setString('username', usernameA.text);
-                              preferences.setString('password', passwordA.text);
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Login Gagal")));
-                            }
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
