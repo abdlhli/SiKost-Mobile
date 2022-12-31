@@ -251,6 +251,7 @@ class _JenisKamarState extends State<JenisKamar> {
                                 'Kembali',
                                 style: TextStyle(
                                   color: Colors.black,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),

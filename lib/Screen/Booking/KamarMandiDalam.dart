@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:http/http.dart' as http;
+import 'package:sikost/Screen/Booking/JenisKamar.dart';
+import 'package:sikost/Screen/Booking/Pemesanan.dart';
 import 'package:sikost/Widget/presistent_navbar.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -14,7 +16,7 @@ class KamarMandiDalam extends StatefulWidget {
 
   Future<Getketkamar> fetchData() async {
     final response = await http
-        .get(Uri.parse('http://sikostan.my.id/api/kamar?id_jenis_kamar=1'));
+        .get(Uri.parse('http://sikostan.my.id/api/Kamar.php?id_jenis_kamar=1'));
     if (response.statusCode == 200) {
       // jika response sukses, parse data menggunakan method getketkamarFromJson
       return Getketkamar.fromJson(json.decode(response.body));
@@ -38,16 +40,6 @@ class _KamarMandiDalamState extends State<KamarMandiDalam> {
               backgroundColor: Colors.white,
               elevation: 0,
               centerTitle: true,
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.pop(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Persistent()));
-                },
-                icon: const Icon(Icons.arrow_back_ios_new),
-                color: Colors.blue.shade900,
-              ),
               title: const Text("Kamar Mandi Dalam",
                   style: TextStyle(
                       color: Colors.black,
@@ -195,6 +187,90 @@ class _KamarMandiDalamState extends State<KamarMandiDalam> {
                 ],
               ),
             ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 50, right: 50, bottom: 50),
+                child: Container(
+                    width: 140,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(231, 125, 125, 125),
+                          spreadRadius: 0,
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        )
+                      ],
+                      border: Border.all(
+                        color: const Color.fromARGB(88, 73, 74, 77),
+                      ),
+                    ),
+                    child: Center(
+                      child: TextButton(
+                        child: const Text(
+                          'Kembali',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => const JenisKamar()));
+                        },
+                      ),
+                    ))),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 50, right: 50, bottom: 50),
+                child: Container(
+                    width: 140,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(231, 125, 125, 125),
+                          spreadRadius: 0,
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        )
+                      ],
+                      border: Border.all(
+                        color: const Color.fromARGB(88, 73, 74, 77),
+                      ),
+                    ),
+                    child: Center(
+                      child: TextButton(
+                        child: const Text(
+                          'Lanjut',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => const Pemesanan()));
+                        },
+                      ),
+                    ))),
           )
         ],
       ),

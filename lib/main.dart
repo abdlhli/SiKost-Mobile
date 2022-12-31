@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_color_generator/material_color_generator.dart';
+import 'package:sikost/Screen/login.dart';
 import 'Screen/OnBoarding.dart';
 
 void main() async {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
           color: const Color.fromARGB(255, 20, 136, 204),
         ),
       ),
-      home: OnBoarding(),
+      home: loginPage(),
     );
   }
 }

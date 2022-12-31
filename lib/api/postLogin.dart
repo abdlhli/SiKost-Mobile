@@ -1,20 +1,30 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+Cekstatlogin cekstatloginFromJson(String str) =>
+    Cekstatlogin.fromJson(json.decode(str));
 
-class postLogin {
-  String username, pass;
+String cekstatloginToJson(Cekstatlogin data) => json.encode(data.toJson());
 
-  postLogin({required this.username, required this.pass});
+class Cekstatlogin {
+  Cekstatlogin({
+    required this.responseCode,
+    required this.status,
+    required this.message,
+  });
 
-  static Future<postLogin> connectAPI(String username, String pass) async {
-    Uri url = Uri.parse("http://sikostan.my.id/api/login");
-    var hasilRedponse = await http.post(url, body: {
-      "username": username,
-      "pass": pass,
-    });
-    var data = json.decode(hasilRedponse.body);
+  int responseCode;
+  int status;
+  String message;
 
-    return postLogin(username: data["username"], pass: data["pass"]);
-  }
+  factory Cekstatlogin.fromJson(Map<String, dynamic> json) => Cekstatlogin(
+        responseCode: json["Response Code"],
+        status: json["status"],
+        message: json["message"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "Response Code": responseCode,
+        "status": status,
+        "message": message,
+      };
 }
