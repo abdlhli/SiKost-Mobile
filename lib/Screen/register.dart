@@ -1,8 +1,47 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:sikost/Screen/login.dart';
+import 'package:http/http.dart' as http;
+import 'package:sikost/Widget/presistent_navbar.dart';
+import 'package:sikost/api/postRegister.dart';
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
+
+  @override
+  State<Register> createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  final TextEditingController username = new TextEditingController();
+  final TextEditingController password = new TextEditingController();
+
+  register(String username, password) async {
+    Map data = {'username': username, 'pass': password};
+    print(data);
+
+    String body = jsonEncode(data);
+    var url = Uri.parse("http://192.168.1.6/sikost-web/api/Register.php");
+    var response = await http.post(
+      url,
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+    );
+    print(response.body);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const Persistent()));
+      print('success');
+    } else {
+      print('error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +153,7 @@ class Register extends StatelessWidget {
                         child: TextField(
                           // controller: passwordA,
                           decoration: InputDecoration(
-                            labelText: "Username/Email",
+                            labelText: "Username",
                             fillColor: Colors.black,
                             prefixIcon: Icon(Icons.mail_outline),
                             border: OutlineInputBorder(
@@ -141,25 +180,11 @@ class Register extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: 35,
-                        width: 260,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            labelText: "Nomor Telepon",
-                            fillColor: Colors.black,
-                            prefixIcon: Icon(Icons.phone_android_sharp),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                          ),
-                        ),
-                      ),
                       InkWell(
                           splashColor: Colors.white,
+                          onTap: () async {
+                            register(username.text, password.text);
+                          },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
