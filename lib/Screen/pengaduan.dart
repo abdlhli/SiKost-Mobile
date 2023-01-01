@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:sikost/Widget/boxShadow.dart';
@@ -43,6 +43,28 @@ class _PengaduanState extends State<Pengaduan> {
       });
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<dynamic> pesanKPengaduan(
+      BuildContext context, nama, noKmr, laporan, isiPsn, lampiranPgd) async {
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('http://192.168.100.14/sikostan/api/Pengaduan.php'));
+    request.fields.addAll({
+      'nama_pgd': nama,
+      'no_kamar_pgd': noKmr,
+      'judul_pgd': laporan,
+      'isi_pgd': isiPsn,
+    });
+    request.files.add(await http.MultipartFile.fromPath(
+        'lampiran_pgd', pickedFile!.path.toString()));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
     }
   }
 
@@ -176,7 +198,7 @@ class _PengaduanState extends State<Pengaduan> {
                               TextFormField(
                                 controller: _isiPsn,
                                 maxLines: 3,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   label: Text("Isi Pesan", style: TextStyle()),
                                   contentPadding:
                                       const EdgeInsets.only(bottom: 5),
@@ -184,12 +206,12 @@ class _PengaduanState extends State<Pengaduan> {
                                       FloatingLabelBehavior.always,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text(
                                     "Lampiran",
                                     style: TextStyle(
@@ -198,12 +220,12 @@ class _PengaduanState extends State<Pengaduan> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text(
                                     "Lampirkan bukti pendukung berupa foto agar tim sikost bisa memahami masalahmu",
                                     style: TextStyle(
@@ -212,22 +234,22 @@ class _PengaduanState extends State<Pengaduan> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               if (pickedFile != null)
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       height: 100,
                                       child: Image.file(fileToDisplay!),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 20,
                                     ),
                                     Text(
-                                      "$_fileName",
+                                      _fileName.toString(),
                                       style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w300),
@@ -247,8 +269,8 @@ class _PengaduanState extends State<Pengaduan> {
                                               BorderRadius.circular(12)),
                                       child: IconButton(
                                         icon: isLoading
-                                            ? CircularProgressIndicator()
-                                            : Icon(
+                                            ? const CircularProgressIndicator()
+                                            : const Icon(
                                                 Icons.add,
                                                 color: Colors.white,
                                               ),
@@ -351,13 +373,13 @@ class _PengaduanState extends State<Pengaduan> {
                                     //     .then((value) {
                                     //   print(value.judul_pgd);
                                     // });
-                                    PostPengduan.connectAPI(
-                                            "fagil",
-                                            "3",
-                                            "kebelet pipis",
-                                            "kamar mandi nya ad aorang jadi nya gabisa pipis",
-                                            "vsdv")
-                                        .then((value) => print(value.nama_pgd));
+                                    pesanKPengaduan(
+                                        context,
+                                        _nama.text,
+                                        _noKmr.text,
+                                        _laporan.text,
+                                        _isiPsn.text,
+                                        _fileName);
                                   },
                                 ),
                               ),
