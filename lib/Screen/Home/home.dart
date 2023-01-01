@@ -365,7 +365,10 @@ class _homeState extends State<home> {
                         height: 150,
                         width: 317,
                         decoration: const BoxDecoration(
-                            color: Colors.black,
+                            color: Colors.transparent,
+                            image: DecorationImage(
+                                image: AssetImage('assets/img/view.jpg'),
+                                fit: BoxFit.fill),
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 topRight: Radius.circular(10))),
@@ -374,59 +377,10 @@ class _homeState extends State<home> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Stack(children: [
-                      Container(
-                        height: 200,
-                        width: 317,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade600,
-                                spreadRadius: 0,
-                                blurRadius: 2,
-                                offset: const Offset(0, 2),
-                              ),
-                            ]),
-                        child: Column(
-                          children: const [
-                            Padding(padding: EdgeInsets.only(top: 165.0)),
-                            Text(
-                              'Daftar Harga Barang Bawaan',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 150,
-                        width: 317,
-                        decoration: const BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10))),
-                      ),
-                    ]),
-                    const SizedBox(
-                      height: 50,
-                    ),
                   ],
                 ),
               )),
             ),
-            // SlidingUpPanel(
-            //   defaultPanelState: PanelState.CLOSED,
-            //   minHeight: 50,
-            //   collapsed: _floatingCollapsed(),
-            //   panelBuilder: _floatingPanel(),
-            //   backdropTapClosesPanel: true,
-            // )
           ]),
         ),
         // bottomNavigationBar: BottomAppBar(

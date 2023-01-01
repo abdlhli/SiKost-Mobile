@@ -41,21 +41,6 @@ class loginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // checklogin() async {
-    //   SharedPreferences pref = await SharedPreferences.getInstance();
-    //   var Stringvalue = pref.getString('username');
-    //   var password = pref.getString('password');
-    //   if (Stringvalue == null) {
-    //   } else {
-    //     if (Stringvalue == 'admin') {
-    //       Navigator.of(context).push(
-    //           MaterialPageRoute(builder: (context) => const Persistent()));
-    //     }
-    //   }
-    //   print(Stringvalue);
-    //   print(password);
-    // }
-
     return Scaffold(
         body: SingleChildScrollView(
             child: Container(
