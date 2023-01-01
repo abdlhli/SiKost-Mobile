@@ -11,7 +11,7 @@ class loginPage extends StatelessWidget {
 
   Future<dynamic> isLogin(BuildContext context, usernameA, passwordA) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.100.14/sikostan/api/Login.php'));
+        'POST', Uri.parse('http://192.168.1.66/SiKost/api/Login.php'));
     // 'POST', Uri.parse('http://IP/namafile/api/Login.php')); Kalau Pake Localhost
     request.fields.addAll({
       'username': usernameA.text,

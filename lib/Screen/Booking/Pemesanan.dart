@@ -49,7 +49,7 @@ class _PemesananState extends State<Pemesanan> {
   Future<dynamic> pesanKamar(BuildContext context, namapsn, jenispsn, nokampsn,
       alamatpsn, hppsn, lampiranpsn) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.100.14/sikostan/api/Pemesanan.php'));
+        'POST', Uri.parse('http://192.168.1.66/SiKost/api/Pemesanan.php'));
     request.fields.addAll({
       'jenis_kamar_psn': jenispsn.text,
       'no_kamar_psn': nokampsn.text,

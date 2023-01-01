@@ -14,7 +14,7 @@ class Pengaduan extends StatefulWidget {
 }
 
 class _PengaduanState extends State<Pengaduan> {
-  TextEditingController _nama = new TextEditingController();
+  final TextEditingController _nama = TextEditingController();
   TextEditingController _noKmr = new TextEditingController();
   TextEditingController _laporan = new TextEditingController();
   TextEditingController _isiPsn = new TextEditingController();
@@ -46,10 +46,10 @@ class _PengaduanState extends State<Pengaduan> {
     }
   }
 
-  Future<dynamic> pesanKPengaduan(
+  Future<dynamic> pesanPengaduan(
       BuildContext context, nama, noKmr, laporan, isiPsn, lampiranPgd) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.100.14/sikostan/api/Pengaduan.php'));
+        'POST', Uri.parse('http://192.168.1.66/SiKost/api/Pengaduan.php'));
     request.fields.addAll({
       'nama_pgd': nama,
       'no_kamar_pgd': noKmr,
@@ -139,52 +139,50 @@ class _PengaduanState extends State<Pengaduan> {
                               boxShadow: [boxShadow()]),
                           child: Column(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
-                              Text(
+                              const Text(
                                 "Detail Pesan Pengaduan",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
                                 controller: _nama,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   label: Text(
                                     "Identitas",
                                     style: TextStyle(),
                                   ),
-                                  contentPadding:
-                                      const EdgeInsets.only(bottom: 5),
+                                  contentPadding: EdgeInsets.only(bottom: 5),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
                                 controller: _noKmr,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   label: Text(
                                     "No Kamar",
                                     style: TextStyle(),
                                   ),
-                                  contentPadding:
-                                      const EdgeInsets.only(bottom: 5),
+                                  contentPadding: EdgeInsets.only(bottom: 5),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
                                 controller: _laporan,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   label: Text("Laporan", style: TextStyle()),
                                   contentPadding:
                                       const EdgeInsets.only(bottom: 5),
@@ -192,7 +190,7 @@ class _PengaduanState extends State<Pengaduan> {
                                       FloatingLabelBehavior.always,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
@@ -280,23 +278,23 @@ class _PengaduanState extends State<Pengaduan> {
                                         },
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 20,
                                     ),
                                     Text(
                                       "$_fileName",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w300),
                                     ),
                                   ],
                                 ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text.rich(TextSpan(
                                       text: "*  pastikan jenis file berupa ",
                                       style: TextStyle(
@@ -313,7 +311,7 @@ class _PengaduanState extends State<Pengaduan> {
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text.rich(TextSpan(
                                       text: "*  maksimal ukuran file ",
                                       style: TextStyle(
@@ -328,22 +326,22 @@ class _PengaduanState extends State<Pengaduan> {
                                       ])),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               Container(
                                 width: 230,
                                 height: 50,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   gradient: LinearGradient(
                                     begin: Alignment.topRight,
                                     end: Alignment.bottomLeft,
-                                    colors: const [
+                                    colors: [
                                       Color.fromARGB(255, 20, 141, 233),
                                       Color.fromARGB(255, 96, 84, 227),
                                     ],
                                   ),
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Color.fromARGB(80, 0, 0, 0),
                                       spreadRadius: 0,
@@ -356,7 +354,7 @@ class _PengaduanState extends State<Pengaduan> {
                                   color: Colors.white,
                                 ),
                                 child: TextButton(
-                                  child: Text(
+                                  child: const Text(
                                     'Kirim',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -373,7 +371,7 @@ class _PengaduanState extends State<Pengaduan> {
                                     //     .then((value) {
                                     //   print(value.judul_pgd);
                                     // });
-                                    pesanKPengaduan(
+                                    pesanPengaduan(
                                         context,
                                         _nama.text,
                                         _noKmr.text,
