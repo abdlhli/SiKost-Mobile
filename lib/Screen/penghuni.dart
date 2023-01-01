@@ -1,3 +1,4 @@
+import 'package:bottom_bar_matu/components/colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -21,11 +22,6 @@ class _penghuniState extends State<penghuni> {
               backgroundColor: Colors.white,
               elevation: 0,
               centerTitle: true,
-              leading: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.arrow_back_ios_new),
-                color: Colors.blue.shade900,
-              ),
               title: const Text("Info Penghuni Kost",
                   style: TextStyle(
                       color: Colors.black,
@@ -88,11 +84,11 @@ class _penghuniState extends State<penghuni> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
-                          height: 30,
+                          height: 15,
                         ),
                         Container(
-                          height: 35,
-                          width: 260,
+                          height: 30,
+                          width: 270,
                           child: TextField(
                             // controller: usernameA,
                             decoration: InputDecoration(
@@ -105,9 +101,42 @@ class _penghuniState extends State<penghuni> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 25,
-                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height - 255,
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              child: ListView.builder(
+                                  itemCount: 28,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      leading: Icon(
+                                        Icons.person,
+                                        size: 40,
+                                      ),
+                                      title: Text(
+                                        "Nama Penghuni",
+                                        style: TextStyle(fontSize: 17),
+                                      ),
+                                      subtitle: Text("aktif"),
+                                      onTap: () {
+                                        print('object');
+                                      },
+                                    );
+                                  }),
+                            ),
+                          ),
+                        )
                       ])))
         ],
       ),
