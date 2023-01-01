@@ -9,11 +9,6 @@ class loginPage extends StatelessWidget {
   TextEditingController usernameA = TextEditingController();
   var passwordA = TextEditingController();
 
-  // session(String value) async {
-  //   SharedPreferences pref = await SharedPreferences.getInstance();
-  //   pref.setString("username", value);
-  // }
-
   Future<dynamic> isLogin(BuildContext context, usernameA, passwordA) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse('http://192.168.100.14/sikostan/api/Login.php'));

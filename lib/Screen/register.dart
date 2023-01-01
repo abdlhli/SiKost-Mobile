@@ -17,29 +17,21 @@ class _RegisterState extends State<Register> {
   final TextEditingController username = new TextEditingController();
   final TextEditingController password = new TextEditingController();
 
-  register(String username, password) async {
-    Map data = {'username': username, 'pass': password};
-    print(data);
+  Future<dynamic> isRegister(username, password) async {
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('http://192.168.100.14/sikostan/api/Register.php'));
+    // 'POST', Uri.parse('http://IP/namafile/api/Login.php')); Kalau Pake Localhost
+    request.fields.addAll({
+      'username': username.text,
+      'pass': password.text,
+    });
 
-    String body = jsonEncode(data);
-    var url = Uri.parse("http://192.168.1.6/sikost-web/api/Register.php");
-    var response = await http.post(
-      url,
-      body: body,
-      headers: {
-        "Content-Type": "application/json",
-        "accept": "application/json",
-        "Access-Control-Allow-Origin": "*"
-      },
-    );
-    print(response.body);
-    print(response.statusCode);
+    http.StreamedResponse response = await request.send();
+
     if (response.statusCode == 200) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const Persistent()));
-      print('success');
+      print(await response.stream.bytesToString());
     } else {
-      print('error');
+      print(response.reasonPhrase);
     }
   }
 
@@ -183,7 +175,7 @@ class _RegisterState extends State<Register> {
                       InkWell(
                           splashColor: Colors.white,
                           onTap: () async {
-                            register(username.text, password.text);
+                            isRegister(username.text, password.text);
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,20 +1,30 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+KirimRegister kirimRegisterFromJson(String str) =>
+    KirimRegister.fromJson(json.decode(str));
 
-class postRegister {
-  String username, pass;
+String kirimRegisterToJson(KirimRegister data) => json.encode(data.toJson());
 
-  postRegister({required this.username, required this.pass});
+class KirimRegister {
+  KirimRegister({
+    required this.responseCode,
+    required this.status,
+    required this.message,
+  });
 
-  static Future<postRegister> connectAPI(String username, String pass) async {
-    Uri url = Uri.parse("http://192.168.1.6/sikost-web/api/Register.php");
-    var hasilRedponse = await http.post(url, body: {
-      "username": username,
-      "pass": pass,
-    });
-    var data = json.decode(hasilRedponse.body);
+  int responseCode;
+  int status;
+  String message;
 
-    return postRegister(username: data["username"], pass: data["pass"]);
-  }
+  factory KirimRegister.fromJson(Map<String, dynamic> json) => KirimRegister(
+        responseCode: json["Response Code"],
+        status: json["status"],
+        message: json["message"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "Response Code": responseCode,
+        "status": status,
+        "message": message,
+      };
 }

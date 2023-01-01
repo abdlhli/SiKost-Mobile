@@ -1,20 +1,5 @@
-// class getketkamar {
-//   String noKamar;
-//   String statusKmr;
+// ignore_for_file: file_names
 
-//   getketkamar({required this.noKamar, required this.statusKmr});
-
-//   factory getketkamar.fromJson(Map<String, dynamic> json) {
-//     return getketkamar(
-//         noKamar: json['no_kamar'], statusKmr: json['status_kmr']);
-//   }
-// }
-
-// To parse this JSON data, do
-//
-//     final getketkamar = getketkamarFromJson(jsonString);
-
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 Getketkamar getketkamarFromJson(String str) =>
