@@ -1,19 +1,74 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: file_names, avoid_print, must_be_immutable
+
+import 'dart:io';
 import 'dart:math' as math;
+import 'package:file_picker/file_picker.dart';
 import 'package:sikost/Widget/boxShadow.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 import 'package:http/http.dart' as http;
+import 'package:sikost/api/postPemesanan.dart';
 
 class Pemesanan extends StatefulWidget {
-  const Pemesanan({Key? key}) : super(key: key);
-
   @override
   State<Pemesanan> createState() => _PemesananState();
-
 }
 
 class _PemesananState extends State<Pemesanan> {
+  TextEditingController namapsn = TextEditingController();
+  TextEditingController nokampsn = TextEditingController();
+  TextEditingController jenispsn = TextEditingController();
+  TextEditingController alamatpsn = TextEditingController();
+  TextEditingController hppsn = TextEditingController();
+
+  FilePickerResult? result;
+  String? _fileName;
+  PlatformFile? pickedFile;
+  bool isLoading = false;
+  File? fileToDisplay;
+
+  void pickFile() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      result = await FilePicker.platform
+          .pickFiles(type: FileType.any, allowMultiple: false);
+      if (result != null) {
+        _fileName = result!.files.first.name;
+        pickedFile = result!.files.first;
+        fileToDisplay = File(pickedFile!.path.toString());
+      }
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> pesanKamar(BuildContext context, namapsn, jenispsn, nokampsn,
+      alamatpsn, hppsn, lampiranpsn) async {
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('http://192.168.100.14/sikostan/api/Pemesanan.php'));
+    request.fields.addAll({
+      'jenis_kamar_psn': jenispsn.text,
+      'no_kamar_psn': nokampsn.text,
+      'nama_psn': namapsn.text,
+      'alamat_psn': alamatpsn.text,
+      'no_hp_psn': hppsn.text,
+    });
+    request.files.add(await http.MultipartFile.fromPath(
+        'lampiran_ktp_psn', pickedFile!.path.toString()));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,6 +151,7 @@ class _PemesananState extends State<Pemesanan> {
                                 height: 30,
                               ),
                               TextFormField(
+                                controller: namapsn,
                                 decoration: const InputDecoration(
                                   label: Text(
                                     "Nama Lengkap",
@@ -110,6 +166,7 @@ class _PemesananState extends State<Pemesanan> {
                                 height: 30,
                               ),
                               TextFormField(
+                                controller: alamatpsn,
                                 decoration: const InputDecoration(
                                   label: Text(
                                     "Alamat",
@@ -124,6 +181,7 @@ class _PemesananState extends State<Pemesanan> {
                                 height: 30,
                               ),
                               TextFormField(
+                                controller: hppsn,
                                 decoration: const InputDecoration(
                                   label: Text("No. Hp", style: TextStyle()),
                                   contentPadding: EdgeInsets.only(bottom: 5),
@@ -135,10 +193,23 @@ class _PemesananState extends State<Pemesanan> {
                                 height: 30,
                               ),
                               TextFormField(
-                                maxLines: 3,
+                                controller: jenispsn,
                                 decoration: const InputDecoration(
                                   label:
                                       Text("Jenis Kamar", style: TextStyle()),
+                                  contentPadding: EdgeInsets.only(bottom: 5),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              TextFormField(
+                                controller: nokampsn,
+                                decoration: const InputDecoration(
+                                  label: Text("No Kamar Yang Kosong",
+                                      style: TextStyle()),
                                   contentPadding: EdgeInsets.only(bottom: 5),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
@@ -175,60 +246,48 @@ class _PemesananState extends State<Pemesanan> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              // if (pickedFile != null)
-                              //   Row(
-                              //     mainAxisAlignment: MainAxisAlignment.start,
-                              //     children: [
-                              //       Container(
-                              //         height: 100,
-                              //         child: Image.file(fileToDisplay!),
-                              //       ),
-                              //       const SizedBox(
-                              //         width: 20,
-                              //       ),
-                              //       Text(
-                              //         "$_fileName",
-                              //         style: const TextStyle(
-                              //             fontSize: 12,
-                              //             fontWeight: FontWeight.w300),
-                              //       ),
-                              //     ],
-                              //   )
-                              // else
-                              //   Row(
-                              //     mainAxisAlignment: MainAxisAlignment.start,
-                              //     children: [
-                              //       Container(
-                              //         width: 50,
-                              //         height: 50,
-                              //         decoration: BoxDecoration(
-                              //             color: Colors.grey[400],
-                              //             borderRadius:
-                              //                 BorderRadius.circular(12)),
-                              //         child: IconButton(
-                              //           icon: isLoading
-                              //               ? const CircularProgressIndicator()
-                              //               : const Icon(
-                              //                   Icons.add,
-                              //                   color: Colors.white,
-                              //                 ),
-                              //           onPressed: () {
-                              //             print("you touched");
-                              //             pickFile();
-                              //           },
-                              //         ),
-                              //       ),
-                              //       const SizedBox(
-                              //         width: 20,
-                              //       ),
-                              //       Text(
-                              //         "$_fileName",
-                              //         style: const TextStyle(
-                              //             fontSize: 12,
-                              //             fontWeight: FontWeight.w300),
-                              //       ),
-                              //     ],
-                              //   ),
+                              if (pickedFile != null)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 100,
+                                      child: Image.file(fileToDisplay!),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                  ],
+                                )
+                              else
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey[400],
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      child: IconButton(
+                                        icon: isLoading
+                                            ? const CircularProgressIndicator()
+                                            : const Icon(
+                                                Icons.add,
+                                                color: Colors.white,
+                                              ),
+                                        onPressed: () {
+                                          print("you touched");
+                                          pickFile();
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                  ],
+                                ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -301,11 +360,17 @@ class _PemesananState extends State<Pemesanan> {
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    pesanKamar(context, alamatpsn, nokampsn,
+                                        hppsn, namapsn, jenispsn, _fileName);
+                                  },
                                 ),
                               ),
                             ],
-                          )))
+                          ))),
+                  const SizedBox(
+                    height: 40,
+                  ),
                 ],
               ),
             ]),

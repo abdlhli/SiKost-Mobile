@@ -16,7 +16,9 @@ class KamarMandiLuar extends StatefulWidget {
 
   Future<Getketkamar> fetchData() async {
     final response = await http
-        .get(Uri.parse('http://sikostan.my.id/api/Kamar.php?id_jenis_kamar=2'));
+        // .get(Uri.parse('http://sikostan.my.id/api/Kamar.php?id_jenis_kamar=2'));
+        .get(Uri.parse(
+            'http://192.168.100.14/sikostan/api/Kamar.php?id_jenis_kamar=2'));
     if (response.statusCode == 200) {
       // jika response sukses, parse data menggunakan method getketkamarFromJson
       return Getketkamar.fromJson(json.decode(response.body));
@@ -40,7 +42,7 @@ class _KamarMandiLuarState extends State<KamarMandiLuar> {
               backgroundColor: Colors.white,
               elevation: 0,
               centerTitle: true,
-              title: const Text("Kamar Mandi Dalam",
+              title: const Text("Kamar Mandi Luar",
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
@@ -271,7 +273,7 @@ class _KamarMandiLuarState extends State<KamarMandiLuar> {
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => const Pemesanan()));
+                                  builder: (context) => Pemesanan()));
                         },
                       ),
                     ))),

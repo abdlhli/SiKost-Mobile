@@ -280,7 +280,8 @@ class _homeState extends State<home> {
                         width: 317,
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.shade600,
@@ -337,7 +338,8 @@ class _homeState extends State<home> {
                         width: 317,
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.shade600,
@@ -378,7 +380,8 @@ class _homeState extends State<home> {
                         width: 317,
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.shade600,

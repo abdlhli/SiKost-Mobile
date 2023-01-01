@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           color: const Color.fromARGB(255, 20, 136, 204),
         ),
       ),
-      home: loginPage(),
+      home: OnBoarding(),
     );
   }
 }

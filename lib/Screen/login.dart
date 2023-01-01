@@ -1,11 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sikost/Screen/Home/home.dart';
 import 'package:sikost/Screen/register.dart';
-import 'package:sikost/Widget/BottomBar.dart';
-import 'package:sikost/Widget/bottom_bar.dart';
 import 'package:sikost/Widget/presistent_navbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:sikost/api/postLogin.dart';
@@ -14,16 +9,19 @@ class loginPage extends StatelessWidget {
   TextEditingController usernameA = TextEditingController();
   var passwordA = TextEditingController();
 
-  session(String value) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString("username", value);
-  }
+  // session(String value) async {
+  //   SharedPreferences pref = await SharedPreferences.getInstance();
+  //   pref.setString("username", value);
+  // }
 
   Future<dynamic> isLogin(BuildContext context, usernameA, passwordA) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://sikostan.my.id/api/Login.php'));
+        'POST', Uri.parse('http://192.168.100.14/sikostan/api/Login.php'));
     // 'POST', Uri.parse('http://IP/namafile/api/Login.php')); Kalau Pake Localhost
-    request.fields.addAll({'username': usernameA.text, 'pass': passwordA.text});
+    request.fields.addAll({
+      'username': usernameA.text,
+      'pass': passwordA.text,
+    });
 
     http.StreamedResponse response = await request.send();
 

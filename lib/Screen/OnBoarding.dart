@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sikost/Screen/Booking/JenisKamar.dart';
+import 'package:sikost/Screen/login.dart';
 import 'package:sikost/Widget/presistent_navbar.dart';
 
 class OnBoarding extends StatelessWidget {
@@ -130,7 +131,7 @@ class OnBoarding extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => Persistent()));
+                        MaterialPageRoute(builder: (context) => loginPage()));
                   },
                 ),
               ),
