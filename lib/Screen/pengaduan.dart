@@ -152,6 +152,7 @@ class _PengaduanState extends State<Pengaduan> {
                               ),
                               TextFormField(
                                 controller: _nama,
+                                key: _formKey,
                                 decoration: const InputDecoration(
                                   label: Text(
                                     "Identitas",
@@ -161,12 +162,20 @@ class _PengaduanState extends State<Pengaduan> {
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                 ),
-                              ),
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  if (value == null ){
+                                    return "Field identitas tidak boleh kosong";
+                                  }
+                                }),
+                              
                               const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
                                 controller: _noKmr,
+                                key: _formKey,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 decoration: const InputDecoration(
                                   label: Text(
                                     "No Kamar",
@@ -176,12 +185,20 @@ class _PengaduanState extends State<Pengaduan> {
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                 ),
+                                   validator: (value) {
+                                  if (value == null ){
+                                    return "Field No Kamar tidak boleh kosong";
+                                  }
+                                }
+                                
                               ),
                               const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
                                 controller: _laporan,
+                                key: _formKey,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 decoration: const InputDecoration(
                                   label: Text("Laporan", style: TextStyle()),
                                   contentPadding:
@@ -189,12 +206,19 @@ class _PengaduanState extends State<Pengaduan> {
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                 ),
+                                   validator: (value) {
+                                  if (value == null ){
+                                    return "Field Laporan tidak boleh kosong";
+                                  }
+                                }
                               ),
                               const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
                                 controller: _isiPsn,
+                                key: _formKey,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 maxLines: 3,
                                 decoration: const InputDecoration(
                                   label: Text("Isi Pesan", style: TextStyle()),
@@ -203,6 +227,11 @@ class _PengaduanState extends State<Pengaduan> {
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                 ),
+                                   validator: (value) {
+                                  if (value == null ){
+                                    return "Field Isi Pesan tidak boleh kosong";
+                                  }
+                                }
                               ),
                               const SizedBox(
                                 height: 30,
