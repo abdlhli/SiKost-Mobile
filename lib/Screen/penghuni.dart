@@ -1,12 +1,27 @@
-import 'package:bottom_bar_matu/components/colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
+import 'package:sikost/api/getUser.dart';
 
 class penghuni extends StatefulWidget {
   const penghuni({super.key});
 
   @override
   State<penghuni> createState() => _penghuniState();
+
+  Future<GetUser> fetchData() async {
+    final response = await http
+        .get(Uri.parse('http://192.168.100.14/sikostan/api/User.php'));
+    if (response.statusCode == 200) {
+      // jika response sukses, parse data menggunakan method getketkamarFromJson
+      return GetUser.fromJson(json.decode(response.body));
+    } else {
+      // jika terjadi kesalahan, lempar exception
+      throw Exception('Failed to load data');
+    }
+  }
 }
 
 class _penghuniState extends State<penghuni> {
@@ -62,82 +77,102 @@ class _penghuniState extends State<penghuni> {
             ),
           ),
           Center(
-              child: Container(
-                  margin: const EdgeInsets.only(bottom: 25),
-                  width: 320,
-                  height: 600,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromARGB(231, 125, 125, 125),
-                        spreadRadius: 0,
-                        blurRadius: 4,
-                        offset: Offset(0, 2),
-                      )
-                    ],
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 25),
+              width: 320,
+              height: 600,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(231, 125, 125, 125),
+                    spreadRadius: 0,
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  )
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 15,
                   ),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          height: 30,
-                          width: 270,
-                          child: TextField(
-                            // controller: usernameA,
-                            decoration: InputDecoration(
-                              labelText: "Cari Penghuni",
-                              prefixIcon: Icon(Icons.search),
-                              fillColor: Colors.black,
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height - 255,
-                            child: Container(
-                              alignment: Alignment.centerLeft,
+                  const SizedBox(
+                    height: 30,
+                    width: 270,
+                    child: TextField(
+                      // controller: usernameA,
+                      decoration: InputDecoration(
+                        labelText: "Cari Penghuni",
+                        prefixIcon: Icon(Icons.search),
+                        fillColor: Colors.black,
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                      ),
+                    ),
+                  ),
+                  FutureBuilder<GetUser>(
+                    future: widget.fetchData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        // jika data selesai diambil, tampilkan data pada widget
+                        return Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: SizedBox(
                               width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
+                              height: MediaQuery.of(context).size.height - 255,
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
                                 ),
+                                child: ListView.builder(
+                                    itemCount: snapshot.data!.data.length,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        leading: const Icon(
+                                          Icons.person,
+                                          size: 40,
+                                        ),
+                                        title: Text(
+                                          '${snapshot.data?.data[index].firstname} ${snapshot.data?.data[index].lastname}',
+                                          style: const TextStyle(fontSize: 17),
+                                        ),
+                                        subtitle: Text(
+                                            'Kamar - ${snapshot.data?.data[index].noKamar}'),
+                                        onTap: () {
+                                          print('object');
+                                        },
+                                      );
+                                    }),
                               ),
-                              child: ListView.builder(
-                                  itemCount: 28,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      leading: Icon(
-                                        Icons.person,
-                                        size: 40,
-                                      ),
-                                      title: Text(
-                                        "Nama Penghuni",
-                                        style: TextStyle(fontSize: 17),
-                                      ),
-                                      subtitle: Text("aktif"),
-                                      onTap: () {
-                                        print('object');
-                                      },
-                                    );
-                                  }),
                             ),
                           ),
-                        )
-                      ])))
+                        );
+                      } else if (snapshot.hasError) {
+                        // jika terjadi error, tampilkan pesan error
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        // jika data belum selesai diambil, tampilkan loading indicator
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  )
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

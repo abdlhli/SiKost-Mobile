@@ -6,7 +6,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:sikost/Widget/boxShadow.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:sikost/api/postPemesanan.dart';
 
 class Pemesanan extends StatefulWidget {
   @override
@@ -353,18 +352,26 @@ class _PemesananState extends State<Pemesanan> {
                                   color: Colors.white,
                                 ),
                                 child: TextButton(
-                                  child: const Text(
-                                    'Kirim',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
+                                    child: const Text(
+                                      'Kirim',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
-                                  ),
-                                  onPressed: () async {
-                                    pesanKamar(context, alamatpsn, nokampsn,
-                                        hppsn, namapsn, jenispsn, _fileName);
-                                  },
-                                ),
+                                    onPressed: () async {
+                                      pesanKamar(context, alamatpsn, nokampsn,
+                                          hppsn, namapsn, jenispsn, _fileName);
+
+                                      alamatpsn.clear();
+                                      nokampsn.clear();
+                                      hppsn.clear();
+                                      namapsn.clear();
+                                      jenispsn.clear();
+                                      setState(() {
+                                        pickedFile = null;
+                                      });
+                                    }),
                               ),
                             ],
                           ))),

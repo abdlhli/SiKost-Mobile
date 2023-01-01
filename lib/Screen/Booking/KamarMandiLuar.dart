@@ -5,7 +5,6 @@ import 'package:sikost/Screen/Booking/JenisKamar.dart';
 import 'package:sikost/Screen/Booking/Pemesanan.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:sikost/Widget/presistent_navbar.dart';
 import 'package:sikost/api/getKetersediaanKamar.dart';
 
 class KamarMandiLuar extends StatefulWidget {
@@ -121,65 +120,66 @@ class _KamarMandiLuarState extends State<KamarMandiLuar> {
                         // jika data selesai diambil, tampilkan data pada widget
                         return Expanded(
                           child: ListView.builder(
-                              itemCount: snapshot.data!.data.length,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 50,
-                                      padding: const EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            255, 0, 136, 248),
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(10),
-                                        ),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Color.fromARGB(
-                                                231, 125, 125, 125),
-                                            spreadRadius: 0,
-                                            blurRadius: 4,
-                                            offset: Offset(0, 2),
-                                          )
-                                        ],
-                                        border: Border.all(
-                                          color: const Color.fromARGB(
-                                              88, 73, 74, 77),
-                                        ),
+                            itemCount: snapshot.data!.data.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 50,
+                                    padding: const EdgeInsets.all(15),
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromARGB(
+                                          255, 0, 136, 248),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10),
                                       ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                              'Kamar - ${snapshot.data!.data[index].noKamar}',
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromARGB(
+                                              231, 125, 125, 125),
+                                          spreadRadius: 0,
+                                          blurRadius: 4,
+                                          offset: Offset(0, 2),
+                                        )
+                                      ],
+                                      border: Border.all(
+                                        color: const Color.fromARGB(
+                                            88, 73, 74, 77),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                            'Kamar - ${snapshot.data!.data[index].noKamar}',
+                                            style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 255, 255, 255),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 10)),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              snapshot
+                                                  .data!.data[index].statusKmr,
                                               style: const TextStyle(
                                                   color: Color.fromARGB(
                                                       255, 255, 255, 255),
                                                   fontWeight: FontWeight.w500,
-                                                  fontSize: 10)),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                  snapshot.data!.data[index]
-                                                      .statusKmr,
-                                                  style: const TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 255, 255, 255),
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 10)),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                                  fontSize: 10),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(height: 15),
-                                  ],
-                                );
-                              }),
+                                  ),
+                                  const SizedBox(height: 15),
+                                ],
+                              );
+                            },
+                          ),
                         );
                       } else if (snapshot.hasError) {
                         // jika terjadi error, tampilkan pesan error

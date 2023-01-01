@@ -365,13 +365,15 @@ class _homeState extends State<home> {
                         height: 150,
                         width: 317,
                         decoration: const BoxDecoration(
-                            color: Colors.transparent,
-                            image: DecorationImage(
-                                image: AssetImage('assets/img/view.jpg'),
-                                fit: BoxFit.fill),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10))),
+                          color: Colors.transparent,
+                          image: DecorationImage(
+                              image: AssetImage('assets/img/view.jpg'),
+                              fit: BoxFit.fill),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                        ),
                       ),
                     ]),
                     const SizedBox(
