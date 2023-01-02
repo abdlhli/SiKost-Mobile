@@ -37,6 +37,8 @@ dependencies:
   http: ^0.13.5
   image_picker: ^0.8.6
   material_color_generator: ^1.1.0
+  path: ^1.8.2
+  path_provider: ^2.0.11
   persistent_bottom_nav_bar: ^5.0.2
   shared_preferences: ^2.0.15
   sliding_up_panel: ^2.0.0+1
