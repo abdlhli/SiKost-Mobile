@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously, camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sikost/Screen/Home/rules.dart';
 import 'dart:math' as math;
 import 'package:sikost/Screen/login.dart';
+import 'package:sikost/api/getUser.dart';
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
@@ -21,6 +24,12 @@ class _homeState extends State<home> {
     preferences.remove('password');
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => loginPage()));
+  }
+
+  _getFullname() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('firstname');
+    prefs.getString('lastname');
   }
 
   _floatingPanel() {
@@ -182,12 +191,27 @@ class _homeState extends State<home> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Taufiq Rahmadi',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold),
+                          FutureBuilder<String>(
+                            future: _getFullname(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(
+                                  '${snapshot.data}',
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold),
+                                );
+                              } else {
+                                return const Text(
+                                  'Taufiq Rahmadi',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold),
+                                );
+                              }
+                            },
                           ),
                           Text(
                             'Welcome, Taufiq !',

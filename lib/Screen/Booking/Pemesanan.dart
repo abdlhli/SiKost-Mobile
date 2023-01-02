@@ -1,11 +1,14 @@
 // ignore_for_file: file_names, avoid_print, must_be_immutable
 
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 import 'package:file_picker/file_picker.dart';
+import 'package:sikost/Screen/OnBoarding.dart';
 import 'package:sikost/Widget/boxShadow.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:sikost/api/postPemesanan.dart';
 
 class Pemesanan extends StatefulWidget {
   @override
@@ -18,7 +21,7 @@ class _PemesananState extends State<Pemesanan> {
   TextEditingController jenispsn = TextEditingController();
   TextEditingController alamatpsn = TextEditingController();
   TextEditingController hppsn = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
 
   FilePickerResult? result;
   String? _fileName;
@@ -62,8 +65,21 @@ class _PemesananState extends State<Pemesanan> {
 
     http.StreamedResponse response = await request.send();
 
+    var responseString = await response.stream.bytesToString();
+    var model = KirimPemesanan.fromJson(json.decode(responseString));
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+      if (model.status == 1) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${model.message}')),
+        );
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => OnBoarding()));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${model.message}')),
+        );
+      }
     } else {
       print(response.reasonPhrase);
     }
@@ -152,7 +168,7 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: namapsn,
-                                  key: _formKey,
+                                  // key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -174,7 +190,7 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: alamatpsn,
-                                  key: _formKey,
+                                  // key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -196,7 +212,7 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: hppsn,
-                                  key: _formKey,
+                                  // key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -215,7 +231,7 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: jenispsn,
-                                  key: _formKey,
+                                  // key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -235,7 +251,7 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: nokampsn,
-                                  key: _formKey,
+                                  // key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(

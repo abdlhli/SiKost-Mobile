@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sikost/Screen/register.dart';
@@ -14,33 +16,27 @@ class loginPage extends StatelessWidget {
 
   Future<dynamic> isLogin(BuildContext context, usernameA, passwordA) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.1.66/SiKost/api/Login.php'));
-    // 'POST', Uri.parse('http://IP/namafile/api/Login.php')); Kalau Pake Localhost
+        'POST', Uri.parse('http://192.168.100.14/sikostan/api/Login.php'));
     request.fields.addAll({
       'username': usernameA.text,
       'pass': passwordA.text,
     });
-
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
       var responseString = await response.stream.bytesToString();
       var model = cekstatloginFromJson(responseString);
-      var user = getUserFromJson(responseString);
 
       if (model.status == 1) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Berhasil Login!')),
         );
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('firstname', user.data[0].firstname);
-        prefs.setString('lastname', user.data[0].lastname);
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const Persistent()));
       } else {
         print("Gagal Login");
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Gagal Login!')),
+          SnackBar(content: Text('Gagal Login! - ${model.message}')),
         );
       }
     } else {
