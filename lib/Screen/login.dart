@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sikost/Screen/register.dart';
 import 'package:sikost/Widget/presistent_navbar.dart';
 import 'package:http/http.dart' as http;
+import 'package:sikost/api/getUser.dart';
 import 'package:sikost/api/postLogin.dart';
 
 class loginPage extends StatelessWidget {
@@ -23,10 +26,15 @@ class loginPage extends StatelessWidget {
     if (response.statusCode == 200) {
       var responseString = await response.stream.bytesToString();
       var model = cekstatloginFromJson(responseString);
+      var user = getUserFromJson(responseString);
+
       if (model.status == 1) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Berhasil Login!')),
         );
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('firstname', user.data[0].firstname);
+        prefs.setString('lastname', user.data[0].lastname);
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const Persistent()));
       } else {
