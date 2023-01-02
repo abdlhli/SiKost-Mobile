@@ -1,36 +1,30 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+KirimPemesanan kirimPengaduanFromJson(String str) =>
+    KirimPemesanan.fromJson(json.decode(str));
 
-class PostPengduan {
-  String id, nama_pgd, no_kamar_pgd, judul_pgd, isi_pgd, lampiran;
+String kirimPemesananToJson(KirimPemesanan data) => json.encode(data.toJson());
 
-  PostPengduan(
-      {required this.id,
-      required this.nama_pgd,
-      required this.no_kamar_pgd,
-      required this.judul_pgd,
-      required this.lampiran,
-      required this.isi_pgd});
+class KirimPemesanan {
+  KirimPemesanan({
+    required this.responseCode,
+    required this.status,
+    required this.message,
+  });
 
-  static Future<PostPengduan> connectAPI(String nama_pgd, String no_kamar_pgd,
-      String judul_pgd, String isi_pgd, String lampiran) async {
-    Uri url = Uri.parse("http://192.168.100.7/sikost/api/pengaduan");
-    var hasilRedponse = await http.post(url, body: {
-      "nama_pgd": nama_pgd,
-      "no_kamar_pgd": no_kamar_pgd,
-      "judul_pgd": judul_pgd,
-      "isi_pgd": isi_pgd,
-      "lampiran_pgd": lampiran,
-    });
-    var data = json.decode(hasilRedponse.body);
+  int responseCode;
+  int status;
+  String message;
 
-    return PostPengduan(
-        id: data["id"],
-        nama_pgd: data["nama_pgd"],
-        no_kamar_pgd: data[""],
-        judul_pgd: data["judul_pgd"],
-        lampiran: data["lampiran_pgd"],
-        isi_pgd: data["isi_pgd"]);
-  }
+  factory KirimPemesanan.fromJson(Map<String, dynamic> json) => KirimPemesanan(
+        responseCode: json["Response Code"],
+        status: json["status"],
+        message: json["message"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "Response Code": responseCode,
+        "status": status,
+        "message": message,
+      };
 }

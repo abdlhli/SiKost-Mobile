@@ -19,7 +19,7 @@ class _RegisterState extends State<Register> {
 
   Future<dynamic> isRegister(username, password) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.100.14/sikostan/api/Register.php'));
+        'POST', Uri.parse('http://192.168.1.66/SiKost/api/Register.php'));
     // 'POST', Uri.parse('http://IP/namafile/api/Login.php')); Kalau Pake Localhost
     request.fields.addAll({
       'username': username.text,

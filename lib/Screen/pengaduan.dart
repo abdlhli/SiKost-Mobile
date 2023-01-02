@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:sikost/Widget/boxShadow.dart';
@@ -14,7 +14,7 @@ class Pengaduan extends StatefulWidget {
 }
 
 class _PengaduanState extends State<Pengaduan> {
-  TextEditingController _nama = new TextEditingController();
+  final TextEditingController _nama = TextEditingController();
   TextEditingController _noKmr = new TextEditingController();
   TextEditingController _laporan = new TextEditingController();
   TextEditingController _isiPsn = new TextEditingController();
@@ -43,6 +43,28 @@ class _PengaduanState extends State<Pengaduan> {
       });
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<dynamic> pesanPengaduan(
+      BuildContext context, nama, noKmr, laporan, isiPsn, lampiranPgd) async {
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('http://192.168.1.66/SiKost/api/Pengaduan.php'));
+    request.fields.addAll({
+      'nama_pgd': nama,
+      'no_kamar_pgd': noKmr,
+      'judul_pgd': laporan,
+      'isi_pgd': isiPsn,
+    });
+    request.files.add(await http.MultipartFile.fromPath(
+        'lampiran_pgd', pickedFile!.path.toString()));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
     }
   }
 
@@ -117,79 +139,106 @@ class _PengaduanState extends State<Pengaduan> {
                               boxShadow: [boxShadow()]),
                           child: Column(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
-                              Text(
+                              const Text(
                                 "Detail Pesan Pengaduan",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
                                 controller: _nama,
-                                decoration: InputDecoration(
+                                key: _formKey,
+                                decoration: const InputDecoration(
                                   label: Text(
                                     "Identitas",
                                     style: TextStyle(),
                                   ),
-                                  contentPadding:
-                                      const EdgeInsets.only(bottom: 5),
+                                  contentPadding: EdgeInsets.only(bottom: 5),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                 ),
-                              ),
-                              SizedBox(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  if (value == null ){
+                                    return "Field identitas tidak boleh kosong";
+                                  }
+                                }),
+                              
+                              const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
                                 controller: _noKmr,
-                                decoration: InputDecoration(
+                                key: _formKey,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                decoration: const InputDecoration(
                                   label: Text(
                                     "No Kamar",
                                     style: TextStyle(),
                                   ),
-                                  contentPadding:
-                                      const EdgeInsets.only(bottom: 5),
+                                  contentPadding: EdgeInsets.only(bottom: 5),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                 ),
+                                   validator: (value) {
+                                  if (value == null ){
+                                    return "Field No Kamar tidak boleh kosong";
+                                  }
+                                }
+                                
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
                                 controller: _laporan,
-                                decoration: InputDecoration(
+                                key: _formKey,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                decoration: const InputDecoration(
                                   label: Text("Laporan", style: TextStyle()),
                                   contentPadding:
                                       const EdgeInsets.only(bottom: 5),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                 ),
+                                   validator: (value) {
+                                  if (value == null ){
+                                    return "Field Laporan tidak boleh kosong";
+                                  }
+                                }
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
                                 controller: _isiPsn,
+                                key: _formKey,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 maxLines: 3,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   label: Text("Isi Pesan", style: TextStyle()),
                                   contentPadding:
                                       const EdgeInsets.only(bottom: 5),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                 ),
+                                   validator: (value) {
+                                  if (value == null ){
+                                    return "Field Isi Pesan tidak boleh kosong";
+                                  }
+                                }
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text(
                                     "Lampiran",
                                     style: TextStyle(
@@ -198,12 +247,12 @@ class _PengaduanState extends State<Pengaduan> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text(
                                     "Lampirkan bukti pendukung berupa foto agar tim sikost bisa memahami masalahmu",
                                     style: TextStyle(
@@ -212,22 +261,22 @@ class _PengaduanState extends State<Pengaduan> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               if (pickedFile != null)
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       height: 100,
                                       child: Image.file(fileToDisplay!),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 20,
                                     ),
                                     Text(
-                                      "$_fileName",
+                                      _fileName.toString(),
                                       style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w300),
@@ -247,8 +296,8 @@ class _PengaduanState extends State<Pengaduan> {
                                               BorderRadius.circular(12)),
                                       child: IconButton(
                                         icon: isLoading
-                                            ? CircularProgressIndicator()
-                                            : Icon(
+                                            ? const CircularProgressIndicator()
+                                            : const Icon(
                                                 Icons.add,
                                                 color: Colors.white,
                                               ),
@@ -258,23 +307,23 @@ class _PengaduanState extends State<Pengaduan> {
                                         },
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 20,
                                     ),
                                     Text(
                                       "$_fileName",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w300),
                                     ),
                                   ],
                                 ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text.rich(TextSpan(
                                       text: "*  pastikan jenis file berupa ",
                                       style: TextStyle(
@@ -291,7 +340,7 @@ class _PengaduanState extends State<Pengaduan> {
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text.rich(TextSpan(
                                       text: "*  maksimal ukuran file ",
                                       style: TextStyle(
@@ -306,22 +355,22 @@ class _PengaduanState extends State<Pengaduan> {
                                       ])),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               Container(
                                 width: 230,
                                 height: 50,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   gradient: LinearGradient(
                                     begin: Alignment.topRight,
                                     end: Alignment.bottomLeft,
-                                    colors: const [
+                                    colors: [
                                       Color.fromARGB(255, 20, 141, 233),
                                       Color.fromARGB(255, 96, 84, 227),
                                     ],
                                   ),
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Color.fromARGB(80, 0, 0, 0),
                                       spreadRadius: 0,
@@ -334,7 +383,7 @@ class _PengaduanState extends State<Pengaduan> {
                                   color: Colors.white,
                                 ),
                                 child: TextButton(
-                                  child: Text(
+                                  child: const Text(
                                     'Kirim',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -351,13 +400,13 @@ class _PengaduanState extends State<Pengaduan> {
                                     //     .then((value) {
                                     //   print(value.judul_pgd);
                                     // });
-                                    PostPengduan.connectAPI(
-                                            "fagil",
-                                            "3",
-                                            "kebelet pipis",
-                                            "kamar mandi nya ad aorang jadi nya gabisa pipis",
-                                            "vsdv")
-                                        .then((value) => print(value.nama_pgd));
+                                    pesanPengaduan(
+                                        context,
+                                        _nama.text,
+                                        _noKmr.text,
+                                        _laporan.text,
+                                        _isiPsn.text,
+                                        _fileName);
                                   },
                                 ),
                               ),
