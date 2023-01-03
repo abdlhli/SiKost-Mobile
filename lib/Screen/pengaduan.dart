@@ -151,88 +151,84 @@ class _PengaduanState extends State<Pengaduan> {
                                 height: 30,
                               ),
                               TextFormField(
-                                controller: _nama,
-                                key: _formKey,
-                                decoration: const InputDecoration(
-                                  label: Text(
-                                    "Identitas",
-                                    style: TextStyle(),
+                                  controller: _nama,
+                                  decoration: const InputDecoration(
+                                    label: Text(
+                                      "Identitas",
+                                      style: TextStyle(),
+                                    ),
+                                    contentPadding: EdgeInsets.only(bottom: 5),
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always,
                                   ),
-                                  contentPadding: EdgeInsets.only(bottom: 5),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                ),
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                validator: (value) {
-                                  if (value == null ){
-                                    return "Field identitas tidak boleh kosong";
-                                  }
-                                }),
-                              
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Field identitas tidak boleh kosong";
+                                    }
+                                  }),
                               const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
-                                controller: _noKmr,
-                                key: _formKey,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: const InputDecoration(
-                                  label: Text(
-                                    "No Kamar",
-                                    style: TextStyle(),
+                                  controller: _noKmr,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  decoration: const InputDecoration(
+                                    label: Text(
+                                      "No Kamar",
+                                      style: TextStyle(),
+                                    ),
+                                    contentPadding: EdgeInsets.only(bottom: 5),
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always,
                                   ),
-                                  contentPadding: EdgeInsets.only(bottom: 5),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                ),
-                                   validator: (value) {
-                                  if (value == null ){
-                                    return "Field No Kamar tidak boleh kosong";
-                                  }
-                                }
-                                
-                              ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Field No Kamar tidak boleh kosong";
+                                    }
+                                  }),
                               const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
-                                controller: _laporan,
-                                key: _formKey,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: const InputDecoration(
-                                  label: Text("Laporan", style: TextStyle()),
-                                  contentPadding:
-                                      const EdgeInsets.only(bottom: 5),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                ),
-                                   validator: (value) {
-                                  if (value == null ){
-                                    return "Field Laporan tidak boleh kosong";
-                                  }
-                                }
-                              ),
+                                  controller: _laporan,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  decoration: const InputDecoration(
+                                    label: Text("Laporan", style: TextStyle()),
+                                    contentPadding:
+                                        const EdgeInsets.only(bottom: 5),
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always,
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Field Laporan tidak boleh kosong";
+                                    }
+                                  }),
                               const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
-                                controller: _isiPsn,
-                                key: _formKey,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                maxLines: 3,
-                                decoration: const InputDecoration(
-                                  label: Text("Isi Pesan", style: TextStyle()),
-                                  contentPadding:
-                                      const EdgeInsets.only(bottom: 5),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                ),
-                                   validator: (value) {
-                                  if (value == null ){
-                                    return "Field Isi Pesan tidak boleh kosong";
-                                  }
-                                }
-                              ),
+                                  controller: _isiPsn,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  maxLines: 3,
+                                  decoration: const InputDecoration(
+                                    label:
+                                        Text("Isi Pesan", style: TextStyle()),
+                                    contentPadding:
+                                        const EdgeInsets.only(bottom: 5),
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always,
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Field Isi Pesan tidak boleh kosong";
+                                    }
+                                  }),
                               const SizedBox(
                                 height: 30,
                               ),
@@ -391,6 +387,15 @@ class _PengaduanState extends State<Pengaduan> {
                                     ),
                                   ),
                                   onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      pesanPengaduan(
+                                          context,
+                                          _nama.text,
+                                          _noKmr.text,
+                                          _laporan.text,
+                                          _isiPsn.text,
+                                          _fileName);
+                                    }
                                     // PostPengduan.connectAPI(
                                     //         _nama.toString(),
                                     //         _noKmr.toString(),
@@ -400,13 +405,6 @@ class _PengaduanState extends State<Pengaduan> {
                                     //     .then((value) {
                                     //   print(value.judul_pgd);
                                     // });
-                                    pesanPengaduan(
-                                        context,
-                                        _nama.text,
-                                        _noKmr.text,
-                                        _laporan.text,
-                                        _isiPsn.text,
-                                        _fileName);
                                   },
                                 ),
                               ),
