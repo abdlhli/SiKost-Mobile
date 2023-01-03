@@ -130,6 +130,7 @@ class _PemesananState extends State<Pemesanan> {
                     height: 30,
                   ),
                   Form(
+                      key: _formKey,
                       child: Container(
                           padding: const EdgeInsets.all(30),
                           decoration: BoxDecoration(
@@ -153,7 +154,6 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: namapsn,
-                                  key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -166,7 +166,7 @@ class _PemesananState extends State<Pemesanan> {
                                         FloatingLabelBehavior.always,
                                   ),
                                   validator: (value) {
-                                    if (value == null) {
+                                    if (value == null || value.isEmpty) {
                                       return "Field Nama Lengkap tidak boleh kosong";
                                     }
                                   }),
@@ -175,7 +175,6 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: alamatpsn,
-                                  key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -188,7 +187,7 @@ class _PemesananState extends State<Pemesanan> {
                                         FloatingLabelBehavior.always,
                                   ),
                                   validator: (value) {
-                                    if (value == null) {
+                                    if (value == null || value.isEmpty) {
                                       return "Field Alamat tidak boleh kosong";
                                     }
                                   }),
@@ -197,7 +196,6 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: hppsn,
-                                  key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -207,7 +205,7 @@ class _PemesananState extends State<Pemesanan> {
                                         FloatingLabelBehavior.always,
                                   ),
                                   validator: (value) {
-                                    if (value == null) {
+                                    if (value == null || value.isEmpty) {
                                       return "Field No Hp tidak boleh kosong";
                                     }
                                   }),
@@ -216,7 +214,6 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: jenispsn,
-                                  key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -227,7 +224,7 @@ class _PemesananState extends State<Pemesanan> {
                                         FloatingLabelBehavior.always,
                                   ),
                                   validator: (value) {
-                                    if (value == null) {
+                                    if (value == null || value.isEmpty) {
                                       return "Field Jenis Kamar tidak boleh kosong";
                                     }
                                   }),
@@ -236,7 +233,6 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: nokampsn,
-                                  key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -247,7 +243,7 @@ class _PemesananState extends State<Pemesanan> {
                                         FloatingLabelBehavior.always,
                                   ),
                                   validator: (value) {
-                                    if (value == null) {
+                                    if (value == null || value.isEmpty) {
                                       return "Field No Kamar Yang Kosong tidak boleh kosong";
                                     }
                                   }),
@@ -397,8 +393,10 @@ class _PemesananState extends State<Pemesanan> {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    pesanKamar(context, alamatpsn, nokampsn,
-                                        hppsn, namapsn, jenispsn, _fileName);
+                                    if (_formKey.currentState!.validate()) {
+                                      pesanKamar(context, alamatpsn, nokampsn,
+                                          hppsn, namapsn, jenispsn, _fileName);
+                                    }
                                   },
                                 ),
                               ),
