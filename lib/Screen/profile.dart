@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:sikost/Screen/OnBoarding.dart';
 import 'package:sikost/Screen/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Widget/boxShadow.dart';
@@ -67,16 +68,16 @@ class _ProfileState extends State<Profile> {
   //   });
   // }
 
-  // logout(context) async {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     const SnackBar(content: Text('Berhasil logout!')),
-  //   );
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   preferences.remove('username');
-  //   preferences.remove('password');
-  //   Navigator.of(context)
-  //       .push(MaterialPageRoute(builder: (context) => loginPage()));
-  // }
+  logout(context) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Berhasil logout!')),
+    );
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.remove('username');
+    preferences.remove('password');
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => OnBoarding()));
+  }
 
   snekbar(String content) {
     return SnackBar(
@@ -199,7 +200,7 @@ class _ProfileState extends State<Profile> {
                             height: 50,
                             decoration: const BoxDecoration(
                               boxShadow: [
-                                const BoxShadow(
+                                BoxShadow(
                                   color: Color.fromARGB(80, 0, 0, 0),
                                   spreadRadius: 0,
                                   blurRadius: 4,
@@ -208,8 +209,8 @@ class _ProfileState extends State<Profile> {
                               ],
                               // shape: StadiumBorder(),
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(50)),
-                              gradient: const LinearGradient(
+                                  BorderRadius.all(Radius.circular(50)),
+                              gradient: LinearGradient(
                                 begin: Alignment.topRight,
                                 end: Alignment.bottomLeft,
                                 colors: [
@@ -219,8 +220,8 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                             child: const Center(
-                                child: const Text(
-                              "Save",
+                                child: Text(
+                              "Simpan",
                               style: TextStyle(color: Colors.white),
                             )),
                           ),
@@ -232,6 +233,7 @@ class _ProfileState extends State<Profile> {
                           onTap: () {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snekbar("Keluar"));
+                            // logout(context);
                           },
                           child: Container(
                             // margin: EdgeInsets.all(20),
@@ -239,7 +241,7 @@ class _ProfileState extends State<Profile> {
                             height: 50,
                             decoration: const BoxDecoration(
                               boxShadow: [
-                                const BoxShadow(
+                                BoxShadow(
                                   color: Color.fromARGB(80, 0, 0, 0),
                                   spreadRadius: 0,
                                   blurRadius: 4,
@@ -248,8 +250,8 @@ class _ProfileState extends State<Profile> {
                               ],
                               // shape: StadiumBorder(),
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(50)),
-                              gradient: const LinearGradient(
+                                  BorderRadius.all(Radius.circular(50)),
+                              gradient: LinearGradient(
                                 begin: Alignment.topRight,
                                 end: Alignment.bottomLeft,
                                 colors: [
@@ -260,7 +262,7 @@ class _ProfileState extends State<Profile> {
                             ),
 
                             child: const Center(
-                                child: const Text(
+                                child: Text(
                               "Keluar",
                               style: TextStyle(color: Colors.white),
                             )),

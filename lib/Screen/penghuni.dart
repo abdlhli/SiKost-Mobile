@@ -89,7 +89,7 @@ class _penghuniState extends State<penghuni> {
                 boxShadow: [
                   BoxShadow(
                     color: Color.fromARGB(231, 125, 125, 125),
-                    spreadRadius: 0,
+                    spreadRadius: 1,
                     blurRadius: 4,
                     offset: Offset(0, 2),
                   )
@@ -141,9 +141,11 @@ class _penghuniState extends State<penghuni> {
                                     itemCount: snapshot.data!.data.length,
                                     itemBuilder: (context, index) {
                                       return ListTile(
-                                        leading: const Icon(
-                                          Icons.person,
-                                          size: 40,
+                                        leading: CircleAvatar(
+                                          radius: 22,
+                                          backgroundImage: NetworkImage(
+                                              'http://192.168.100.14/sikostan/file/profile/${snapshot.data?.data[index].fotoProfile}'),
+                                          backgroundColor: Colors.transparent,
                                         ),
                                         title: Text(
                                           '${snapshot.data?.data[index].firstname} ${snapshot.data?.data[index].lastname}',

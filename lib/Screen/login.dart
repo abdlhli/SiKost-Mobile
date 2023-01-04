@@ -26,12 +26,12 @@ class loginPage extends StatelessWidget {
       var responseString = await response.stream.bytesToString();
       var model = cekstatloginFromJson(responseString);
       print(responseString);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
 
       if (model.status == 1) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Berhasil Login!')),
         );
+        SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('fname', model.data[0].firstname);
         prefs.setString('lname', model.data[0].lastname);
         prefs.setString('uname', model.data[0].username);

@@ -1,14 +1,37 @@
 // ignore_for_file: file_names, unnecessary_const, prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math' as math;
 import 'package:sikost/Widget/presistent_navbar.dart';
+import 'package:sikost/api/getPembayaranByIdUser.dart';
 
 class DetailPembayaran extends StatefulWidget {
-  const DetailPembayaran({Key? key}) : super(key: key);
+  final Datum data;
+  final int index;
+
+  const DetailPembayaran({Key? key, required this.data, required this.index})
+      : super(key: key);
 
   @override
   State<DetailPembayaran> createState() => _DetailPembayaranState();
+
+  Future<GetPembayaranIdUser> fetchData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String id = prefs.getString('iduser') ?? '';
+    final response = await http.get(
+        Uri.parse('http://192.168.100.14/sikostan/api/Pembayaran?id_user=$id'));
+
+    if (response.statusCode == 200) {
+      // jika response sukses, parse data menggunakan method getketkamarFromJson
+      return GetPembayaranIdUser.fromJson(json.decode(response.body));
+    } else {
+      // jika terjadi kesalahan, lempar exception
+      throw Exception('Failed to load data');
+    }
+  }
 }
 
 class _DetailPembayaranState extends State<DetailPembayaran> {
@@ -95,255 +118,218 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                   ),
                 ),
                 padding: const EdgeInsets.all(15),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(35.0),
-                      child: Text("Jawa Kost Putri - 48",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16)),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Pembayaran Pada: 08 Agustus 2022",
-                            style: TextStyle(
-                                color: Color(0xFF939393),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 10)),
-                        Row(
-                          children: [
-                            Icon(Icons.key, size: 15),
-                            Text("kamar No. 08",
+                child: FutureBuilder<GetPembayaranIdUser>(
+                  future: widget.fetchData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final DateFormat formattgl = DateFormat.yMMMMd();
+                      var pemtgl = formattgl
+                          .format(snapshot.data!.data[0].tglPembayaran);
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(35.0),
+                            child: Text("Jawa Kost Putri - 48",
                                 style: TextStyle(
-                                    color: Color(0xFF939393),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 10)),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15, bottom: 15),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        decoration: BoxDecoration(color: Color(0xFFEBF1FF)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: Row(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16)),
+                          ),
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                "Total Bayar",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w800),
-                              ),
-                              Text(
-                                "Rp. 500.000",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontWeight: FontWeight.w800),
+                              Text("Pembayaran Pada: $pemtgl",
+                                  style: TextStyle(
+                                      color: Color(0xFF939393),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 10)),
+                              Row(
+                                children: [
+                                  Icon(Icons.key, size: 15),
+                                  Text(
+                                      "kamar ${snapshot.data!.data[0].noKamar}",
+                                      style: TextStyle(
+                                          color: Color(0xFF939393),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 10)),
+                                ],
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                    ),
-                    Text("Detail Penerima",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12)),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Column(
-                        children: [
+                          Divider(
+                            color: Colors.grey,
+                            thickness: 1,
+                          ),
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            padding: const EdgeInsets.only(top: 15, bottom: 15),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 50,
+                              decoration:
+                                  BoxDecoration(color: Color(0xFFEBF1FF)),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Total Bayar",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                    Text(
+                                      "Rp. ${snapshot.data!.data[0].hargaKamar}",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Divider(
+                            color: Colors.grey,
+                            thickness: 1,
+                          ),
+                          Text("Detail Penerima",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12)),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Column(
                               children: [
-                                Text("Nama",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                                Text("Abdullah Ali",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("Nama",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10)),
+                                      Text(
+                                          "${snapshot.data!.data[0].firstname} ${snapshot.data!.data[0].lastname}",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10)),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("No Kamar",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10)),
+                                      Text(
+                                          "Kamar ${snapshot.data!.data[0].noKamar}",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10)),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("Alamat",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10)),
+                                      Text("${snapshot.data!.data[0].alamat}",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10)),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("No Kamar",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                                Text("Kamar No. 08",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                              ],
-                            ),
+                          SizedBox(
+                            height: 70,
                           ),
+                          Text("Detail Transaksi",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12)),
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Column(
                               children: [
-                                Text("Alamat",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                                Text("Jl. Jawa No. 48 Jember",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("ID Transaksi",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10)),
+                                      Text(
+                                          "#${snapshot.data!.data[0].idPembayaran}",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10)),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("Bukti Foto Kuitansi:",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10)),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 140,
+                                  child: Image(
+                                    image: NetworkImage(
+                                        'http://192.168.100.14/sikostan/file/kuitansi/${snapshot.data?.data[0].fotoKuitansi}'),
+                                  ),
+                                )
                               ],
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                    Text("Detail Tambahan",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12)),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Kipas Angin",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                                Text("Rp. 20.000",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Magicom Besar",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                                Text("Rp. 100.000",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Komputer",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                                Text("Rp. 250.000",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text("Detail Transaksi",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12)),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("ID Transaksi",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                                Text("#NOMORIDTRANSAKSI",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Bukti Foto Kuitansi:",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 10)),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 0, 115, 255),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text("Error: ${snapshot.error}");
+                    }
+                    return const CircularProgressIndicator();
+                  },
                 ),
               ),
             ),

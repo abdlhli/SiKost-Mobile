@@ -1,20 +1,65 @@
 // ignore_for_file: use_build_context_synchronously, camel_case_types
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sikost/Screen/Home/rules.dart';
 import 'dart:math' as math;
 import 'package:sikost/Screen/login.dart';
-import 'package:sikost/api/getUser.dart';
+import 'package:http/http.dart' as http;
+
+import '../../api/getPembayaranByIdUser.dart';
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
 
   @override
   State<home> createState() => _homeState();
+  Future<GetPembayaranIdUser> fetchData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String id = prefs.getString('iduser') ?? '';
+    final response = await http.get(Uri.parse(
+        'http://192.168.100.14/sikostan/api/PembayaranJatuhTempo?id_user=$id'));
+
+    if (response.statusCode == 200) {
+      // jika response sukses, parse data menggunakan method getketkamarFromJson
+      return GetPembayaranIdUser.fromJson(json.decode(response.body));
+    } else {
+      // jika terjadi kesalahan, lempar exception
+      throw Exception('Failed to load data');
+    }
+  }
 }
 
 class _homeState extends State<home> {
+  late final String _photoName;
+  late final String _profileImageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _getProfileImageUrl();
+  }
+
+  Future<void> _getProfileImageUrl() async {
+    // Ambil instance SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+
+    // Baca nilai SharedPreferences yang disimpan dengan key 'photoName'
+    final photoName = prefs.getString('profileuser');
+
+    // Jika nilai SharedPreferences tersebut ada, simpan ke dalam variabel
+    // dan update widget
+    if (photoName != null) {
+      setState(() {
+        _photoName = photoName;
+        _profileImageUrl =
+            'http://192.168.100.14/sikostan/file/profile/$photoName';
+      });
+    }
+  }
+
   logout() async {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Berhasil logout!')),
@@ -33,16 +78,10 @@ class _homeState extends State<home> {
     return "$fname $lname";
   }
 
-  _getUsername() async {
+  _getFirstname() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uname = prefs.getString('uname') ?? '';
-    return uname;
-  }
-
-  _getPhotoUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String profileuser = prefs.getString('profileuser') ?? '';
-    return profileuser;
+    String fname = prefs.getString('fname') ?? '';
+    return fname;
   }
 
   _floatingPanel() {
@@ -53,10 +92,9 @@ class _homeState extends State<home> {
         ),
         context: context,
         builder: (context) {
-          return Container(
-            height: 300,
-            child: Column(
-              children: [
+          return SizedBox(
+              height: 300,
+              child: Column(children: [
                 Row(
                   children: const [
                     Padding(
@@ -72,107 +110,129 @@ class _homeState extends State<home> {
                   ],
                 ),
                 Container(
-                  width: 300,
-                  height: 130,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 0, 248, 8),
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.shade600,
-                          spreadRadius: 0,
-                          blurRadius: 2,
-                          offset: const Offset(0, 2),
-                        )
-                      ]),
-                  child: Column(
-                    children: [
-                      const Padding(padding: EdgeInsets.only(top: 10.0)),
-                      Row(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.0),
-                          ),
-                          Icon(
-                            Icons.receipt_long_sharp,
-                            color: Colors.black,
-                            size: 14,
-                          ),
-                          Text(
-                            'Tagihan Taufiq Rahmadi',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 25.0),
-                          ),
-                          Icon(Icons.key_sharp, color: Colors.black, size: 14),
-                          Text(
-                            'Kamar No. 00',
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 40.0),
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            children: const [
-                              Padding(padding: EdgeInsets.only(left: 10.0)),
-                              Icon(
-                                Icons.access_time_outlined,
-                                color: Colors.black,
-                                size: 14,
+                    width: 300,
+                    height: 130,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Color.fromARGB(255, 248, 0, 0),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade600,
+                            spreadRadius: 0,
+                            blurRadius: 2,
+                            offset: const Offset(0, 2),
+                          )
+                        ]),
+                    child: FutureBuilder<GetPembayaranIdUser>(
+                      future: widget.fetchData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final DateFormat formattgl = DateFormat.yMMMMd();
+                          var pemtgl = formattgl
+                              .format(snapshot.data!.data[0].tglPembayaran);
+                          return Column(
+                            children: [
+                              const Padding(
+                                  padding: EdgeInsets.only(top: 10.0)),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.receipt_long_sharp,
+                                          color: Colors.black,
+                                          size: 14,
+                                        ),
+                                        Text(
+                                          'Tagihan ${snapshot.data!.data[0].firstname} ${snapshot.data!.data[0].lastname}',
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.key_sharp,
+                                            color: Colors.black, size: 14),
+                                        Text(
+                                          'Kamar ${snapshot.data!.data[0].noKamar}',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'Jatuh Tempo Pada : 20 November 2022',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 40.0),
+                              ),
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Padding(
+                                          padding: EdgeInsets.only(left: 10.0)),
+                                      const Icon(
+                                        Icons.access_time_outlined,
+                                        color: Colors.black,
+                                        size: 14,
+                                      ),
+                                      Text(
+                                        'Jatuh Tempo Pada : $pemtgl',
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Divider(
+                                    color: Colors.black,
+                                    thickness: 2,
+                                    indent: 10,
+                                    endIndent: 10,
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Padding(
+                                          padding: EdgeInsets.only(left: 10.0)),
+                                      Text(
+                                        'Sebesar : Rp. ${snapshot.data!.data[0].hargaKamar}',
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                      const Padding(
+                                          padding:
+                                              EdgeInsets.only(left: 150.0)),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ],
-                          ),
-                          const Divider(
-                            color: Colors.black,
-                            thickness: 2,
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            children: const [
-                              Padding(padding: EdgeInsets.only(left: 10.0)),
-                              Text(
-                                'Sebesar : 500.000',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              Padding(padding: EdgeInsets.only(left: 150.0)),
-                              Icon(
-                                Icons.check_circle_outlined,
-                                size: 20,
-                                color: Color.fromARGB(255, 0, 248, 8),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text("Error: ${snapshot.error}");
+                        }
+                        return const CircularProgressIndicator();
+                      },
+                    ))
+              ]));
         });
   }
 
@@ -192,63 +252,85 @@ class _homeState extends State<home> {
                   color: Colors.white,
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Padding(padding: EdgeInsets.fromLTRB(35, 80, 0, 0)),
-                    const CircleAvatar(
-                      radius: 30,
-                      backgroundImage: AssetImage('assets/img/46r.jpg'),
-                      backgroundColor: Colors.transparent,
-                    ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 60, 0, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      padding: const EdgeInsets.only(
+                        left: 30,
+                      ),
+                      child: Row(
                         children: [
                           FutureBuilder(
-                            future: _getFullname(),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                return Text(
-                                  snapshot.data,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold),
+                            future: Future.wait([_getProfileImageUrl()]),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage:
+                                      NetworkImage(_profileImageUrl),
+                                  backgroundColor: Colors.transparent,
                                 );
-                              } else if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                return const CircularProgressIndicator();
                               }
-                              return CircularProgressIndicator();
                             },
                           ),
-                          FutureBuilder(
-                            future: _getUsername(),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                return Text(
-                                  'Welcome, ${snapshot.data} !',
-                                  style: TextStyle(
-                                      color: Colors.grey.shade700,
-                                      fontSize: 16.0),
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
-                              }
-                              return CircularProgressIndicator();
-                            },
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 60, 0, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                FutureBuilder(
+                                  future: _getFullname(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Text(
+                                        snapshot.data,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.bold),
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text('Error: ${snapshot.error}');
+                                    }
+                                    return const CircularProgressIndicator();
+                                  },
+                                ),
+                                FutureBuilder(
+                                  future: _getFirstname(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Text(
+                                        'Welcome, ${snapshot.data} !',
+                                        style: TextStyle(
+                                            color: Colors.grey.shade700,
+                                            fontSize: 16.0),
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text('Error: ${snapshot.error}');
+                                    }
+                                    return const CircularProgressIndicator();
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    const Padding(padding: EdgeInsets.only(left: 75)),
-                    ActionChip(
-                        backgroundColor: Colors.white,
-                        label: const Icon(Icons.notifications, size: 32),
-                        onPressed: () {
-                          _floatingPanel();
-                        })
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: ActionChip(
+                          backgroundColor: Colors.white,
+                          label: const Icon(Icons.notifications, size: 32),
+                          onPressed: () {
+                            _floatingPanel();
+                          }),
+                    )
                   ],
                 ),
               ),
@@ -348,7 +430,7 @@ class _homeState extends State<home> {
                                         builder: (context) => const Rules()),
                                   );
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Peraturan KOST',
                                   style: TextStyle(
                                       color: Colors.black,

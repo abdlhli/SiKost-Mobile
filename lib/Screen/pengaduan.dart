@@ -124,7 +124,7 @@ class _PengaduanState extends State<Pengaduan> {
             child: ListView(children: [
               Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Form(
@@ -232,7 +232,7 @@ class _PengaduanState extends State<Pengaduan> {
                               const SizedBox(
                                 height: 30,
                               ),
-                              Row(
+                              Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: const [
                                   Text(
@@ -241,24 +241,20 @@ class _PengaduanState extends State<Pengaduan> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),
                                   ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Text(
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  const Text(
                                     "Lampirkan bukti pendukung berupa foto agar tim sikost bisa memahami masalahmu",
+                                    overflow: TextOverflow.clip,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         fontSize: 12),
                                   ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
                                 ],
-                              ),
-                              const SizedBox(
-                                height: 10,
                               ),
                               if (pickedFile != null)
                                 Row(
@@ -273,7 +269,7 @@ class _PengaduanState extends State<Pengaduan> {
                                     ),
                                     Text(
                                       _fileName.toString(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w300),
                                     ),
@@ -308,6 +304,7 @@ class _PengaduanState extends State<Pengaduan> {
                                     ),
                                     Text(
                                       "$_fileName",
+                                      overflow: TextOverflow.clip,
                                       style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w300),
@@ -396,15 +393,6 @@ class _PengaduanState extends State<Pengaduan> {
                                           _isiPsn.text,
                                           _fileName);
                                     }
-                                    // PostPengduan.connectAPI(
-                                    //         _nama.toString(),
-                                    //         _noKmr.toString(),
-                                    //         _laporan.toString(),
-                                    //         _isiPsn.toString(),
-                                    //         "")
-                                    //     .then((value) {
-                                    //   print(value.judul_pgd);
-                                    // });
                                   },
                                 ),
                               ),

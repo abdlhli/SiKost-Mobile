@@ -214,14 +214,14 @@ class _HistoriPembayaranState extends State<HistoriPembayaran> {
                                                             EdgeInsets.only(
                                                                 left: 10.0)),
                                                     Text(
-                                                      'Sebesar : ${snapshot.data?.data[index].hargaKamar}',
+                                                      'Sebesar : Rp. ${snapshot.data?.data[index].hargaKamar}',
                                                       style: const TextStyle(
                                                           fontSize: 12),
                                                     ),
                                                     const Padding(
                                                         padding:
                                                             EdgeInsets.only(
-                                                                left: 50.0)),
+                                                                left: 40.0)),
                                                     SizedBox(
                                                         height: 30,
                                                         width: 150,
@@ -230,21 +230,30 @@ class _HistoriPembayaranState extends State<HistoriPembayaran> {
                                                             Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          const DetailPembayaran()),
+                                                                  builder: (context) => DetailPembayaran(index: index, data: snapshot.data!.data[index])),
                                                             );
                                                           },
-                                                          child: Text(
-                                                            'Dengan detail sebagai berikut',
-                                                            style: TextStyle(
-                                                              color: Colors.grey
-                                                                  .shade400,
-                                                              fontSize: 10,
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .underline,
-                                                            ),
+                                                          child: Row(
+                                                            children: [
+                                                              Text(
+                                                                'Dengan detail sebagai berikut',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade400,
+                                                                  fontSize: 10,
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .underline,
+                                                                ),
+                                                              ),
+                                                              const Icon(
+                                                                Icons
+                                                                    .expand_circle_down_outlined,
+                                                                size: 12,
+                                                              )
+                                                            ],
                                                           ),
                                                         ))
                                                   ],
