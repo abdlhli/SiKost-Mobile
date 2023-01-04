@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-Cekstatlogin cekstatloginFromJson(String str) =>
-    Cekstatlogin.fromJson(json.decode(str));
+GetPembayaranIdUser getPembayaranIdUserFromJson(String str) =>
+    GetPembayaranIdUser.fromJson(json.decode(str));
 
-String cekstatloginToJson(Cekstatlogin data) => json.encode(data.toJson());
+String getPembayaranIdUserToJson(GetPembayaranIdUser data) =>
+    json.encode(data.toJson());
 
-class Cekstatlogin {
-  Cekstatlogin({
+class GetPembayaranIdUser {
+  GetPembayaranIdUser({
     required this.responseCode,
     required this.status,
     required this.message,
@@ -18,7 +19,8 @@ class Cekstatlogin {
   String message;
   List<Datum> data;
 
-  factory Cekstatlogin.fromJson(Map<String, dynamic> json) => Cekstatlogin(
+  factory GetPembayaranIdUser.fromJson(Map<String, dynamic> json) =>
+      GetPembayaranIdUser(
         responseCode: json["Response Code"],
         status: json["status"],
         message: json["message"],
@@ -35,7 +37,13 @@ class Cekstatlogin {
 
 class Datum {
   Datum({
+    required this.idPembayaran,
     required this.idUser,
+    required this.kamar,
+    required this.tglPembayaran,
+    required this.hargaKamar,
+    required this.fotoKuitansi,
+    required this.statusPembayaran,
     required this.firstname,
     required this.lastname,
     required this.username,
@@ -50,7 +58,13 @@ class Datum {
     required this.status,
   });
 
+  String idPembayaran;
   String idUser;
+  String kamar;
+  DateTime tglPembayaran;
+  String hargaKamar;
+  String fotoKuitansi;
+  String statusPembayaran;
   String firstname;
   String lastname;
   String username;
@@ -65,7 +79,13 @@ class Datum {
   String status;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        idPembayaran: json["id_pembayaran"],
         idUser: json["id_user"],
+        kamar: json["kamar"],
+        tglPembayaran: DateTime.parse(json["tgl_pembayaran"]),
+        hargaKamar: json["harga_kamar"],
+        fotoKuitansi: json["foto_kuitansi"],
+        statusPembayaran: json["status_pembayaran"],
         firstname: json["firstname"],
         lastname: json["lastname"],
         username: json["username"],
@@ -81,7 +101,14 @@ class Datum {
       );
 
   Map<String, dynamic> toJson() => {
+        "id_pembayaran": idPembayaran,
         "id_user": idUser,
+        "kamar": kamar,
+        "tgl_pembayaran":
+            "${tglPembayaran.year.toString().padLeft(4, '0')}-${tglPembayaran.month.toString().padLeft(2, '0')}-${tglPembayaran.day.toString().padLeft(2, '0')}",
+        "harga_kamar": hargaKamar,
+        "foto_kuitansi": fotoKuitansi,
+        "status_pembayaran": statusPembayaran,
         "firstname": firstname,
         "lastname": lastname,
         "username": username,

@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sikost/Screen/register.dart';
 import 'package:sikost/Widget/presistent_navbar.dart';
 import 'package:http/http.dart' as http;
-import 'package:sikost/api/getUser.dart';
 import 'package:sikost/api/postLogin.dart';
 
 class loginPage extends StatelessWidget {
@@ -26,11 +25,18 @@ class loginPage extends StatelessWidget {
     if (response.statusCode == 200) {
       var responseString = await response.stream.bytesToString();
       var model = cekstatloginFromJson(responseString);
+      print(responseString);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
 
       if (model.status == 1) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Berhasil Login!')),
         );
+        prefs.setString('fname', model.data[0].firstname);
+        prefs.setString('lname', model.data[0].lastname);
+        prefs.setString('uname', model.data[0].username);
+        prefs.setString('iduser', model.data[0].idUser);
+        prefs.setString('profileuser', model.data[0].fotoProfile);
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const Persistent()));
       } else {

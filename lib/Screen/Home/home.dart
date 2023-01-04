@@ -28,8 +28,21 @@ class _homeState extends State<home> {
 
   _getFullname() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.getString('firstname');
-    prefs.getString('lastname');
+    String fname = prefs.getString('fname') ?? '';
+    String lname = prefs.getString('lname') ?? '';
+    return "$fname $lname";
+  }
+
+  _getUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uname = prefs.getString('uname') ?? '';
+    return uname;
+  }
+
+  _getPhotoUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String profileuser = prefs.getString('profileuser') ?? '';
+    return profileuser;
   }
 
   _floatingPanel() {
@@ -191,33 +204,41 @@ class _homeState extends State<home> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FutureBuilder<String>(
+                          FutureBuilder(
                             future: _getFullname(),
-                            builder: (context, snapshot) {
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
                               if (snapshot.hasData) {
                                 return Text(
-                                  '${snapshot.data}',
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold),
-                                );
-                              } else {
-                                return const Text(
-                                  'Taufiq Rahmadi',
+                                  snapshot.data,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold),
                                 );
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
                               }
+                              return CircularProgressIndicator();
                             },
                           ),
-                          Text(
-                            'Welcome, Taufiq !',
-                            style: TextStyle(
-                                color: Colors.grey.shade700, fontSize: 16.0),
-                          )
+                          FutureBuilder(
+                            future: _getUsername(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(
+                                  'Welcome, ${snapshot.data} !',
+                                  style: TextStyle(
+                                      color: Colors.grey.shade700,
+                                      fontSize: 16.0),
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              }
+                              return CircularProgressIndicator();
+                            },
+                          ),
                         ],
                       ),
                     ),
