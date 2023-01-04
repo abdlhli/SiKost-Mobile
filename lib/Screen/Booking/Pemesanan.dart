@@ -21,7 +21,7 @@ class _PemesananState extends State<Pemesanan> {
   TextEditingController jenispsn = TextEditingController();
   TextEditingController alamatpsn = TextEditingController();
   TextEditingController hppsn = TextEditingController();
-  // final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   FilePickerResult? result;
   String? _fileName;
@@ -145,6 +145,7 @@ class _PemesananState extends State<Pemesanan> {
                     height: 30,
                   ),
                   Form(
+                      key: _formKey,
                       child: Container(
                           padding: const EdgeInsets.all(30),
                           decoration: BoxDecoration(
@@ -168,7 +169,6 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: namapsn,
-                                  // key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -181,7 +181,7 @@ class _PemesananState extends State<Pemesanan> {
                                         FloatingLabelBehavior.always,
                                   ),
                                   validator: (value) {
-                                    if (value == null) {
+                                    if (value == null || value.isEmpty) {
                                       return "Field Nama Lengkap tidak boleh kosong";
                                     }
                                   }),
@@ -190,7 +190,6 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: alamatpsn,
-                                  // key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -203,7 +202,7 @@ class _PemesananState extends State<Pemesanan> {
                                         FloatingLabelBehavior.always,
                                   ),
                                   validator: (value) {
-                                    if (value == null) {
+                                    if (value == null || value.isEmpty) {
                                       return "Field Alamat tidak boleh kosong";
                                     }
                                   }),
@@ -212,7 +211,6 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: hppsn,
-                                  // key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -222,7 +220,7 @@ class _PemesananState extends State<Pemesanan> {
                                         FloatingLabelBehavior.always,
                                   ),
                                   validator: (value) {
-                                    if (value == null) {
+                                    if (value == null || value.isEmpty) {
                                       return "Field No Hp tidak boleh kosong";
                                     }
                                   }),
@@ -231,7 +229,6 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: jenispsn,
-                                  // key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -242,7 +239,7 @@ class _PemesananState extends State<Pemesanan> {
                                         FloatingLabelBehavior.always,
                                   ),
                                   validator: (value) {
-                                    if (value == null) {
+                                    if (value == null || value.isEmpty) {
                                       return "Field Jenis Kamar tidak boleh kosong";
                                     }
                                   }),
@@ -251,7 +248,6 @@ class _PemesananState extends State<Pemesanan> {
                               ),
                               TextFormField(
                                   controller: nokampsn,
-                                  // key: _formKey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -262,7 +258,7 @@ class _PemesananState extends State<Pemesanan> {
                                         FloatingLabelBehavior.always,
                                   ),
                                   validator: (value) {
-                                    if (value == null) {
+                                    if (value == null || value.isEmpty) {
                                       return "Field No Kamar Yang Kosong tidak boleh kosong";
                                     }
                                   }),
@@ -404,14 +400,15 @@ class _PemesananState extends State<Pemesanan> {
                                   color: Colors.white,
                                 ),
                                 child: TextButton(
-                                    child: const Text(
-                                      'Kirim',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                                  child: const Text(
+                                    'Kirim',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
                                     ),
-                                    onPressed: () async {
+                                  ),
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
                                       pesanKamar(context, alamatpsn, nokampsn,
                                           hppsn, namapsn, jenispsn, _fileName);
 
@@ -423,7 +420,9 @@ class _PemesananState extends State<Pemesanan> {
                                       setState(() {
                                         pickedFile = null;
                                       });
-                                    }),
+                                    }
+                                  },
+                                ),
                               ),
                             ],
                           ))),
