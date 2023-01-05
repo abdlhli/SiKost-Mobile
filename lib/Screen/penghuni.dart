@@ -5,6 +5,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:sikost/api/getUser.dart';
 
+import '../api/ApiConstants.dart';
+
 class penghuni extends StatefulWidget {
   const penghuni({super.key});
 
@@ -12,8 +14,8 @@ class penghuni extends StatefulWidget {
   State<penghuni> createState() => _penghuniState();
 
   Future<GetUser> fetchData() async {
-    final response = await http
-        .get(Uri.parse('http://192.168.100.14/sikostan/api/User.php'));
+    final response =
+        await http.get(Uri.parse(ApiConstants.baseUrl + ApiConstants.getUser));
     if (response.statusCode == 200) {
       // jika response sukses, parse data menggunakan method getketkamarFromJson
       return GetUser.fromJson(json.decode(response.body));
@@ -144,7 +146,7 @@ class _penghuniState extends State<penghuni> {
                                         leading: CircleAvatar(
                                           radius: 22,
                                           backgroundImage: NetworkImage(
-                                              'http://192.168.100.14/sikostan/file/profile/${snapshot.data?.data[index].fotoProfile}'),
+                                              '${ApiConstants.baseUrl}${ApiConstants.getPhotoProfile}${snapshot.data?.data[index].fotoProfile}'),
                                           backgroundColor: Colors.transparent,
                                         ),
                                         title: Text(

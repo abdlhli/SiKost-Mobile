@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_print, must_be_immutable
+// ignore_for_file: file_names, avoid_print, must_be_immutable, use_build_context_synchronously
 
 import 'dart:convert';
 import 'dart:io';
@@ -9,6 +9,8 @@ import 'package:sikost/Widget/boxShadow.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sikost/api/postPemesanan.dart';
+
+import '../../api/ApiConstants.dart';
 
 class Pemesanan extends StatefulWidget {
   @override
@@ -52,7 +54,7 @@ class _PemesananState extends State<Pemesanan> {
   Future<dynamic> pesanKamar(BuildContext context, namapsn, jenispsn, nokampsn,
       alamatpsn, hppsn, lampiranpsn) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.1.66/SiKost/api/Pemesanan.php'));
+        'POST', Uri.parse(ApiConstants.baseUrl + ApiConstants.postPemesanan));
     request.fields.addAll({
       'jenis_kamar_psn': jenispsn.text,
       'no_kamar_psn': nokampsn.text,
@@ -68,16 +70,16 @@ class _PemesananState extends State<Pemesanan> {
     var responseString = await response.stream.bytesToString();
     var model = KirimPemesanan.fromJson(json.decode(responseString));
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+      // print(await response.stream.bytesToString());
       if (model.status == 1) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${model.message}')),
+          SnackBar(content: Text(model.message)),
         );
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => OnBoarding()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${model.message}')),
+          SnackBar(content: Text(model.message)),
         );
       }
     } else {
@@ -304,6 +306,27 @@ class _PemesananState extends State<Pemesanan> {
                                     const SizedBox(
                                       width: 20,
                                     ),
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey[400],
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      child: IconButton(
+                                        icon: isLoading
+                                            ? const CircularProgressIndicator()
+                                            : const Icon(
+                                                Icons.remove_outlined,
+                                                color: Colors.white,
+                                              ),
+                                        onPressed: () {
+                                          setState(() {
+                                            pickedFile = null;
+                                          });
+                                        },
+                                      ),
+                                    ),
                                   ],
                                 )
                               else
@@ -408,18 +431,26 @@ class _PemesananState extends State<Pemesanan> {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      pesanKamar(context, alamatpsn, nokampsn,
-                                          hppsn, namapsn, jenispsn, _fileName);
-
-                                      alamatpsn.clear();
-                                      nokampsn.clear();
-                                      hppsn.clear();
-                                      namapsn.clear();
-                                      jenispsn.clear();
-                                      setState(() {
-                                        pickedFile = null;
-                                      });
+                                    if (_fileName == null) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'Lampiran KTP Tidak Boleh Kosong!')),
+                                      );
+                                    } else {
+                                      if (_formKey.currentState!.validate()) {
+                                        pesanKamar(
+                                            context,
+                                            alamatpsn,
+                                            nokampsn,
+                                            hppsn,
+                                            namapsn,
+                                            jenispsn,
+                                            _fileName);
+                                      } else {
+                                        print('kosong');
+                                      }
                                     }
                                   },
                                 ),

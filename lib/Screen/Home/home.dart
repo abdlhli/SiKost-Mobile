@@ -9,6 +9,7 @@ import 'dart:math' as math;
 import 'package:sikost/Screen/login.dart';
 import 'package:http/http.dart' as http;
 
+import '../../api/ApiConstants.dart';
 import '../../api/getPembayaranByIdUser.dart';
 
 class home extends StatefulWidget {
@@ -20,7 +21,7 @@ class home extends StatefulWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = prefs.getString('iduser') ?? '';
     final response = await http.get(Uri.parse(
-        'http://192.168.100.14/sikostan/api/PembayaranJatuhTempo?id_user=$id'));
+        ApiConstants.baseUrl + ApiConstants.getPembayaranDeadline + id));
 
     if (response.statusCode == 200) {
       // jika response sukses, parse data menggunakan method getketkamarFromJson
@@ -55,7 +56,7 @@ class _homeState extends State<home> {
       setState(() {
         _photoName = photoName;
         _profileImageUrl =
-            'http://192.168.100.14/sikostan/file/profile/$photoName';
+            "${ApiConstants.baseUrl}${ApiConstants.getPhotoProfile}$photoName";
       });
     }
   }
@@ -131,101 +132,113 @@ class _homeState extends State<home> {
                       future: widget.fetchData(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          final DateFormat formattgl = DateFormat.yMMMMd();
-                          var pemtgl = formattgl
-                              .format(snapshot.data!.data[0].tglPembayaran);
-                          return Column(
-                            children: [
-                              const Padding(
-                                  padding: EdgeInsets.only(top: 10.0)),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Row(
+                          if (snapshot.data != null &&
+                              snapshot.data!.data.length > 0) {
+                            final DateFormat formattgl = DateFormat.yMMMMd();
+                            var pemtgl = formattgl
+                                .format(snapshot.data!.data[0].tglPembayaran);
+                            return Column(
+                              children: [
+                                const Padding(
+                                    padding: EdgeInsets.only(top: 10.0)),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.receipt_long_sharp,
+                                            color: Colors.black,
+                                            size: 14,
+                                          ),
+                                          Text(
+                                            'Tagihan ${snapshot.data!.data[0].firstname} ${snapshot.data!.data[0].lastname}',
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.key_sharp,
+                                              color: Colors.black, size: 14),
+                                          Text(
+                                            'Kamar ${snapshot.data!.data[0].noKamar}',
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 40.0),
+                                ),
+                                Column(
+                                  children: [
+                                    Row(
                                       children: [
+                                        const Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 10.0)),
                                         const Icon(
-                                          Icons.receipt_long_sharp,
+                                          Icons.access_time_outlined,
                                           color: Colors.black,
                                           size: 14,
                                         ),
                                         Text(
-                                          'Tagihan ${snapshot.data!.data[0].firstname} ${snapshot.data!.data[0].lastname}',
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child: Row(
-                                      children: [
-                                        const Icon(Icons.key_sharp,
-                                            color: Colors.black, size: 14),
-                                        Text(
-                                          'Kamar ${snapshot.data!.data[0].noKamar}',
+                                          'Jatuh Tempo Pada : $pemtgl',
                                           style: const TextStyle(
                                             fontSize: 12,
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(top: 40.0),
-                              ),
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Padding(
-                                          padding: EdgeInsets.only(left: 10.0)),
-                                      const Icon(
-                                        Icons.access_time_outlined,
-                                        color: Colors.black,
-                                        size: 14,
-                                      ),
-                                      Text(
-                                        'Jatuh Tempo Pada : $pemtgl',
-                                        style: const TextStyle(
-                                          fontSize: 12,
+                                    const Divider(
+                                      color: Colors.black,
+                                      thickness: 2,
+                                      indent: 10,
+                                      endIndent: 10,
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 10.0)),
+                                        Text(
+                                          'Sebesar : Rp. ${snapshot.data!.data[0].hargaKamar}',
+                                          style: const TextStyle(fontSize: 12),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const Divider(
-                                    color: Colors.black,
-                                    thickness: 2,
-                                    indent: 10,
-                                    endIndent: 10,
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Padding(
-                                          padding: EdgeInsets.only(left: 10.0)),
-                                      Text(
-                                        'Sebesar : Rp. ${snapshot.data!.data[0].hargaKamar}',
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                      const Padding(
-                                          padding:
-                                              EdgeInsets.only(left: 150.0)),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          );
+                                        const Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 150.0)),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          } else {
+                            return Center(
+                                child: const Text(
+                              'Data Masih Kosong',
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.bold),
+                            ));
+                          }
                         } else if (snapshot.hasError) {
                           return Text("Error: ${snapshot.error}");
                         }
@@ -326,7 +339,8 @@ class _homeState extends State<home> {
                       padding: const EdgeInsets.only(right: 20),
                       child: ActionChip(
                           backgroundColor: Colors.white,
-                          label: const Icon(Icons.notifications, size: 32),
+                          label:
+                              const Icon(Icons.receipt_long_rounded, size: 32),
                           onPressed: () {
                             _floatingPanel();
                           }),

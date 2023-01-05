@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import '../../api/ApiConstants.dart';
 import '../../api/getPembayaranByIdUser.dart';
 
 class HistoriPembayaran extends StatefulWidget {
@@ -19,8 +20,8 @@ class HistoriPembayaran extends StatefulWidget {
   Future<GetPembayaranIdUser> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = prefs.getString('iduser') ?? '';
-    final response = await http.get(
-        Uri.parse('http://192.168.100.14/sikostan/api/Pembayaran?id_user=$id'));
+    final response = await http.get(Uri.parse(
+        ApiConstants.baseUrl + ApiConstants.getPembayaranDeadline + id));
 
     if (response.statusCode == 200) {
       // jika response sukses, parse data menggunakan method getketkamarFromJson
@@ -230,7 +231,12 @@ class _HistoriPembayaranState extends State<HistoriPembayaran> {
                                                             Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => DetailPembayaran(index: index, data: snapshot.data!.data[index])),
+                                                                  builder: (context) => DetailPembayaran(
+                                                                      index:
+                                                                          index,
+                                                                      data: snapshot
+                                                                          .data!
+                                                                          .data)),
                                                             );
                                                           },
                                                           child: Row(

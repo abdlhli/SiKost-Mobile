@@ -7,6 +7,8 @@ import 'package:sikost/Screen/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:sikost/api/postRegister.dart';
 
+import '../api/ApiConstants.dart';
+
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
 
@@ -23,7 +25,7 @@ class _RegisterState extends State<Register> {
   Future<dynamic> isRegister(
       BuildContext context, usernameR, passwordR, fname, lname) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.100.14/sikostan/api/Register.php'));
+        'POST', Uri.parse(ApiConstants.baseUrl + ApiConstants.postRegister));
     request.fields.addAll({
       'firstname': fname.text,
       'lastname': lname.text,

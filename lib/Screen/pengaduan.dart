@@ -6,6 +6,8 @@ import 'package:sikost/Widget/boxShadow.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:sikost/api/postPengaduan.dart';
 
+import '../api/ApiConstants.dart';
+
 class Pengaduan extends StatefulWidget {
   const Pengaduan({super.key});
 
@@ -49,7 +51,7 @@ class _PengaduanState extends State<Pengaduan> {
   Future<dynamic> pesanPengaduan(
       BuildContext context, nama, noKmr, laporan, isiPsn, lampiranPgd) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.1.66/SiKost/api/Pengaduan.php'));
+        'POST', Uri.parse(ApiConstants.baseUrl + ApiConstants.postPengaduan));
     request.fields.addAll({
       'nama_pgd': nama,
       'no_kamar_pgd': noKmr,
@@ -154,7 +156,7 @@ class _PengaduanState extends State<Pengaduan> {
                                   controller: _nama,
                                   decoration: const InputDecoration(
                                     label: Text(
-                                      "Identitas",
+                                      "Nama",
                                       style: TextStyle(),
                                     ),
                                     contentPadding: EdgeInsets.only(bottom: 5),
@@ -173,6 +175,7 @@ class _PengaduanState extends State<Pengaduan> {
                               ),
                               TextFormField(
                                   controller: _noKmr,
+                                  
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
@@ -198,8 +201,7 @@ class _PengaduanState extends State<Pengaduan> {
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
                                     label: Text("Laporan", style: TextStyle()),
-                                    contentPadding:
-                                        const EdgeInsets.only(bottom: 5),
+                                    contentPadding: EdgeInsets.only(bottom: 5),
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
                                   ),
@@ -219,8 +221,7 @@ class _PengaduanState extends State<Pengaduan> {
                                   decoration: const InputDecoration(
                                     label:
                                         Text("Isi Pesan", style: TextStyle()),
-                                    contentPadding:
-                                        const EdgeInsets.only(bottom: 5),
+                                    contentPadding: EdgeInsets.only(bottom: 5),
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
                                   ),
@@ -241,17 +242,17 @@ class _PengaduanState extends State<Pengaduan> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),
                                   ),
-                                  const SizedBox(
+                                  SizedBox(
                                     height: 10,
                                   ),
-                                  const Text(
+                                  Text(
                                     "Lampirkan bukti pendukung berupa foto agar tim sikost bisa memahami masalahmu",
                                     overflow: TextOverflow.clip,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         fontSize: 12),
                                   ),
-                                  const SizedBox(
+                                  SizedBox(
                                     height: 10,
                                   ),
                                 ],
@@ -267,12 +268,34 @@ class _PengaduanState extends State<Pengaduan> {
                                     const SizedBox(
                                       width: 20,
                                     ),
-                                    Text(
-                                      _fileName.toString(),
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300),
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey[400],
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      child: IconButton(
+                                        icon: isLoading
+                                            ? const CircularProgressIndicator()
+                                            : const Icon(
+                                                Icons.remove_outlined,
+                                                color: Colors.white,
+                                              ),
+                                        onPressed: () {
+                                          setState(() {
+                                            pickedFile = null;
+                                          });
+                                        },
+                                      ),
                                     ),
+                                    // Text(
+                                    //   _fileName.toString(),
+                                    //   overflow: TextOverflow.clip,
+                                    //   style: const TextStyle(
+                                    //       fontSize: 12,
+                                    //       fontWeight: FontWeight.w300),
+                                    // ),
                                   ],
                                 )
                               else
@@ -294,7 +317,6 @@ class _PengaduanState extends State<Pengaduan> {
                                                 color: Colors.white,
                                               ),
                                         onPressed: () {
-                                          print("you touched");
                                           pickFile();
                                         },
                                       ),
@@ -302,13 +324,13 @@ class _PengaduanState extends State<Pengaduan> {
                                     const SizedBox(
                                       width: 20,
                                     ),
-                                    Text(
-                                      "$_fileName",
-                                      overflow: TextOverflow.clip,
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300),
-                                    ),
+                                    // Text(
+                                    //   "$_fileName",
+                                    //   overflow: TextOverflow.clip,
+                                    //   style: const TextStyle(
+                                    //       fontSize: 12,
+                                    //       fontWeight: FontWeight.w300),
+                                    // ),
                                   ],
                                 ),
                               const SizedBox(
@@ -384,14 +406,25 @@ class _PengaduanState extends State<Pengaduan> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      pesanPengaduan(
-                                          context,
-                                          _nama.text,
-                                          _noKmr.text,
-                                          _laporan.text,
-                                          _isiPsn.text,
-                                          _fileName);
+                                    if (_fileName == null) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'Lampiran KTP Tidak Boleh Kosong!')),
+                                      );
+                                    } else {
+                                      if (_formKey.currentState!.validate()) {
+                                        pesanPengaduan(
+                                            context,
+                                            _nama.text,
+                                            _noKmr.text,
+                                            _laporan.text,
+                                            _isiPsn.text,
+                                            _fileName);
+                                      } else {
+                                        print('kosong');
+                                      }
                                     }
                                   },
                                 ),

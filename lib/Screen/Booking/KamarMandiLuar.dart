@@ -7,6 +7,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:sikost/api/getKetersediaanKamar.dart';
 
+import '../../api/ApiConstants.dart';
+
 class KamarMandiLuar extends StatefulWidget {
   KamarMandiLuar({super.key});
 
@@ -16,8 +18,7 @@ class KamarMandiLuar extends StatefulWidget {
   Future<Getketkamar> fetchData() async {
     final response = await http
         // .get(Uri.parse('http://sikostan.my.id/api/Kamar.php?id_jenis_kamar=2'));
-        .get(Uri.parse(
-            'http://192.168.100.14/sikostan/api/Kamar.php?id_jenis_kamar=2'));
+        .get(Uri.parse(ApiConstants.baseUrl + ApiConstants.getKamarKLuar));
     if (response.statusCode == 200) {
       // jika response sukses, parse data menggunakan method getketkamarFromJson
       return Getketkamar.fromJson(json.decode(response.body));

@@ -9,13 +9,15 @@ import 'package:sikost/Widget/presistent_navbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:sikost/api/postLogin.dart';
 
+import '../api/ApiConstants.dart';
+
 class loginPage extends StatelessWidget {
   TextEditingController usernameA = TextEditingController();
   var passwordA = TextEditingController();
 
   Future<dynamic> isLogin(BuildContext context, usernameA, passwordA) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.100.14/sikostan/api/Login.php'));
+        'POST', Uri.parse(ApiConstants.baseUrl + ApiConstants.postLogin));
     request.fields.addAll({
       'username': usernameA.text,
       'pass': passwordA.text,
@@ -35,6 +37,9 @@ class loginPage extends StatelessWidget {
         prefs.setString('fname', model.data[0].firstname);
         prefs.setString('lname', model.data[0].lastname);
         prefs.setString('uname', model.data[0].username);
+        prefs.setString('hp', model.data[0].noHp);
+        prefs.setString('alamat', model.data[0].alamat);
+        prefs.setString('kampus', model.data[0].asalKampus);
         prefs.setString('iduser', model.data[0].idUser);
         prefs.setString('profileuser', model.data[0].fotoProfile);
         Navigator.of(context)
