@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 class ApiConstants {
-  static const String baseUrl = "http://192.168.100.14/SiKostan";
+  static const String baseUrl = "http://192.168.223.153/SiKostan";
 
   static const String postPemesanan = "/api/Pemesanan.php";
   static const String getKamarKDalam = "/api/Kamar.php?id_jenis_kamar=1";

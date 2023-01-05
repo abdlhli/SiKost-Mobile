@@ -1,10 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:sikost/Widget/boxShadow.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:sikost/api/postPengaduan.dart';
 
 import '../api/ApiConstants.dart';
 
@@ -175,7 +176,6 @@ class _PengaduanState extends State<Pengaduan> {
                               ),
                               TextFormField(
                                   controller: _noKmr,
-                                  
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(

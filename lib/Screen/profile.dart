@@ -1,13 +1,11 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:sikost/Screen/OnBoarding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Widget/boxShadow.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 
 import '../api/ApiConstants.dart';
@@ -26,67 +24,69 @@ class _ProfileState extends State<Profile> {
   final TextEditingController _alamatController = TextEditingController();
   final TextEditingController _kampusController = TextEditingController();
 
-  File? image;
-  final ImagePicker _picker = ImagePicker();
-  String? imgPath;
+  // File? image;
+  // final ImagePicker _picker = ImagePicker();
+  // String? imgPath;
 
-  Future<void> updateData(BuildContext context) async {
+  Future<dynamic> updateData(
+      BuildContext context, fname, lname, hp, alamat, kampus, foto) async {
     // Ambil data dari form field
-    String fname = _fnameController.text;
-    String lname = _lnameController.text;
-    String hp = _hpController.text;
-    String alamat = _alamatController.text;
-    String kampus = _kampusController.text;
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = prefs.getString('iduser') ?? '';
 
-    // Kirim request update data ke API
-    final response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.postUpdateUser + id),
-        body: {
-          'firstname': fname,
-          'lastname': lname,
-          'no_hp': hp,
-          'alamat': alamat,
-          'asal_kampus': kampus,
-        });
+    var request = http.MultipartRequest('POST',
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.postUpdateUser + id));
+    request.fields.addAll({
+      'firstname': fname,
+      'lastname': lname,
+      'no_hp': hp,
+      'alamat': alamat,
+      'asal_kampus': kampus,
+    });
+    request.files.add(await http.MultipartFile.fromPath(
+        'foto_profile', pickedFile!.path.toString()));
 
-    // Tangani response dari API
+    http.StreamedResponse response = await request.send();
+
     if (response.statusCode == 200) {
-      // Tampilkan pesan sukses
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Data berhasil diupdate')),
-      );
+      print(await response.stream.bytesToString());
     } else {
-      // Tampilkan pesan error
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Terjadi kesalahan')),
-      );
+      print(response.reasonPhrase);
     }
   }
 
-  Future _getFormGallery() async {
-    final XFile? imagePicked =
-        await _picker.pickImage(source: ImageSource.gallery);
-    if (imagePicked == null) return;
-    // image = File(imagePicked.path);
+  //   await imagePicked.saveTo(filePath);
+  //   // final File newImage = await imagePicked.path;
+  //   if (imagePicked.path != null) {
+  //     setState(() async {
+  //       image = File(filePath);
+  //       print("foto profil telah di ganti");
+  //     });
+  //   }
+  // }
+  FilePickerResult? result;
+  String? _fileName;
+  PlatformFile? pickedFile;
+  bool isLoading = false;
+  File? fileToDisplay;
 
-    // getting a directory path for saving
-    final Directory exDir = await getApplicationDocumentsDirectory();
-    String dirPath = exDir.path;
-    final String fileName = basename(imagePicked.path);
-    final String fileExtension = extension(imagePicked.path);
-    final String filePath = '$dirPath/$fileName$fileExtension';
-
-    // copy the file to a new path
-    await imagePicked.saveTo(filePath);
-    // final File newImage = await imagePicked.path;
-    if (imagePicked.path != null) {
-      setState(() async {
-        image = File(filePath);
-        print("foto profil telah di ganti");
+  void pickFile() async {
+    try {
+      setState(() {
+        isLoading = true;
       });
+      result = await FilePicker.platform
+          .pickFiles(type: FileType.any, allowMultiple: false);
+      if (result != null) {
+        _fileName = result!.files.first.name;
+        pickedFile = result!.files.first;
+        fileToDisplay = File(pickedFile!.path.toString());
+      }
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -104,14 +104,14 @@ class _ProfileState extends State<Profile> {
     return data;
   }
 
-  void _ambilFoto() async {
-    var imagePicked = await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      image = File(imagePicked!.path);
+  // void _ambilFoto() async {
+  //   var imagePicked = await _picker.pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     image = File(imagePicked!.path);
 
-      isImagePicked = true;
-    });
-  }
+  //     isImagePicked = true;
+  //   });
+  // }
 
   // Future _getFormGallery() async {
   //   final XFile? imagePicked =
@@ -283,13 +283,43 @@ class _ProfileState extends State<Profile> {
                     children: [
                       InkWell(
                         onTap: () async {
-                          // SaveImage(image!.path);
-                          // ScaffoldMessenger.of(context).showSnackBar(
-                          //     snekbar("Data Berhasil Diperbarui"));
-                          updateData(context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Konfirmasi'),
+                                content: Text(
+                                    'Apakah Anda yakin ingin menyimpan data?'),
+                                actions: [
+                                  TextButton(
+                                    child: Text('Tidak'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text('Ya'),
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate())
+                                        print(_fileName);
+                                      updateData(
+                                        context,
+                                        _fnameController.text,
+                                        _lnameController.text,
+                                        _hpController.text,
+                                        _alamatController.text,
+                                        _kampusController.text,
+                                        _fileName,
+                                      );
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         },
                         child: Container(
-                          // margin: EdgeInsets.all(20),
                           width: MediaQuery.of(context).size.width,
                           height: 50,
                           decoration: const BoxDecoration(
@@ -301,7 +331,6 @@ class _ProfileState extends State<Profile> {
                                 offset: Offset(0, 5),
                               )
                             ],
-                            // shape: StadiumBorder(),
                             borderRadius: BorderRadius.all(Radius.circular(50)),
                             gradient: LinearGradient(
                               begin: Alignment.topRight,
@@ -440,7 +469,7 @@ class _ProfileState extends State<Profile> {
     return Stack(
       children: [
         isImagePicked
-            ? imgPath != null
+            ? pickedFile != null
                 ? Container(
                     height: 130,
                     width: 130,
@@ -456,7 +485,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     child: ClipOval(
                       child: Image(
-                        image: FileImage(File(imgPath!)),
+                        image: FileImage(File(pickedFile!.path.toString())),
                         height: 130,
                         width: 130,
                         fit: BoxFit.cover,
@@ -481,7 +510,7 @@ class _ProfileState extends State<Profile> {
             ),
             backgroundColor: Colors.white,
             onPressed: () async {
-              _ambilFoto();
+              pickFile();
               setState(() {
                 isImagePicked = true;
               });
@@ -498,12 +527,10 @@ class _ProfileState extends State<Profile> {
       padding: const EdgeInsets.only(bottom: 30),
       child: TextFormField(
           validator: (value) {
-            // if (value == null || value.isEmpty) {
-            //   return isPassTextField ? null : "Field $label tidak boleh kosong";
-            // } else if (label == "email" || label == "Email") {
-            //   return (value.contains("@")) ? null : "Masukkan email yang valid";
-            // }
-            // return null;
+            if (value == null || value.isEmpty) {
+              return isPassTextField ? null : "Field $label tidak boleh kosong";
+            }
+            return null;
           },
           // initialValue: placeholder,
           controller: controller,
@@ -562,15 +589,15 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  void SaveImage(path) async {
-    SharedPreferences saveImage = await SharedPreferences.getInstance();
-    saveImage.setString("imagepath", path);
-  }
+  // void SaveImage(path) async {
+  //   SharedPreferences saveImage = await SharedPreferences.getInstance();
+  //   saveImage.setString("imagepath", path);
+  // }
 
-  void LoadImage() async {
-    SharedPreferences saveImage = await SharedPreferences.getInstance();
-    setState(() {
-      imgPath = saveImage.getString("imagepath");
-    });
-  }
+  // void LoadImage() async {
+  //   SharedPreferences saveImage = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     imgPath = saveImage.getString("imagepath");
+  //   });
+  // }
 }
