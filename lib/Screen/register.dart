@@ -23,7 +23,7 @@ class _RegisterState extends State<Register> {
   Future<dynamic> isRegister(
       BuildContext context, usernameR, passwordR, fname, lname) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.100.14/sikostan/api/Register.php'));
+        'POST', Uri.parse('http://192.168.1.2/SiKost-Web/api/Register.php'));
     request.fields.addAll({
       'firstname': fname.text,
       'lastname': lname.text,

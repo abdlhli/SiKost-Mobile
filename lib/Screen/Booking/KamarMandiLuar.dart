@@ -17,7 +17,7 @@ class KamarMandiLuar extends StatefulWidget {
     final response = await http
         // .get(Uri.parse('http://sikostan.my.id/api/Kamar.php?id_jenis_kamar=2'));
         .get(Uri.parse(
-            'http://192.168.100.14/sikostan/api/Kamar.php?id_jenis_kamar=2'));
+            'http://192.168.1.2/SiKost-Web/api/Kamar.php?id_jenis_kamar=2'));
     if (response.statusCode == 200) {
       // jika response sukses, parse data menggunakan method getketkamarFromJson
       return Getketkamar.fromJson(json.decode(response.body));

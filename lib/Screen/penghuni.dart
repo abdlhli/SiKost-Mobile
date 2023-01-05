@@ -12,8 +12,8 @@ class penghuni extends StatefulWidget {
   State<penghuni> createState() => _penghuniState();
 
   Future<GetUser> fetchData() async {
-    final response = await http
-        .get(Uri.parse('http://192.168.100.14/sikostan/api/User.php'));
+    final response =
+        await http.get(Uri.parse('http://192.168.1.2/SiKost-Web/api/User.php'));
     if (response.statusCode == 200) {
       // jika response sukses, parse data menggunakan method getketkamarFromJson
       return GetUser.fromJson(json.decode(response.body));

@@ -49,7 +49,7 @@ class _PengaduanState extends State<Pengaduan> {
   Future<dynamic> pesanPengaduan(
       BuildContext context, nama, noKmr, laporan, isiPsn, lampiranPgd) async {
     var request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.1.66/SiKost/api/Pengaduan.php'));
+        'POST', Uri.parse('http://192.168.1.2/SiKost-Web/api/Pengaduan.php'));
     request.fields.addAll({
       'nama_pgd': nama,
       'no_kamar_pgd': noKmr,

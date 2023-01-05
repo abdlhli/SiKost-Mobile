@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sikost/Screen/Home/listBarang.dart';
 import 'package:sikost/Screen/Home/rules.dart';
 import 'dart:math' as math;
 import 'package:sikost/Screen/login.dart';
@@ -55,7 +56,7 @@ class _homeState extends State<home> {
       setState(() {
         _photoName = photoName;
         _profileImageUrl =
-            'http://192.168.100.14/sikostan/file/profile/$photoName';
+            'http://192.168.1.2/SiKost-Web/file/profile/$photoName';
       });
     }
   }
@@ -476,14 +477,27 @@ class _homeState extends State<home> {
                               ),
                             ]),
                         child: Column(
-                          children: const [
-                            Padding(padding: EdgeInsets.only(top: 165.0)),
-                            Text(
-                              'Daftar Harga Barang Bawaan',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
+                          children: [
+                            const Padding(padding: EdgeInsets.only(top: 150.0)),
+                            SizedBox(
+                              width: 300,
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const listBarang()),
+                                  );
+                                },
+                                child: const Text(
+                                  'Daftar Harga Barang Tambahan',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ),
                           ],
                         ),

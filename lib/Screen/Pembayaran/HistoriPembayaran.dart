@@ -20,7 +20,7 @@ class HistoriPembayaran extends StatefulWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = prefs.getString('iduser') ?? '';
     final response = await http.get(
-        Uri.parse('http://192.168.100.14/sikostan/api/Pembayaran?id_user=$id'));
+        Uri.parse('http://192.168.1.2/SiKost-Web/api/Pembayaran?id_user=$id'));
 
     if (response.statusCode == 200) {
       // jika response sukses, parse data menggunakan method getketkamarFromJson
@@ -221,7 +221,7 @@ class _HistoriPembayaranState extends State<HistoriPembayaran> {
                                                     const Padding(
                                                         padding:
                                                             EdgeInsets.only(
-                                                                left: 40.0)),
+                                                                left: 20.0)),
                                                     SizedBox(
                                                         height: 30,
                                                         width: 150,
@@ -230,7 +230,12 @@ class _HistoriPembayaranState extends State<HistoriPembayaran> {
                                                             Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => DetailPembayaran(index: index, data: snapshot.data!.data[index])),
+                                                                  builder: (context) => DetailPembayaran(
+                                                                      index:
+                                                                          index,
+                                                                      data: snapshot
+                                                                          .data!
+                                                                          .data[index])),
                                                             );
                                                           },
                                                           child: Row(
