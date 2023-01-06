@@ -222,7 +222,7 @@ class _HistoriPembayaranState extends State<HistoriPembayaran> {
                                                     const Padding(
                                                         padding:
                                                             EdgeInsets.only(
-                                                                left: 40.0)),
+                                                                left: 20.0)),
                                                     SizedBox(
                                                         height: 30,
                                                         width: 150,
